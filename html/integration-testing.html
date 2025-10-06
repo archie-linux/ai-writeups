@@ -1,0 +1,113 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h1>🧪 Integration Testing with Docker Compose</h1>
+<h2>📘 Overview</h2>
+<p><strong>Integration testing</strong> verifies that multiple components or services in a system work together as expected. When dealing with containerized applications—especially microservices—each service often runs in isolation using Docker. <strong>Docker Compose</strong> makes it easy to spin up all dependent services for integration testing in a consistent and reproducible environment.</p>
+<h2>🧱 Why Use Docker Compose for Integration Testing?</h2>
+<p>Docker Compose allows defining multi-container applications in a single YAML file. For integration testing, it provides:</p>
+<ul>
+<li><strong>Dependency orchestration</strong>: Easily define databases, APIs, message queues, etc.</li>
+<li><strong>Repeatability</strong>: Same environment across CI/CD and local dev.</li>
+<li><strong>Isolation</strong>: Test environment doesn’t affect production data.</li>
+<li><strong>Lifecycle management</strong>: Tear down containers after tests complete.</li>
+</ul>
+<h2>🔬 Integration Test Workflow</h2>
+<h3>Step-by-step Flow:</h3>
+<ol>
+<li><strong>Start services</strong> with Docker Compose:</li>
+</ol>
+<p><code>bash
+   docker-compose up -d</code></p>
+<ol>
+<li>
+<p><strong>Wait for services to be healthy</strong> (PostgreSQL might take a few seconds).</p>
+</li>
+<li>
+<p><strong>Run test scripts</strong> (e.g., using <code>pytest</code>, <code>unittest</code>, or a custom test runner).</p>
+</li>
+<li>
+<p><strong>Clean up</strong>:</p>
+</li>
+</ol>
+<p><code>bash
+   docker-compose down -v</code></p>
+<h2>🚀 Running Tests in CI (e.g., GitHub Actions)</h2>
+<pre><code class="language-yaml">jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_DB: test_db
+          POSTGRES_USER: test_user
+          POSTGRES_PASSWORD: test_pass
+        ports: [5432:5432]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.10
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Run tests
+        run: pytest tests/
+</code></pre>
+<p>Alternatively, use <code>docker-compose</code> in CI:</p>
+<pre><code class="language-bash">docker-compose up -d
+pytest tests/
+docker-compose down -v
+</code></pre>
+<h2>🔄 Tear Down and Cleanup</h2>
+<p>Always shut down containers and clean up resources:</p>
+<pre><code class="language-bash">docker-compose down -v --remove-orphans
+</code></pre>
+<p>Use a trap or teardown fixture in test runners to automate this.</p>
+<h2>📌 Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Benefit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Docker Compose</td>
+<td>Simplifies multi-service orchestration</td>
+</tr>
+<tr>
+<td>Repeatability</td>
+<td>Same test environment across platforms</td>
+</tr>
+<tr>
+<td>Isolation</td>
+<td>No pollution of prod data</td>
+</tr>
+<tr>
+<td>CI/CD Friendly</td>
+<td>Easily integrated into pipelines</td>
+</tr>
+</tbody>
+</table>
+<p>Docker Compose makes integration testing both <strong>scalable and maintainable</strong>, especially for microservices and modern cloud-native apps.</p>
+    </body>
+    </html>
+    

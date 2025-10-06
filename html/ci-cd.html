@@ -1,0 +1,113 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h1>CI/CD Pipelines with Jenkins, GitLab, and GitHub Actions</h1>
+<p>Modern software development practices prioritize speed, reliability, and consistency. Continuous Integration (CI) and Continuous Deployment/Delivery (CD) help teams automate testing, building, and deployment of applications. Let’s explore how Jenkins, GitLab CI/CD, and GitHub Actions enable this automation.</p>
+<h2>⚙️ Jenkins</h2>
+<h3>Overview:</h3>
+<ul>
+<li><strong>Language:</strong> Java-based</li>
+<li><strong>Setup:</strong> Self-hosted, requires configuration</li>
+<li><strong>Flexibility:</strong> Highly customizable with plugins</li>
+</ul>
+<h3>Example Pipeline (Jenkinsfile):</h3>
+<pre><code class="language-groovy">pipeline {
+  agent any
+  stages {
+    stage('Checkout') {
+      steps {
+        git 'https://github.com/user/repo.git'
+      }
+    }
+    stage('Build') {
+      steps {
+        sh './build.sh'
+      }
+    }
+    stage('Test') {
+      steps {
+        sh './run-tests.sh'
+      }
+    }
+    stage('Deploy') {
+      steps {
+        sh './deploy.sh'
+      }
+    }
+  }
+}
+</code></pre>
+<h3>Pros:</h3>
+<ul>
+<li>Highly extensible (1500+ plugins)</li>
+<li>Mature and widely adopted</li>
+</ul>
+<h3>Cons:</h3>
+<ul>
+<li>Complex setup and maintenance</li>
+<li>UI/UX not as modern</li>
+</ul>
+<h2>⚡ GitHub Actions</h2>
+<h3>Overview:</h3>
+<ul>
+<li>Integrated into <strong>GitHub</strong></li>
+<li>Define workflows using YAML in <code>.github/workflows/</code></li>
+</ul>
+<h3>Example Workflow:</h3>
+<pre><code class="language-yaml">name: CI Pipeline
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - run: npm install
+      - run: npm test
+</code></pre>
+<h3>Pros:</h3>
+<ul>
+<li>Native GitHub integration</li>
+<li>Marketplace for reusable actions</li>
+<li>Easier setup for open-source projects</li>
+</ul>
+<h3>Cons:</h3>
+<ul>
+<li>Limited flexibility for complex pipelines</li>
+<li>Workflow logs could be more user-friendly</li>
+</ul>
+<h2>✅ Best Practices for CI/CD</h2>
+<ul>
+<li><strong>Fail fast:</strong> Run tests early in the pipeline</li>
+<li><strong>Parallelization:</strong> Split tests/builds across jobs</li>
+<li><strong>Artifacts:</strong> Use caching and artifacts between jobs</li>
+<li><strong>Secrets Management:</strong> Use environment variables or secret stores</li>
+<li><strong>Rollback Plans:</strong> Automate rollback on failed deployments</li>
+</ul>
+<hr />
+<h2>🔚 Conclusion</h2>
+<p>Whether you're a team looking for a fully integrated DevOps platform (GitLab), already invested in GitHub (GitHub Actions), or need a highly customizable solution (Jenkins), choosing the right CI/CD tool hinges on your development workflow, hosting preference, and integration needs.</p>
+    </body>
+    </html>
+    

@@ -1,0 +1,65 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h2>Using Pytest Fixtures for Layered Test Abstractions</h2>
+<p>In large and complex Python test suites, <strong>Pytest fixtures</strong> help abstract test setup and teardown logic in a reusable and composable way. This improves maintainability and readability while enforcing good separation of concerns. In a layered testing architecture (unit → integration → end-to-end), fixtures allow you to build from minimal mocks to fully wired systems progressively.</p>
+<h3>🔁 Layered Fixture Architecture</h3>
+<p>Let’s illustrate the idea by using a layered test setup for a microservice-based API with database dependencies.</p>
+<h4>1. <strong>Unit Test Layer</strong></h4>
+<p>Minimal setup with mocks or stubs.</p>
+<pre><code class="language-python">@pytest.fixture
+def mock_db():
+    return MagicMock()  # or use pytest-mock's mocker fixture
+
+@pytest.fixture
+def service(mock_db):
+    return MyService(db=mock_db)
+</code></pre>
+<p>Use in test:</p>
+<pre><code class="language-python">def test_add_user(service):
+    service.add_user(&quot;alice&quot;)
+    service.db.insert.assert_called_once()
+</code></pre>
+<h4>3. <strong>End-to-End (E2E) Layer</strong></h4>
+<p>Simulates actual API calls, using real infrastructure (Docker Compose, test server).</p>
+<pre><code class="language-python">@pytest.fixture(scope=&quot;session&quot;)
+def start_test_server():
+    proc = subprocess.Popen([&quot;uvicorn&quot;, &quot;main:app&quot;])
+    time.sleep(2)  # wait for startup
+    yield
+    proc.terminate()
+
+@pytest.fixture
+def api_client():
+    return requests.Session()
+</code></pre>
+<p>Use in test:</p>
+<pre><code class="language-python">def test_api_register_user(start_test_server, api_client):
+    resp = api_client.post(&quot;http://localhost:8000/html/register&quot;, json={&quot;name&quot;: &quot;charlie&quot;})
+    assert resp.status_code == 200
+</code></pre>
+<h3>📌 Summary</h3>
+<p>Layered test abstractions using Pytest fixtures allow you to:</p>
+<ul>
+<li>Start with unit tests using mocks.</li>
+<li>Gradually increase fidelity with integration and E2E setups.</li>
+<li>Compose tests clearly and maintainably.</li>
+</ul>
+<p>This aligns well with modern development where test speed, reliability, and clarity are all critical.</p>
+    </body>
+    </html>
+    

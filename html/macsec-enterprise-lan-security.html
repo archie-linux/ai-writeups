@@ -1,0 +1,64 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h2>Role of MACSec in Enterprise LAN Security</h2>
+<p><strong>Overview:</strong>
+Media Access Control Security (MACSec) is a Layer 2 security protocol defined in IEEE 802.1AE that provides point-to-point encryption and authentication for Ethernet frames. Unlike traditional IPsec, which operates at Layer 3, MACSec is focused on securing Ethernet links directly and is particularly suited for protecting traffic inside LANs and data center networks.</p>
+<h3><strong>How MACSec Works</strong></h3>
+<p>MACSec secures each Ethernet frame between directly connected devices (hop-by-hop). The process includes:</p>
+<ol>
+<li>
+<p><strong>Key Exchange (via MKA)</strong>:</p>
+</li>
+<li>
+<p>MACSec uses the MACsec Key Agreement protocol (MKA), part of IEEE 802.1X-2010.</p>
+</li>
+<li>Authentication is typically handled with 802.1X using EAP-TLS or certificates.</li>
+<li>
+<p>MKA exchanges Secure Association Keys (SAKs) between peers.</p>
+</li>
+<li>
+<p><strong>Frame Protection</strong>:</p>
+</li>
+<li>
+<p>Each Ethernet frame is encrypted and authenticated before transmission.</p>
+</li>
+<li>Only the payload (not the MAC addresses or 802.1Q VLAN tags) is encrypted.</li>
+<li>
+<p>It adds a 16-byte Security Tag and 16-byte Integrity Check Value (ICV).</p>
+</li>
+<li>
+<p><strong>Secure Associations (SAs)</strong>:</p>
+</li>
+<li>
+<p>Unidirectional flows where each direction uses a unique SA.</p>
+</li>
+<li>Multiple SAs can coexist to enable secure re-keying without disrupting traffic.</li>
+</ol>
+<h3><strong>Use Cases</strong></h3>
+<ul>
+<li><strong>Data Center Interconnects</strong>: Prevents lateral movement in east-west traffic.</li>
+<li><strong>Campus Networks</strong>: Protects sensitive internal communications on switch uplinks.</li>
+<li><strong>Service Provider Networks</strong>: Used in customer-premise-to-core transport.</li>
+</ul>
+<h3><strong>Hardware Support</strong></h3>
+<p>MACSec requires NICs, switches, or routers that support IEEE 802.1AE. Popular vendors like Cisco, Arista, and Juniper offer MACSec-capable hardware, especially on enterprise or data center gear.</p>
+<h3><strong>Conclusion</strong></h3>
+<p>MACSec is an essential Layer 2 security solution that closes a longstanding gap in Ethernet security. For enterprise LANs and data centers, it ensures that internal traffic is no longer an easy target for passive or active attacks. When combined with 802.1X and robust key management, MACSec provides strong confidentiality, integrity, and authenticity on the wire—without needing to overhaul network topology.</p>
+    </body>
+    </html>
+    

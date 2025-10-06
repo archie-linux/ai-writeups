@@ -1,0 +1,91 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h3>Kernel Bypass Networking: DPDK and Netmap</h3>
+<p>In traditional packet processing, every network packet must travel through the kernel network stack—incurring overhead from context switches, memory copies, and interrupt handling. This bottleneck significantly impacts latency and throughput in high-performance networking applications like firewalls, load balancers, and financial trading systems. Kernel bypass techniques aim to eliminate this bottleneck by allowing user-space applications to interact directly with the NIC (Network Interface Card), bypassing the kernel's networking stack.</p>
+<p>Two popular kernel bypass technologies are <strong>DPDK (Data Plane Development Kit)</strong> and <strong>Netmap</strong>.</p>
+<h3>2. <strong>DPDK (Data Plane Development Kit)</strong></h3>
+<h4>Overview:</h4>
+<p>DPDK is a set of libraries and drivers for fast packet processing in user-space. It uses poll-mode drivers (PMDs) to interface directly with supported NICs using PCIe.</p>
+<h4>Key Features:</h4>
+<ul>
+<li><strong>Zero-copy packet processing</strong> using hugepages.</li>
+<li><strong>Poll Mode Drivers</strong> eliminate interrupts.</li>
+<li><strong>Multi-core scalability</strong> via CPU affinity and thread pinning.</li>
+<li>Supports <strong>batch processing</strong> for higher efficiency.</li>
+</ul>
+<h4>Architecture:</h4>
+<ul>
+<li>Initializes hugepage memory using <code>hugeadm</code> or <code>dpdk-hugepages</code>.</li>
+<li>NICs are bound to user-space I/O drivers like <code>vfio-pci</code>.</li>
+<li>Applications use DPDK APIs to send/receive packets directly from the hardware.</li>
+</ul>
+<h4>Example Use Case:</h4>
+<pre><code class="language-c">struct rte_mbuf *pkts[BURST_SIZE];
+nb_rx = rte_eth_rx_burst(port_id, queue_id, pkts, BURST_SIZE);
+</code></pre>
+<h4>Performance:</h4>
+<p>DPDK can process <strong>10+ million packets per second (PPS)</strong> per core with modern hardware.</p>
+<h3>4. <strong>Comparison: DPDK vs Netmap</strong></h3>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>DPDK</th>
+<th>Netmap</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Performance</td>
+<td>Very high (optimized)</td>
+<td>High, but less than DPDK</td>
+</tr>
+<tr>
+<td>Complexity</td>
+<td>High</td>
+<td>Low to Medium</td>
+</tr>
+<tr>
+<td>Driver Replacement</td>
+<td>Yes (binds to vfio/uio)</td>
+<td>No (uses existing drivers)</td>
+</tr>
+<tr>
+<td>Learning Curve</td>
+<td>Steep</td>
+<td>Moderate</td>
+</tr>
+<tr>
+<td>Use Cases</td>
+<td>NFV, load balancers</td>
+<td>Packet sniffers, firewalls</td>
+</tr>
+</tbody>
+</table>
+<h3>6. <strong>Limitations and Considerations</strong></h3>
+<ul>
+<li>Kernel bypass requires careful handling of <strong>security</strong> (direct NIC access) and <strong>isolation</strong>.</li>
+<li>DPDK apps can <strong>starve the CPU</strong> due to busy-polling if not tuned properly.</li>
+<li>System integration is complex; you must manage CPU pinning, NUMA awareness, and interrupt isolation.</li>
+</ul>
+<hr />
+<h3>7. <strong>Conclusion</strong></h3>
+<p>Kernel bypass networking offers massive performance improvements for packet processing by eliminating the kernel from the data path. While <strong>DPDK</strong> offers peak performance and flexibility, <strong>Netmap</strong> is simpler to integrate for moderate performance gains. Understanding your system constraints and application architecture is key to choosing between them.</p>
+    </body>
+    </html>
+    

@@ -1,0 +1,81 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h1>Data Pipelines: Batch vs Stream</h1>
+<p>Modern data-driven systems rely heavily on efficient data pipelines to extract, process, and move data from source systems to analytical platforms. Two primary paradigms exist in data processing: <strong>Batch Processing</strong> and <strong>Stream Processing</strong>. Choosing between them depends on latency needs, data volume, complexity, and infrastructure.</p>
+<h2>2. Batch Processing</h2>
+<h3>How It Works:</h3>
+<p>Data is collected over a period, stored, and then processed as a group (batch). For example, processing all sales transactions at the end of the day.</p>
+<h3>Architecture:</h3>
+<ul>
+<li><strong>Ingestion</strong>: Data is read from logs/files (e.g., S3, HDFS).</li>
+<li><strong>Transformation</strong>: Performed using frameworks like Apache Spark or MapReduce.</li>
+<li><strong>Storage/Output</strong>: Results are stored in databases, warehouses (like Snowflake, Redshift).</li>
+</ul>
+<h3>Pros:</h3>
+<ul>
+<li>Efficient for large volumes.</li>
+<li>Simpler to implement and maintain.</li>
+<li>Ideal for data analysis that isn’t time-sensitive.</li>
+</ul>
+<h3>Cons:</h3>
+<ul>
+<li>Not suitable for real-time needs.</li>
+<li>Delayed data visibility and insights.</li>
+</ul>
+<h2>4. Key Design Considerations</h2>
+<table>
+<thead>
+<tr>
+<th>Criteria</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Latency</strong></td>
+<td>Real-time systems need low latency; batch can tolerate delay.</td>
+</tr>
+<tr>
+<td><strong>Scalability</strong></td>
+<td>Both systems should scale, but streaming needs fine-grained resource tuning.</td>
+</tr>
+<tr>
+<td><strong>Fault Tolerance</strong></td>
+<td>Stream processors must handle retries, checkpoints, and state recovery.</td>
+</tr>
+<tr>
+<td><strong>Ordering Guarantees</strong></td>
+<td>Stream processing might face out-of-order data; batch is more deterministic.</td>
+</tr>
+<tr>
+<td><strong>Throughput</strong></td>
+<td>Batch systems can handle more data in bulk; streaming needs to be always on.</td>
+</tr>
+</tbody>
+</table>
+<h2>6. Hybrid Pipelines: Lambda &amp; Kappa Architectures</h2>
+<ul>
+<li><strong>Lambda Architecture</strong>: Combines batch and stream processing for fault tolerance and real-time analytics.</li>
+<li><strong>Kappa Architecture</strong>: Simplifies by using stream processing for all workloads with replayable logs (e.g., Kafka).</li>
+</ul>
+<hr />
+<h2>Conclusion</h2>
+<p>Both batch and stream processing have unique strengths. Batch is robust and simple for offline analytics, while stream processing is essential for real-time applications. Often, modern data architectures blend both to maximize performance and insight delivery.</p>
+    </body>
+    </html>
+    

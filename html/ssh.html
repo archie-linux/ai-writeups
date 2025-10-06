@@ -1,0 +1,116 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h1>🔐 SSH (Secure Shell) – Technical Writeup</h1>
+<h2>📌 Introduction</h2>
+<p><strong>SSH (Secure Shell)</strong> is a cryptographic network protocol used for secure communication over an unsecured network. It enables users to securely access remote systems, execute commands, transfer files, and manage services. SSH replaces older protocols like <strong>Telnet</strong>, <strong>FTP</strong>, and <strong>rlogin</strong>, which transmit data in plaintext.</p>
+<h2>🔐 SSH Protocol Stack</h2>
+<p>SSH operates at the <strong>application layer</strong> of the OSI model and comprises three major components:</p>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Transport Layer Protocol</strong></td>
+<td>Provides server authentication, confidentiality, integrity via encryption and MACs.</td>
+</tr>
+<tr>
+<td><strong>User Authentication Protocol</strong></td>
+<td>Handles client authentication (e.g., password, public key).</td>
+</tr>
+<tr>
+<td><strong>Connection Protocol</strong></td>
+<td>Multiplexes encrypted tunnel into channels for terminal sessions, file transfers, etc.</td>
+</tr>
+</tbody>
+</table>
+<h2>🔄 SSH Key Generation</h2>
+<pre><code class="language-bash"># Generate key pair (RSA 4096 bits)
+ssh-keygen -t rsa -b 4096 -C &quot;your_email@example.com&quot;
+</code></pre>
+<p>Files generated:</p>
+<ul>
+<li><code>~/.ssh/id_rsa</code> → Private key</li>
+<li><code>~/.ssh/id_rsa.pub</code> → Public key</li>
+</ul>
+<p>To copy public key to server:</p>
+<pre><code class="language-bash">ssh-copy-id user@hostname
+</code></pre>
+<h2>⚙️ SSH Configuration</h2>
+<p>Global: <code>/etc/ssh/ssh_config</code>
+User-specific: <code>~/.ssh/config</code></p>
+<p>Example <code>~/.ssh/config</code>:</p>
+<pre><code class="language-ini">Host devserver
+    HostName dev.example.com
+    User anish
+    Port 2222
+    IdentityFile ~/.ssh/id_rsa
+</code></pre>
+<p>Usage:</p>
+<pre><code class="language-bash">ssh devserver
+</code></pre>
+<h2>🔁 SSH Agent and Agent Forwarding</h2>
+<ul>
+<li><code>ssh-agent</code> stores decrypted private keys in memory.</li>
+<li><code>ssh-add</code> adds keys to agent.</li>
+<li><code>ForwardAgent yes</code> allows key forwarding across jump hosts.</li>
+</ul>
+<pre><code class="language-bash">eval &quot;$(ssh-agent -s)&quot;
+ssh-add ~/.ssh/id_rsa
+</code></pre>
+<h2>📦 Advanced Tools</h2>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>autossh</code></td>
+<td>Auto-reconnect dropped SSH sessions</td>
+</tr>
+<tr>
+<td><code>sshuttle</code></td>
+<td>VPN-like tunneling using SSH</td>
+</tr>
+<tr>
+<td><code>mosh</code></td>
+<td>UDP-based remote shell over SSH</td>
+</tr>
+<tr>
+<td><code>paramiko</code></td>
+<td>Python SSH automation library</td>
+</tr>
+</tbody>
+</table>
+<h2>📜 SSH Log Location</h2>
+<ul>
+<li>Ubuntu/Debian: <code>/var/log/auth.log</code></li>
+<li>Red Hat/CentOS: <code>/var/log/secure</code></li>
+</ul>
+<hr />
+<h2>🏁 Conclusion</h2>
+<p>SSH is a fundamental tool for secure remote administration, scripting, and file transfer in Unix-like systems. Mastering its full capabilities, including tunneling, key management, and secure configurations, significantly enhances your system security posture and operational efficiency.</p>
+    </body>
+    </html>
+    

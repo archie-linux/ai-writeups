@@ -1,0 +1,103 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h1>Multithreading vs Async IO in Python</h1>
+<p>Python offers multiple paradigms to manage concurrency and parallelism in applications, particularly in I/O-bound and CPU-bound tasks. Two of the most discussed approaches are <strong>Multithreading</strong> and <strong>Asynchronous I/O (Async IO)</strong>. While both aim to improve performance and responsiveness, their underlying models and use cases differ significantly.</p>
+<h2>🧵 Multithreading in Python</h2>
+<h3>✅ What It Is:</h3>
+<p>Multithreading uses the <code>threading</code> module in Python to spawn OS-level threads that can run concurrently. However, due to the <strong>Global Interpreter Lock (GIL)</strong> in CPython, only one thread executes Python bytecode at a time.</p>
+<h3>✅ When to Use:</h3>
+<ul>
+<li>When tasks spend time <strong>waiting</strong> (e.g., for I/O, network responses).</li>
+<li>When you want to write <strong>simpler</strong> concurrent code without managing an event loop.</li>
+</ul>
+<h3>❌ When to Avoid:</h3>
+<ul>
+<li>In <strong>CPU-bound</strong> tasks (e.g., computation-heavy loops).</li>
+<li>When spawning <strong>too many threads</strong> — overhead is non-trivial.</li>
+</ul>
+<h3>✅ Example:</h3>
+<pre><code class="language-python">import threading
+import time
+
+def fetch_data():
+    print(&quot;Start fetching&quot;)
+    time.sleep(2)  # Simulates I/O
+    print(&quot;Done fetching&quot;)
+
+threads = []
+for _ in range(5):
+    t = threading.Thread(target=fetch_data)
+    t.start()
+    threads.append(t)
+
+for t in threads:
+    t.join()
+</code></pre>
+<h2>🔄 Key Differences: Scheduling &amp; Memory</h2>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Multithreading</th>
+<th>Async IO</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Scheduling</td>
+<td>OS-based</td>
+<td>Event-loop based</td>
+</tr>
+<tr>
+<td>Context Switch</td>
+<td>Costly (kernel-managed)</td>
+<td>Lightweight (user-managed)</td>
+</tr>
+<tr>
+<td>Memory Footprint</td>
+<td>Larger (stack per thread)</td>
+<td>Smaller (single thread)</td>
+</tr>
+<tr>
+<td>Blocking Call Handling</td>
+<td>Thread blocked</td>
+<td>Coroutine suspends only itself</td>
+</tr>
+</tbody>
+</table>
+<h2>🧰 Tools and Libraries</h2>
+<h3>Multithreading:</h3>
+<ul>
+<li><code>threading</code></li>
+<li><code>concurrent.futures.ThreadPoolExecutor</code></li>
+</ul>
+<h3>Async IO:</h3>
+<ul>
+<li><code>asyncio</code></li>
+<li><code>aiohttp</code> (HTTP client)</li>
+<li><code>uvloop</code> (faster event loop)</li>
+</ul>
+<h2>🧩 Conclusion</h2>
+<ul>
+<li>For modern <strong>I/O-bound</strong> Python applications, <strong>Async IO is generally more scalable and memory-efficient</strong>.</li>
+<li>For legacy code or when using <strong>blocking APIs</strong>, <strong>multithreading</strong> can be easier.</li>
+<li>Neither is suitable for <strong>CPU-bound</strong> tasks — use <strong>multiprocessing</strong> for that.</li>
+</ul>
+    </body>
+    </html>
+    

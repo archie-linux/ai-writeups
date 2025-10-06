@@ -1,0 +1,76 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h1>🧪 Test Automation Pyramid: Unit, Integration, End-to-End</h1>
+<h2>📌 Introduction</h2>
+<p>The <strong>Test Automation Pyramid</strong> is a software testing strategy that helps teams achieve <strong>fast feedback</strong>, <strong>high coverage</strong>, and <strong>efficient test maintenance</strong>. It proposes a layered testing approach, advocating <strong>more low-level (unit) tests</strong> and <strong>fewer high-level (E2E) tests</strong> to optimize quality and speed.</p>
+<p><img alt="Test Automation Pyramid" src="https://martinfowler.com/articles/practical-test-pyramid/test-pyramid.png" />
+<em>Source: Martin Fowler</em></p>
+<h3>2. 🔗 <strong>Integration Tests</strong> (Middle Layer)</h3>
+<ul>
+<li><strong>Purpose:</strong> Test interactions between components/modules.</li>
+<li><strong>Scope:</strong> May include database, APIs, or services.</li>
+<li><strong>Tools:</strong> Pytest + requests, Spring Test, Postman, Docker Compose.</li>
+<li>
+<p><strong>Characteristics:</strong></p>
+</li>
+<li>
+<p>Slower than unit tests.</p>
+</li>
+<li>Validates real interactions (e.g., API ↔ DB).</li>
+<li>Can fail due to infrastructure issues.</li>
+<li><strong>Example:</strong></li>
+</ul>
+<pre><code class="language-python">def test_user_login_flow():
+    response = client.post(&quot;/login&quot;, json={&quot;user&quot;: &quot;admin&quot;, &quot;pass&quot;: &quot;secret&quot;})
+    assert response.status_code == 200
+</code></pre>
+<h2>📈 Why the Pyramid Structure?</h2>
+<ul>
+<li><strong>More Unit Tests:</strong> They're fast and give quick feedback.</li>
+<li><strong>Fewer E2E Tests:</strong> High maintenance cost and longer run times.</li>
+<li><strong>Balanced Middle Layer:</strong> Integration tests validate cross-component behavior without the full stack overhead.</li>
+</ul>
+<h2>🧩 Common Pitfalls</h2>
+<table>
+<thead>
+<tr>
+<th>Pitfall</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Over-reliance on E2E tests</td>
+<td>Shift testing lower in the pyramid</td>
+</tr>
+<tr>
+<td>Flaky tests causing CI failures</td>
+<td>Stabilize environments, retry logic, or parallelize safely</td>
+</tr>
+<tr>
+<td>No clear test boundaries</td>
+<td>Define what goes into unit, integration, and E2E explicitly</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>📚 Conclusion</h2>
+<p>The <strong>Test Automation Pyramid</strong> is a <strong>guiding principle</strong>, not a hard rule. The goal is to <strong>optimize test speed, reliability, and coverage</strong> by using the right tests at the right layer. Investing wisely in <strong>unit and integration tests</strong>, while keeping E2E tests lean and focused, leads to <strong>robust and scalable test automation</strong>.</p>
+    </body>
+    </html>
+    

@@ -1,0 +1,116 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h1>🐳 Understanding cgroups and namespaces in Docker/Containers</h1>
+<p>Modern container technologies like <strong>Docker</strong> are made possible by two key Linux kernel features:</p>
+<ol>
+<li><strong>Namespaces</strong> – provide <em>isolation</em></li>
+<li><strong>Control Groups (cgroups)</strong> – provide <em>resource control</em></li>
+</ol>
+<p>Together, they form the foundation of container security, performance, and independence — without the need for a full-blown virtual machine.</p>
+<h2>⚙️ 2. What Are cgroups (Control Groups)?</h2>
+<h3>🧠 Definition:</h3>
+<p><strong>cgroups</strong> (short for control groups) limit, prioritize, and account for resource usage (CPU, memory, disk I/O, etc.) among process groups.</p>
+<p>cgroups ensure that one container can't starve others or the host of system resources.</p>
+<h3>📂 Key Features:</h3>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>CPU limits</strong></td>
+<td>Restrict container to 2 CPU cores</td>
+</tr>
+<tr>
+<td><strong>Memory limits</strong></td>
+<td>Enforce 512MB memory cap</td>
+</tr>
+<tr>
+<td><strong>BlkIO control</strong></td>
+<td>Limit disk I/O read/write speeds</td>
+</tr>
+<tr>
+<td><strong>PIDs limit</strong></td>
+<td>Max number of processes per container</td>
+</tr>
+<tr>
+<td><strong>Accounting</strong></td>
+<td>Monitor per-container usage statistics</td>
+</tr>
+</tbody>
+</table>
+<h3>🧪 Docker Example:</h3>
+<pre><code class="language-bash">docker run -m 256m --cpus=&quot;1.0&quot; ubuntu
+</code></pre>
+<ul>
+<li><code>-m 256m</code>: Limits memory usage to 256MB</li>
+<li><code>--cpus=1.0</code>: Restricts container to one logical CPU</li>
+</ul>
+<h2>🛡️ Benefits for Containers</h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Enabled By</th>
+<th>Benefit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Process isolation</td>
+<td>PID namespace</td>
+<td>Each container sees only its own processes</td>
+</tr>
+<tr>
+<td>Filesystem separation</td>
+<td>MNT namespace</td>
+<td>Unique root filesystem per container</td>
+</tr>
+<tr>
+<td>Network independence</td>
+<td>NET namespace</td>
+<td>Independent IP stack, ports</td>
+</tr>
+<tr>
+<td>Resource fairness</td>
+<td>cgroups</td>
+<td>Prevent resource hogging</td>
+</tr>
+<tr>
+<td>Secure multi-tenancy</td>
+<td>user namespace</td>
+<td>UID/GID remapping for safety</td>
+</tr>
+</tbody>
+</table>
+<h2>🧪 Manual Namespace (Example)</h2>
+<pre><code class="language-bash">unshare --pid --mount --uts --ipc --net --user --fork bash
+</code></pre>
+<p>This launches a shell with isolated namespaces — similar to a minimal container environment.</p>
+<h2>🔚 Conclusion</h2>
+<ul>
+<li><strong>Namespaces</strong> isolate containers from each other and the host.</li>
+<li><strong>Cgroups</strong> control and limit how much a container can use.</li>
+<li>Together, they provide the foundational mechanisms that make containerization secure, efficient, and scalable.</li>
+</ul>
+    </body>
+    </html>
+    

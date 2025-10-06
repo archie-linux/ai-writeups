@@ -1,0 +1,147 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h1>🔍 Testing in Microservices with Contract Testing</h1>
+<h2>🧩 Introduction</h2>
+<p>Microservices architecture splits an application into small, loosely coupled services that communicate over APIs. While this enables scalability and flexibility, <strong>testing</strong> becomes more complex due to independent deployments, service versioning, and inter-service communication.</p>
+<p><strong>Contract Testing</strong> provides a solution to this complexity by ensuring that <strong>inter-service interactions</strong> are consistent and reliable without relying on full integration or end-to-end tests.</p>
+<h2>🛠️ Why Contract Testing in Microservices?</h2>
+<table>
+<thead>
+<tr>
+<th>Challenge in Microservices</th>
+<th>How Contract Testing Helps</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tight Coupling</td>
+<td>Encourages clear API boundaries</td>
+</tr>
+<tr>
+<td>Independent Deployments</td>
+<td>Enables compatibility checks before releases</td>
+</tr>
+<tr>
+<td>Slow/Flaky End-to-End Tests</td>
+<td>Provides fast, reliable feedback loops</td>
+</tr>
+<tr>
+<td>Difficult Integration Setup</td>
+<td>Works without full environments or real services</td>
+</tr>
+</tbody>
+</table>
+<h2>🚀 Example with Pact (Python + Flask)</h2>
+<h3>Consumer Test</h3>
+<pre><code class="language-python">from pact import Consumer, Provider
+import requests
+
+pact = Consumer('user-service').has_pact_with(Provider('auth-service'))
+pact.start_service()
+
+def test_get_user():
+    expected = {'id': 1, 'name': 'Anish'}
+    pact.given('User with ID 1 exists').upon_receiving('a request for user 1')\
+        .with_request('get', '/users/1')\
+        .will_respond_with(200, body=expected)
+
+    with pact:
+        response = requests.get('http://localhost:1234/users/1')
+        assert response.json() == expected
+</code></pre>
+<p>This test generates a contract file describing this interaction.</p>
+<h3>Provider Verification</h3>
+<p>The <code>auth-service</code> runs verification tests using this contract to ensure it can return the expected response.</p>
+<h2>🔄 Workflow in CI/CD</h2>
+<ol>
+<li>Consumer commits a contract → pushes to broker.</li>
+<li>Provider fetches and verifies contract.</li>
+<li>CI ensures contracts are valid before deployments.</li>
+</ol>
+<h2>⚠️ Limitations</h2>
+<table>
+<thead>
+<tr>
+<th>Limitation</th>
+<th>Workaround or Consideration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Doesn’t test actual networks</td>
+<td>Combine with integration tests</td>
+</tr>
+<tr>
+<td>Can be brittle with schema changes</td>
+<td>Use versioning, backward compatibility</td>
+</tr>
+<tr>
+<td>Limited visibility into logic</td>
+<td>Use in combination with unit &amp; service tests</td>
+</tr>
+</tbody>
+</table>
+<h2>🧱 Tools for Contract Testing</h2>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Language Support</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Pact</strong></td>
+<td>JS, Python, Java, Go</td>
+<td>Widely used, Pact Broker support</td>
+</tr>
+<tr>
+<td><strong>Spring Cloud Contract</strong></td>
+<td>Java</td>
+<td>Great for Spring Boot microservices</td>
+</tr>
+<tr>
+<td><strong>Hoverfly</strong></td>
+<td>HTTP simulation</td>
+<td>Good for mocking over HTTP</td>
+</tr>
+<tr>
+<td><strong>Dredd</strong></td>
+<td>OpenAPI validator</td>
+<td>Validates API against OpenAPI docs</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>📌 Summary</h2>
+<p>Contract Testing is essential for microservices to ensure communication is reliable, versioned, and testable. It reduces test complexity while increasing confidence in API interactions.</p>
+<h3>✅ Use Contract Testing When:</h3>
+<ul>
+<li>Services are developed independently</li>
+<li>You want fast CI pipelines</li>
+<li>You're struggling with flaky integration tests</li>
+</ul>
+<h3>❌ Avoid Relying Only on Contract Tests When:</h3>
+<ul>
+<li>You need to verify end-to-end business flows</li>
+<li>You need to test real-world data or side effects</li>
+</ul>
+    </body>
+    </html>
+    

@@ -1,0 +1,95 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h1>Intrusion Detection and Prevention Systems (IDS/IPS)</h1>
+<h2>Overview</h2>
+<p>Intrusion Detection and Prevention Systems (IDS/IPS) are critical components in a layered security architecture. They monitor network traffic or system activity for malicious actions or policy violations and act upon detection. While both aim to detect threats, the key difference lies in prevention: <strong>IDS detects</strong>, whereas <strong>IPS detects and blocks</strong> malicious activity in real time.</p>
+<h2>Key Functionalities</h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>IDS</th>
+<th>IPS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Detection</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Prevention</td>
+<td>❌</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Response Type</td>
+<td>Passive (alerts/logs)</td>
+<td>Active (blocks, drops packets)</td>
+</tr>
+<tr>
+<td>Deployment</td>
+<td>Out-of-band</td>
+<td>Inline</td>
+</tr>
+</tbody>
+</table>
+<h2>IDS/IPS Lifecycle in a Network</h2>
+<ol>
+<li>
+<p><strong>Traffic Capture</strong>
+   NIDS tools capture packets via network tap or span port.</p>
+</li>
+<li>
+<p><strong>Analysis</strong>
+   Data is parsed and analyzed for matches with known signatures or behavioral anomalies.</p>
+</li>
+<li>
+<p><strong>Alerting/Blocking</strong></p>
+</li>
+<li>
+<p>IDS: Sends alerts to SIEM or administrators.</p>
+</li>
+<li>
+<p>IPS: Blocks traffic, resets connections, or modifies firewall rules.</p>
+</li>
+<li>
+<p><strong>Logging and Forensics</strong>
+   Events are logged for post-incident investigation.</p>
+</li>
+</ol>
+<h2>Use Cases</h2>
+<ul>
+<li><strong>Enterprise Perimeter Defense</strong>: Detect lateral movement or external attacks.</li>
+<li><strong>Data Center Security</strong>: Monitor east-west traffic inside VLANs.</li>
+<li><strong>Cloud Security</strong>: Virtual IDS/IPS monitor traffic between virtual machines.</li>
+<li><strong>Regulatory Compliance</strong>: Enforce PCI DSS, HIPAA, and other mandates.</li>
+</ul>
+<h2>Best Practices</h2>
+<ul>
+<li><strong>Regularly Update Signatures</strong>.</li>
+<li><strong>Tune Rules to Environment</strong> to reduce false positives.</li>
+<li><strong>Integrate with SIEM</strong> for centralized log management and correlation.</li>
+<li><strong>Use in conjunction with firewalls and endpoint protection</strong> for defense-in-depth.</li>
+</ul>
+<h2>Conclusion</h2>
+<p>IDS and IPS are foundational tools for threat detection and network security enforcement. While IDS provides visibility and early warning, IPS adds a layer of proactive defense by blocking malicious traffic. The choice between the two—or combining both—depends on the organization’s risk posture, infrastructure complexity, and performance requirements.</p>
+    </body>
+    </html>
+    

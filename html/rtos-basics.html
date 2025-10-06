@@ -1,0 +1,106 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h1>Real-Time Operating Systems (RTOS) Basics</h1>
+<p>Real-Time Operating Systems (RTOS) are specialized operating systems designed to serve real-time applications that process data as it comes in, typically without buffer delays. RTOSes are crucial in embedded systems, robotics, aerospace, automotive systems, and other domains requiring deterministic and time-critical behavior.</p>
+<h2>2. Key Components of RTOS</h2>
+<h3>a. <strong>Task Management</strong></h3>
+<p>RTOS manages tasks (or threads) through:</p>
+<ul>
+<li>Priorities</li>
+<li>States (Running, Ready, Blocked)</li>
+<li>Preemption</li>
+</ul>
+<h3>b. <strong>Scheduler</strong></h3>
+<p>The RTOS scheduler ensures tasks are executed in a predictable order. Common policies include:</p>
+<ul>
+<li><strong>Preemptive Priority Scheduling</strong></li>
+<li><strong>Round Robin</strong></li>
+<li><strong>Rate Monotonic Scheduling (RMS)</strong></li>
+<li><strong>Earliest Deadline First (EDF)</strong></li>
+</ul>
+<h3>c. <strong>Inter-Task Communication (ITC)</strong></h3>
+<p>Mechanisms for communication and synchronization:</p>
+<ul>
+<li>Message Queues</li>
+<li>Semaphores (Binary, Counting)</li>
+<li>Mutexes (for mutual exclusion)</li>
+<li>Events/Flags</li>
+</ul>
+<h3>d. <strong>Timers and Clocks</strong></h3>
+<p>Used for task delays, timeouts, and periodic scheduling.</p>
+<h3>e. <strong>Memory Management</strong></h3>
+<p>RTOS typically avoids dynamic memory allocation at runtime; instead, it uses:</p>
+<ul>
+<li>Static memory allocation</li>
+<li>Memory pools (fixed-size block allocation)</li>
+</ul>
+<h2>4. Popular RTOS Examples</h2>
+<table>
+<thead>
+<tr>
+<th>RTOS Name</th>
+<th>Highlights</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>FreeRTOS</strong></td>
+<td>Open source, lightweight, ARM Cortex-M friendly</td>
+</tr>
+<tr>
+<td><strong>RTEMS</strong></td>
+<td>Used in space and avionics (NASA, ESA)</td>
+</tr>
+<tr>
+<td><strong>VxWorks</strong></td>
+<td>Commercial, used in aerospace and medical</td>
+</tr>
+<tr>
+<td><strong>Zephyr</strong></td>
+<td>Linux Foundation project for IoT</td>
+</tr>
+<tr>
+<td><strong>QNX</strong></td>
+<td>Certified for automotive and medical use</td>
+</tr>
+<tr>
+<td><strong>Micrium uC/OS</strong></td>
+<td>Certified RTOS for safety-critical systems</td>
+</tr>
+</tbody>
+</table>
+<h2>6. Use Case Examples</h2>
+<ul>
+<li><strong>Automotive</strong>: Airbag deployment, ECU control</li>
+<li><strong>Medical Devices</strong>: Pacemakers, ventilators</li>
+<li><strong>Industrial Automation</strong>: Robotic arms, PLCs</li>
+<li><strong>Consumer Electronics</strong>: Smartwatches, drones</li>
+</ul>
+<h2>8. RTOS with Embedded Hardware</h2>
+<p>RTOSes are typically used on microcontrollers (e.g., ARM Cortex-M, AVR, ESP32) with limited resources. They integrate with drivers for peripherals and often offer:</p>
+<ul>
+<li>Tickless idle modes for power efficiency.</li>
+<li>Hooks for custom interrupt handling.</li>
+<li>Portability across toolchains (GCC, IAR, Keil).</li>
+</ul>
+<hr />
+<h2>Conclusion</h2>
+<p>An RTOS enables deterministic behavior essential for time-critical systems. Its design is centered around predictability, task prioritization, and minimal latency. Understanding the internals of RTOS is essential for anyone working with embedded systems or safety-critical applications.</p>
+    </body>
+    </html>
+    

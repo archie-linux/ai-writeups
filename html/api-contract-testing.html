@@ -1,0 +1,80 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h1><strong>API Contract Testing with Postman/Newman or Pact</strong></h1>
+<p>API contract testing ensures that the communication between different components of a system (e.g., client and server) follows a defined structure or "contract." This becomes crucial in distributed systems and microservice architectures where breaking a contract can cause downstream failures.</p>
+<h2>🧪 <strong>Why API Contract Testing?</strong></h2>
+<ul>
+<li>Prevents breaking changes in APIs</li>
+<li>Improves collaboration between frontend and backend teams</li>
+<li>Fast and lightweight compared to full end-to-end tests</li>
+<li>Helps enable CI/CD by validating integration points</li>
+</ul>
+<h3><strong>2. Pact (Consumer-Driven Contract Testing)</strong></h3>
+<p><strong>Pact</strong> is a powerful framework based on <strong>consumer-driven contracts</strong>. It allows consumers to define their expectations, which providers must then fulfill.</p>
+<h4>✅ Pros:</h4>
+<ul>
+<li>Strong versioning and contract negotiation</li>
+<li>Supports multiple languages (JS, Java, Python, Go)</li>
+<li>CI/CD friendly with Pact Broker for sharing contracts</li>
+</ul>
+<h4>🔄 Workflow:</h4>
+<ol>
+<li><strong>Consumer</strong> writes a test that generates a pact file (JSON).</li>
+<li>Pact file is shared with <strong>provider</strong>.</li>
+<li><strong>Provider</strong> runs tests to ensure it satisfies the consumer’s expectations.</li>
+</ol>
+<h4>🔧 Example (Node.js):</h4>
+<pre><code class="language-javascript">const { Pact } = require('@pact-foundation/pact');
+const provider = new Pact({
+  port: 1234,
+  consumer: 'FrontendApp',
+  provider: 'UserService',
+});
+
+describe('Contract Test', () =&gt; {
+  before(() =&gt; provider.setup());
+
+  it('should return a user', async () =&gt; {
+    await provider.addInteraction({
+      uponReceiving: 'a request for user data',
+      withRequest: {
+        method: 'GET',
+        path: '/user/1',
+      },
+      willRespondWith: {
+        status: 200,
+        body: { id: 1, name: 'Alice' },
+      },
+    });
+
+    // call your API client here
+  });
+
+  after(() =&gt; provider.finalize());
+});
+</code></pre>
+<h2>🔄 <strong>CI/CD Integration Example</strong></h2>
+<ul>
+<li>Run <strong>Newman</strong> collections post-deployment in your Jenkins or GitHub Actions workflow.</li>
+<li>Use <strong>Pact</strong> to verify contract compatibility during pull requests before merging to main.</li>
+</ul>
+<h2>📌 <strong>Conclusion</strong></h2>
+<p>API contract testing is a critical part of ensuring stable and reliable communication between services. Whether you're using Postman for quick validation or Pact for full-blown consumer-driven contracts, integrating these practices helps catch issues early and streamline development in modern, service-oriented architectures.</p>
+    </body>
+    </html>
+    

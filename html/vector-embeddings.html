@@ -1,0 +1,73 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h2>Vector Embeddings and ANN Search: FAISS, Pinecone Explained</h2>
+<h3>🔍 Introduction</h3>
+<p>In modern AI applications like semantic search, recommendation systems, and fraud detection, we often need to <strong>compare complex, high-dimensional data</strong> (e.g., text, images, or user behaviors). Instead of matching raw input, we use <strong>vector embeddings</strong> to represent data in a numerical form that captures its semantic meaning.</p>
+<p>Once you have embeddings, the next challenge is finding <strong>similar vectors efficiently</strong>—this is where <strong>Approximate Nearest Neighbor (ANN)</strong> search comes in. Libraries like <strong>FAISS</strong> (by Facebook) and platforms like <strong>Pinecone</strong> enable scalable vector search across millions or billions of items.</p>
+<h3>📌 Why Use ANN Search?</h3>
+<p>A brute-force nearest neighbor search is <strong>O(n)</strong> for each query. For large datasets, this is prohibitively slow.</p>
+<p><strong>Approximate Nearest Neighbor (ANN)</strong> algorithms aim to find a “close-enough” neighbor <strong>much faster</strong>, often in sublinear time, using indexing and partitioning strategies.</p>
+<p>Use cases:</p>
+<ul>
+<li><strong>Semantic search</strong> (text similarity)</li>
+<li><strong>Recommendation engines</strong></li>
+<li><strong>Duplicate detection</strong></li>
+<li><strong>Biometric identification</strong></li>
+</ul>
+<h3>☁️ Pinecone: Managed Vector Database</h3>
+<p><strong>Pinecone</strong> is a fully managed <strong>cloud-native vector database</strong> built for production-grade ANN search.</p>
+<h4>✅ Benefits:</h4>
+<ul>
+<li>No infrastructure to manage</li>
+<li>Persistent storage</li>
+<li>Horizontal scaling</li>
+<li>Real-time updates and inserts</li>
+<li>REST and gRPC APIs</li>
+</ul>
+<h4>🔍 Use Cases:</h4>
+<ul>
+<li>Semantic search APIs (e.g., OpenAI + Pinecone)</li>
+<li>Personalized recommendations</li>
+<li>Hybrid search (vector + keyword)</li>
+</ul>
+<h4>✍️ Sample Workflow:</h4>
+<pre><code class="language-python">import pinecone
+import openai
+
+# Init Pinecone
+pinecone.init(api_key=&quot;YOUR_KEY&quot;, environment=&quot;us-west1-gcp&quot;)
+index = pinecone.Index(&quot;semantic-search&quot;)
+
+# Embed query
+query = &quot;Find similar documents to quantum computing&quot;
+query_vector = openai.embeddings.create(input=query)[&quot;data&quot;][0][&quot;embedding&quot;]
+
+# Query Pinecone
+results = index.query(vector=query_vector, top_k=5, include_metadata=True)
+</code></pre>
+<h3>🧠 Summary</h3>
+<ul>
+<li><strong>Vector embeddings</strong> are the backbone of semantic AI applications.</li>
+<li><strong>ANN search</strong> enables efficient similarity lookups in high-dimensional spaces.</li>
+<li><strong>FAISS</strong> offers maximum control and performance for custom environments.</li>
+<li><strong>Pinecone</strong> is ideal for teams that want quick, scalable deployment without managing infra.</li>
+</ul>
+<p>Understanding and combining these tools gives you the power to build <strong>fast, intelligent, and scalable</strong> vector-based systems.</p>
+    </body>
+    </html>
+    

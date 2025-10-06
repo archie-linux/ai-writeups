@@ -1,0 +1,138 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h1>Interrupt-Driven vs Polling in Embedded Design</h1>
+<p>Embedded systems often need to respond to external events—such as user input, sensor readings, or communication data. The choice between <strong>interrupt-driven</strong> and <strong>polling-based</strong> mechanisms to handle these events is fundamental to system performance, power consumption, and responsiveness.</p>
+<h2>🔁 What is Polling?</h2>
+<p>Polling is a <strong>synchronous</strong> method where the processor continuously checks (or "polls") a device or register to see if an event has occurred.</p>
+<h3>📌 How It Works</h3>
+<ul>
+<li>CPU repeatedly reads a status register in a loop.</li>
+<li>If the event hasn't occurred, the CPU keeps checking.</li>
+<li>When the event occurs (e.g., data ready), the CPU handles it.</li>
+</ul>
+<h3>✅ Pros</h3>
+<ul>
+<li>Simple to implement.</li>
+<li>Predictable timing.</li>
+<li>No concurrency issues; all logic is in a single thread/loop.</li>
+</ul>
+<h3>❌ Cons</h3>
+<ul>
+<li>Inefficient for low-frequency events (wastes CPU cycles).</li>
+<li>Higher power consumption.</li>
+<li>Reduces processor availability for other tasks.</li>
+</ul>
+<h3>Example:</h3>
+<pre><code class="language-c">while (1) {
+    if (UART_DataReady()) {
+        char c = UART_Read();
+        process_char(c);
+    }
+}
+</code></pre>
+<h2>🧠 Choosing Between the Two</h2>
+<table>
+<thead>
+<tr>
+<th>Criteria</th>
+<th>Polling</th>
+<th>Interrupt</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Event Frequency</td>
+<td>High and consistent</td>
+<td>Low or sporadic</td>
+</tr>
+<tr>
+<td>Power Sensitivity</td>
+<td>Not ideal</td>
+<td>More efficient</td>
+</tr>
+<tr>
+<td>Code Simplicity</td>
+<td>Simple</td>
+<td>Complex</td>
+</tr>
+<tr>
+<td>CPU Usage</td>
+<td>Constant</td>
+<td>Only on event</td>
+</tr>
+<tr>
+<td>Real-Time Responsiveness</td>
+<td>Poor</td>
+<td>Excellent (with priorities)</td>
+</tr>
+</tbody>
+</table>
+<h2>🧩 Hybrid Approach</h2>
+<p>Some systems use a <strong>hybrid</strong> model:</p>
+<ul>
+<li>Use interrupts to wake the CPU.</li>
+<li>Use polling in tight timing loops (e.g., reading multiple bytes from SPI quickly).</li>
+</ul>
+<hr />
+<h2>🧵 Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Polling</th>
+<th>Interrupt</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CPU Efficiency</td>
+<td>❌</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Simplicity</td>
+<td>✅</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>Real-Time Use</td>
+<td>❌</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Power Saving</td>
+<td>❌</td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+<p>Choose <strong>interrupts</strong> when:</p>
+<ul>
+<li>Events are asynchronous.</li>
+<li>You want better power/performance efficiency.</li>
+<li>You have limited CPU resources.</li>
+</ul>
+<p>Choose <strong>polling</strong> when:</p>
+<ul>
+<li>You need deterministic timing.</li>
+<li>The system has a simple loop and no multitasking.</li>
+<li>Peripheral access is fast and frequent.</li>
+</ul>
+    </body>
+    </html>
+    

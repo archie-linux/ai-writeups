@@ -1,0 +1,112 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h2>BPF (eBPF) for Packet Filtering and Kernel Tracing</h2>
+<p>eBPF (Extended Berkeley Packet Filter) is a revolutionary technology in the Linux kernel that allows safe and efficient execution of user-defined programs in kernel space. Initially designed for packet filtering (classic BPF), eBPF has evolved into a powerful sandboxed virtual machine inside the Linux kernel that supports networking, security, tracing, and performance profiling.</p>
+<h3>🔍 Use Cases of eBPF</h3>
+<table>
+<thead>
+<tr>
+<th>Category</th>
+<th>Example Use Cases</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Packet Filtering</strong></td>
+<td>Firewall rules (e.g., XDP), DDoS mitigation</td>
+</tr>
+<tr>
+<td><strong>Tracing &amp; Observability</strong></td>
+<td>System call tracing, performance monitoring (<code>bcc</code>, <code>bpftrace</code>)</td>
+</tr>
+<tr>
+<td><strong>Security</strong></td>
+<td>Syscall filtering, process activity monitoring (<code>seccomp</code>, <code>Tetragon</code>)</td>
+</tr>
+<tr>
+<td><strong>Performance Tuning</strong></td>
+<td>CPU/memory profiling, disk I/O latency debugging</td>
+</tr>
+<tr>
+<td><strong>Networking</strong></td>
+<td>Load balancing (Cilium), deep packet inspection</td>
+</tr>
+</tbody>
+</table>
+<h3>🔎 eBPF for Kernel Tracing</h3>
+<p>eBPF can attach probes to various kernel or user-space events:</p>
+<ul>
+<li><strong>kprobes / kretprobes:</strong> Attach to kernel function entry/exit.</li>
+<li><strong>uprobes:</strong> Attach to user-space binary functions.</li>
+<li><strong>tracepoints:</strong> Static instrumentation points in kernel code.</li>
+<li><strong>perf events:</strong> CPU performance counters.</li>
+</ul>
+<h4>Tools &amp; Frameworks:</h4>
+<ul>
+<li><strong>BCC (BPF Compiler Collection):</strong> Python-based front end for writing and running eBPF tracing programs.</li>
+<li><strong>bpftrace:</strong> High-level tracing language similar to <code>awk</code>, great for one-liners.</li>
+<li><strong>Perf / SystemTap:</strong> Older tools, partially superseded by eBPF.</li>
+</ul>
+<h4>Example: Trace open syscalls with <code>bpftrace</code></h4>
+<pre><code class="language-bash">bpftrace -e 'tracepoint:syscalls:sys_enter_openat { printf(&quot;%s opened %s\n&quot;, comm, str(args-&gt;filename)); }'
+</code></pre>
+<h3>📦 Real-World Applications</h3>
+<ul>
+<li><strong>Cilium:</strong> Kubernetes CNI plugin that uses eBPF for load balancing, network policy enforcement, and observability.</li>
+<li><strong>Falco:</strong> Runtime security tool using eBPF to detect suspicious syscalls.</li>
+<li><strong>Facebook / Netflix:</strong> Use eBPF extensively for performance debugging and latency tracing at scale.</li>
+</ul>
+<h3>🔧 Development Toolchain</h3>
+<ul>
+<li><strong>LLVM/Clang:</strong> For compiling C code into eBPF bytecode.</li>
+<li><strong>libbpf:</strong> C API to load and interact with eBPF programs.</li>
+<li><strong>bpftool:</strong> CLI for inspecting and managing eBPF programs.</li>
+<li><strong>CO-RE (Compile Once – Run Everywhere):</strong> Mechanism to write portable eBPF programs that adapt to kernel versions.</li>
+</ul>
+<hr />
+<h3>🧠 Summary</h3>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Packet Filtering</strong></td>
+<td>Drop or reroute packets in kernel space (XDP, tc)</td>
+</tr>
+<tr>
+<td><strong>Tracing</strong></td>
+<td>Kernel/user-space visibility without recompiling kernel</td>
+</tr>
+<tr>
+<td><strong>Security</strong></td>
+<td>Runtime process and syscall monitoring</td>
+</tr>
+<tr>
+<td><strong>Performance</strong></td>
+<td>Minimal overhead; safe and fast execution</td>
+</tr>
+</tbody>
+</table>
+<p>eBPF represents a paradigm shift in systems programming by safely extending kernel capabilities <strong>without writing kernel modules</strong>, enabling deep observability, fine-grained control, and performance that rivals native code.</p>
+    </body>
+    </html>
+    

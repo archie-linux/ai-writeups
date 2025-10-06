@@ -1,0 +1,144 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h1>⚙️ Process vs Thread vs Coroutine: Memory and Scheduling Differences</h1>
+<p>Understanding the distinctions between <strong>processes</strong>, <strong>threads</strong>, and <strong>coroutines</strong> is crucial in systems programming, performance tuning, and concurrent application design. Each model has unique characteristics in terms of memory isolation, execution context, and scheduling behavior.</p>
+<h2>🧵 2. Threads</h2>
+<h3>🔍 Definition:</h3>
+<p>A <strong>thread</strong> is a lightweight unit of execution within a process. Threads share the <strong>same memory space</strong> but have separate stacks and registers.</p>
+<h3>🧠 Memory:</h3>
+<ul>
+<li>Threads within the same process <strong>share heap and global memory</strong>.</li>
+<li>Each thread has its own <strong>stack</strong> and <strong>thread-local storage</strong>.</li>
+<li>Synchronization primitives (mutex, semaphore) are needed to avoid race conditions.</li>
+</ul>
+<h3>⏱ Scheduling:</h3>
+<ul>
+<li>Also scheduled by the OS.</li>
+<li>Lighter than processes but still requires kernel-level context switching.</li>
+<li>Can run concurrently on multi-core CPUs.</li>
+</ul>
+<h3>📌 Use Cases:</h3>
+<ul>
+<li>Tasks requiring parallel computation or background work</li>
+<li>Web servers (handling multiple client connections)</li>
+</ul>
+<h2>⚖️ Comparison Table</h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Process</th>
+<th>Thread</th>
+<th>Coroutine</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Memory Space</td>
+<td>Separate</td>
+<td>Shared</td>
+<td>Shared (same thread)</td>
+</tr>
+<tr>
+<td>Isolation</td>
+<td>High</td>
+<td>Medium</td>
+<td>Low</td>
+</tr>
+<tr>
+<td>Scheduling</td>
+<td>OS Kernel</td>
+<td>OS Kernel</td>
+<td>User-space (cooperative)</td>
+</tr>
+<tr>
+<td>Context Switch Cost</td>
+<td>High</td>
+<td>Medium</td>
+<td>Low</td>
+</tr>
+<tr>
+<td>Creation Overhead</td>
+<td>High</td>
+<td>Medium</td>
+<td>Very Low</td>
+</tr>
+<tr>
+<td>Scalability</td>
+<td>Low (limited)</td>
+<td>Medium</td>
+<td>High (thousands possible)</td>
+</tr>
+<tr>
+<td>Communication</td>
+<td>IPC (complex)</td>
+<td>Shared memory</td>
+<td>Shared state</td>
+</tr>
+<tr>
+<td>Preemption</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>No (manual yield/await)</td>
+</tr>
+<tr>
+<td>Use Case</td>
+<td>Isolation, security</td>
+<td>Parallel compute</td>
+<td>Async I/O, high concurrency</td>
+</tr>
+</tbody>
+</table>
+<h2>🧪 Python Code Glimpse</h2>
+<pre><code class="language-python"># Coroutine Example (asyncio)
+import asyncio
+
+async def say_hello():
+    await asyncio.sleep(1)
+    print(&quot;Hello&quot;)
+
+async def main():
+    await asyncio.gather(say_hello(), say_hello())
+
+asyncio.run(main())
+</code></pre>
+<pre><code class="language-python"># Thread Example
+from threading import Thread
+
+def say_hello():
+    import time
+    time.sleep(1)
+    print(&quot;Hello&quot;)
+
+t1 = Thread(target=say_hello)
+t2 = Thread(target=say_hello)
+t1.start()
+t2.start()
+t1.join()
+t2.join()
+</code></pre>
+<hr />
+<h2>🧠 Key Takeaways</h2>
+<ul>
+<li><strong>Processes</strong> offer <strong>isolation</strong> but at a higher cost.</li>
+<li><strong>Threads</strong> enable <strong>true parallelism</strong>, but require synchronization.</li>
+<li><strong>Coroutines</strong> are ideal for <strong>scalable concurrency</strong> with minimal overhead, especially in <strong>I/O-bound</strong> programs.</li>
+</ul>
+    </body>
+    </html>
+    

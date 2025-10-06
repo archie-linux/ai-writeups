@@ -1,0 +1,148 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h1>🗂 Technical Writeup: File System Internals – ext4 vs NTFS vs ZFS</h1>
+<p>A <strong>file system</strong> organizes how data is stored and retrieved on storage media. While all file systems aim to manage files and directories, their internal architecture and feature sets can differ significantly.</p>
+<p>In this writeup, we explore the internals of three major file systems:</p>
+<ul>
+<li><strong>ext4</strong> – default on most Linux systems</li>
+<li><strong>NTFS</strong> – Windows default file system</li>
+<li><strong>ZFS</strong> – enterprise-grade file system with built-in volume management</li>
+</ul>
+<h2>🧾 2. NTFS (New Technology File System)</h2>
+<h3>📌 Overview:</h3>
+<ul>
+<li>Default file system for Windows since Windows XP</li>
+<li>Designed for security, recoverability, and scalability</li>
+</ul>
+<h3>📂 Internal Structures:</h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Master File Table (MFT)</td>
+<td>Core metadata structure; each file is a record in MFT</td>
+</tr>
+<tr>
+<td>File Record</td>
+<td>Contains attributes: standard info, filename, data, etc.</td>
+</tr>
+<tr>
+<td>Attribute-Based</td>
+<td>Data and metadata stored as named attributes</td>
+</tr>
+<tr>
+<td>Journaling</td>
+<td>Transactional logging for recoverability</td>
+</tr>
+</tbody>
+</table>
+<h3>✨ Key Features:</h3>
+<ul>
+<li><strong>NTFS Journaling</strong>: Logs changes to the MFT and critical metadata</li>
+<li><strong>Access Control Lists (ACLs)</strong>: Fine-grained permissions</li>
+<li><strong>Compression &amp; Encryption</strong>: File-level NTFS compression and EFS</li>
+<li><strong>Alternate Data Streams (ADS)</strong>: Allows multiple data forks per file</li>
+<li><strong>Sparse Files, Reparse Points, Hard Links</strong>: Advanced features for performance and compatibility</li>
+</ul>
+<h3>⚠️ Limitations:</h3>
+<ul>
+<li>No native snapshot support</li>
+<li>Windows-only support (read-only in Linux without extra drivers)</li>
+</ul>
+<h2>⚖️ Comparison Table</h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>ext4</th>
+<th>NTFS</th>
+<th>ZFS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OS Support</td>
+<td>Linux</td>
+<td>Windows</td>
+<td>Linux, FreeBSD</td>
+</tr>
+<tr>
+<td>Journaling</td>
+<td>Yes (metadata)</td>
+<td>Yes (metadata + data)</td>
+<td>Copy-on-Write (CoW)</td>
+</tr>
+<tr>
+<td>Snapshots</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Volume Management</td>
+<td>External (LVM)</td>
+<td>Basic (Disk Mgmt)</td>
+<td>Built-in (Zpool)</td>
+</tr>
+<tr>
+<td>Checksumming</td>
+<td>Journal only</td>
+<td>Partial (metadata)</td>
+<td>Full (data + metadata)</td>
+</tr>
+<tr>
+<td>Max Volume Size</td>
+<td>1 EB</td>
+<td>256 TB (theoretical)</td>
+<td>256 quadrillion zettabytes</td>
+</tr>
+<tr>
+<td>Compression / Deduplication</td>
+<td>No</td>
+<td>Compression only</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Self-healing</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Memory Requirement</td>
+<td>Low</td>
+<td>Moderate</td>
+<td>High</td>
+</tr>
+</tbody>
+</table>
+<h2>🔚 Conclusion</h2>
+<ul>
+<li><strong>ext4</strong> is reliable, fast, and easy to manage, ideal for general Linux workloads.</li>
+<li><strong>NTFS</strong> is tightly integrated with Windows, supporting ACLs and journaling.</li>
+<li><strong>ZFS</strong> offers enterprise-grade reliability with advanced features like snapshots, CoW, and self-healing.</li>
+</ul>
+<p>Each file system comes with trade-offs. Understanding their internals helps in choosing the right one based on performance, integrity, and feature needs.</p>
+    </body>
+    </html>
+    

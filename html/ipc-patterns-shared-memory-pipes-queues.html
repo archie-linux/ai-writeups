@@ -1,0 +1,95 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h3>Shared Memory, Pipes, and Message Queues: IPC Patterns in Linux</h3>
+<p>Interprocess Communication (IPC) is essential in multitasking operating systems like Linux where processes often need to coordinate or share data. Linux offers several IPC mechanisms, each with trade-offs in speed, complexity, and use cases. Three of the most commonly used IPC methods are <strong>Shared Memory</strong>, <strong>Pipes</strong>, and <strong>Message Queues</strong>.</p>
+<h2>2. <strong>Shared Memory</strong></h2>
+<h3>Overview:</h3>
+<p>Allows multiple processes to access the same physical memory space. It’s the fastest IPC mechanism because it avoids kernel/user space copying once mapped.</p>
+<h3>Usage Steps:</h3>
+<ol>
+<li>Create/obtain a shared memory segment using <code>shmget()</code>.</li>
+<li>Attach it to process memory space using <code>shmat()</code>.</li>
+<li>Use normal memory operations to access it.</li>
+<li>Detach and delete using <code>shmdt()</code> and <code>shmctl()</code>.</li>
+</ol>
+<h3>Example:</h3>
+<pre><code class="language-c">int shmid = shmget(IPC_PRIVATE, 1024, IPC_CREAT | 0666);
+char *data = (char *)shmat(shmid, NULL, 0);
+strcpy(data, &quot;Shared Data&quot;);
+shmdt(data);
+shmctl(shmid, IPC_RMID, NULL);
+</code></pre>
+<h3>Pros:</h3>
+<ul>
+<li>Very fast data transfer.</li>
+<li>Efficient for large datasets.</li>
+</ul>
+<h3>Cons:</h3>
+<ul>
+<li>No synchronization—must use semaphores/mutexes externally.</li>
+<li>More complex to manage lifecycle and cleanup.</li>
+</ul>
+<h2>Choosing the Right IPC Mechanism</h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Pipes</th>
+<th>Shared Memory</th>
+<th>Message Queues</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Speed</td>
+<td>Moderate</td>
+<td>Fastest</td>
+<td>Slower</td>
+</tr>
+<tr>
+<td>Direction</td>
+<td>Uni (or bi for socketpair)</td>
+<td>Bi-directional (needs sync)</td>
+<td>Bi-directional</td>
+</tr>
+<tr>
+<td>Synchronization</td>
+<td>No</td>
+<td>External needed</td>
+<td>Built-in</td>
+</tr>
+<tr>
+<td>Suitable for</td>
+<td>Simple data</td>
+<td>Large data</td>
+<td>Discrete messages</td>
+</tr>
+<tr>
+<td>Related processes</td>
+<td>Required (anonymous)</td>
+<td>Not required</td>
+<td>Not required</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>Conclusion</h2>
+<p>Understanding IPC patterns is crucial for building efficient and responsive systems, especially in OS-level programming, system services, and performance-critical applications. Shared memory is ideal for large, fast data exchange (with synchronization), pipes are great for simple parent-child workflows, and message queues offer flexibility and safety when message ordering and delivery are important.</p>
+    </body>
+    </html>
+    

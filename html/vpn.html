@@ -1,0 +1,134 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h1>🔐 Technical Writeup: VPN Protocols (IPSec, OpenVPN, WireGuard)</h1>
+<h2>📘 Introduction</h2>
+<p>A <strong>Virtual Private Network (VPN)</strong> extends a private network across a public one, allowing users to securely send and receive data as if their devices were directly connected to the private network. VPN protocols define the standards and rules used to establish secure connections and protect data in transit.</p>
+<p>Three of the most widely used VPN protocols are:</p>
+<ul>
+<li><strong>IPSec</strong> – an older but highly secure standard protocol suite.</li>
+<li><strong>OpenVPN</strong> – an open-source, SSL/TLS-based VPN protocol.</li>
+<li><strong>WireGuard</strong> – a modern, minimal, and high-performance VPN protocol.</li>
+</ul>
+<h2>2️⃣ <strong>OpenVPN</strong></h2>
+<h3>🔧 Overview:</h3>
+<ul>
+<li><strong>Type</strong>: Application-layer protocol</li>
+<li><strong>Encryption</strong>: AES-256, ChaCha20, etc.</li>
+<li><strong>Use case</strong>: Remote-access VPNs, cross-platform VPN clients</li>
+</ul>
+<h3>📡 Transport:</h3>
+<ul>
+<li>Uses <strong>SSL/TLS</strong> for key exchange</li>
+<li>Runs over <strong>UDP</strong> (preferred) or <strong>TCP</strong></li>
+<li>Can use <strong>port 443</strong> to bypass firewalls</li>
+</ul>
+<h3>🔐 Security:</h3>
+<ul>
+<li>Authenticated with X.509 certificates or pre-shared keys</li>
+<li>Supports Perfect Forward Secrecy (PFS)</li>
+<li>Optional <strong>TLS Auth (HMAC)</strong> for additional security</li>
+</ul>
+<h3>🔄 Tunnel Types:</h3>
+<ul>
+<li><strong>TUN</strong> (layer 3 IP tunneling)</li>
+<li><strong>TAP</strong> (layer 2 Ethernet bridging)</li>
+</ul>
+<h3>✅ Pros:</h3>
+<ul>
+<li>Highly configurable and robust</li>
+<li>Open-source with large community support</li>
+<li>Works well in restrictive network environments</li>
+</ul>
+<h3>❌ Cons:</h3>
+<ul>
+<li>Slightly slower than WireGuard</li>
+<li>More overhead and configuration complexity</li>
+</ul>
+<h2>📊 Comparison Table</h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>IPSec</th>
+<th>OpenVPN</th>
+<th>WireGuard</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OSI Layer</td>
+<td>Network (L3)</td>
+<td>Application (L5)</td>
+<td>Network (L3)</td>
+</tr>
+<tr>
+<td>Encryption</td>
+<td>AES, 3DES</td>
+<td>AES, ChaCha20</td>
+<td>ChaCha20-Poly1305</td>
+</tr>
+<tr>
+<td>Protocol</td>
+<td>IP</td>
+<td>TCP/UDP</td>
+<td>UDP only</td>
+</tr>
+<tr>
+<td>Performance</td>
+<td>Moderate</td>
+<td>Moderate</td>
+<td>High</td>
+</tr>
+<tr>
+<td>Configuration</td>
+<td>Complex</td>
+<td>Moderate</td>
+<td>Simple</td>
+</tr>
+<tr>
+<td>NAT Traversal</td>
+<td>Needs NAT-T</td>
+<td>Native Support</td>
+<td>Native Support</td>
+</tr>
+<tr>
+<td>Mobile Roaming</td>
+<td>Poor</td>
+<td>Moderate</td>
+<td>Excellent</td>
+</tr>
+<tr>
+<td>Codebase Size</td>
+<td>Large</td>
+<td>Large</td>
+<td>Small (\~4K LOC)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>🏁 Conclusion</h2>
+<p>Each VPN protocol has its strengths and best-use scenarios:</p>
+<ul>
+<li><strong>IPSec</strong> is best for <strong>site-to-site</strong> corporate VPNs where security and compatibility are crucial.</li>
+<li><strong>OpenVPN</strong> is a versatile, widely supported option for both site-to-site and client VPNs, particularly in <strong>cross-platform</strong> environments.</li>
+<li><strong>WireGuard</strong> is emerging as the preferred choice for <strong>speed, simplicity, and modern cryptography</strong>, especially on <strong>mobile and embedded devices</strong>.</li>
+</ul>
+<p>For most modern applications, <strong>WireGuard</strong> is a compelling choice unless compatibility or fine-grained control requires OpenVPN or IPSec.</p>
+    </body>
+    </html>
+    

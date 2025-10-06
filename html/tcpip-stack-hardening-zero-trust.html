@@ -1,0 +1,59 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h2>TCP/IP Stack Hardening Techniques for Zero Trust Networks</h2>
+<p>Zero Trust Architecture (ZTA) is built on the principle of “never trust, always verify.” While most Zero Trust implementations focus on application-layer controls and identity, a robust ZTA approach also mandates reinforcing security at the transport and network layers—specifically, hardening the TCP/IP stack.</p>
+<p>Hardening the TCP/IP stack reduces the attack surface and mitigates risks from common threats such as IP spoofing, SYN floods, DNS cache poisoning, and protocol abuse.</p>
+<h2>2. <strong>SYN Flood Protection</strong></h2>
+<p>TCP SYN floods can exhaust connection queues and cause denial of service. Enable SYN cookies:</p>
+<pre><code class="language-bash">sysctl -w net.ipv4.tcp_syncookies=1
+</code></pre>
+<p>Also configure maximum backlog settings:</p>
+<pre><code class="language-bash">sysctl -w net.core.somaxconn=1024
+</code></pre>
+<h2>4. <strong>IP Spoofing and Source Validation</strong></h2>
+<p>In addition to RPF, use packet filtering (e.g., <code>iptables</code>, <code>nftables</code>) to block:</p>
+<ul>
+<li>Private IP ranges on public interfaces</li>
+<li>Bogons (e.g., 0.0.0.0/8, 169.254.0.0/16)</li>
+</ul>
+<p><strong>Example:</strong></p>
+<pre><code class="language-bash">iptables -A INPUT -s 10.0.0.0/8 -j DROP
+</code></pre>
+<h2>6. <strong>Prevent IP Fragmentation Attacks</strong></h2>
+<p>Limit and validate fragmented packets:</p>
+<pre><code class="language-bash">sysctl -w net.ipv4.ipfrag_high_thresh=262144
+</code></pre>
+<p>Also, consider using IDS/IPS tools to detect overlapping fragment attacks.</p>
+<h2>8. <strong>Network Segmentation and Microsegmentation</strong></h2>
+<ul>
+<li>Apply firewall rules per service, even on internal networks.</li>
+<li>Enforce identity-aware segmentation (e.g., Istio for service mesh).</li>
+<li>Avoid any "flat" network assumptions.</li>
+</ul>
+<h2>10. <strong>Packet Inspection and Logging</strong></h2>
+<p>Implement:</p>
+<ul>
+<li><strong>Netfilter (iptables/nftables)</strong> with detailed logging</li>
+<li><strong>ebpf-based tools</strong> for flow visibility (e.g., Cilium, Falco)</li>
+<li><strong>Suricata</strong> or <strong>Zeek</strong> for real-time anomaly detection</li>
+</ul>
+<h3>Conclusion</h3>
+<p>TCP/IP stack hardening is often neglected in favor of application-layer security. However, in a Zero Trust model, every layer must be scrutinized. A hardened stack complements encrypted communications, endpoint identity, and microsegmentation to enforce a defense-in-depth strategy that aligns with Zero Trust principles.</p>
+    </body>
+    </html>
+    

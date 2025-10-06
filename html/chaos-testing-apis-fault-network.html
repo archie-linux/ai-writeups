@@ -1,0 +1,90 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h2>Chaos Testing APIs with Fault Injection and Network Partitioning</h2>
+<h3>🧪 What is Chaos Testing?</h3>
+<p><strong>Chaos testing</strong> is a discipline within <strong>resilience engineering</strong> that involves deliberately introducing failures into a system to verify its ability to withstand turbulent conditions in production. When applied to <strong>APIs</strong>, chaos testing focuses on how the services behave under various failures such as timeouts, dropped connections, latency spikes, and backend outages.</p>
+<h2>🔧 Techniques for Chaos Testing APIs</h2>
+<h3>1. <strong>Fault Injection</strong></h3>
+<p>Fault injection introduces artificial errors in a controlled environment to simulate real-world failures.</p>
+<p><strong>Types of Faults:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Fault Type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Latency</td>
+<td>Add delay to API response (e.g., +500ms)</td>
+</tr>
+<tr>
+<td>Error response</td>
+<td>Force 500/503 errors from dependent APIs</td>
+</tr>
+<tr>
+<td>Resource limits</td>
+<td>Simulate CPU/memory exhaustion</td>
+</tr>
+<tr>
+<td>DNS failures</td>
+<td>Fail hostname resolution for API targets</td>
+</tr>
+<tr>
+<td>Connection drops</td>
+<td>Kill TCP connections randomly</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Tools</strong>:</p>
+<ul>
+<li><a href="https://www.gremlin.com/"><strong>Gremlin</strong></a></li>
+<li><a href="https://litmuschaos.io/"><strong>LitmusChaos</strong></a></li>
+<li><a href="https://github.com/Shopify/toxiproxy"><strong>Toxiproxy</strong></a></li>
+<li><a href="https://chaos-mesh.org/"><strong>Chaos Mesh</strong></a></li>
+<li>[<strong>Istio Fault Injection</strong> (Service Mesh)]</li>
+</ul>
+<h3>⚙️ Injecting Chaos in a CI/CD Pipeline</h3>
+<p>Chaos tests can be automated post-deployment:</p>
+<pre><code class="language-yaml">stages:
+  - deploy
+  - chaos
+  - validate
+
+chaos:
+  script:
+    - chaosctl inject fault --target=auth-service --latency=500ms
+    - chaosctl inject partition --from=api-service --to=db-service
+  only:
+    - staging
+</code></pre>
+<p>You can validate via health checks, alert logs, and synthetic monitoring during the chaos test window.</p>
+<h3>🧠 Best Practices</h3>
+<ul>
+<li>Always monitor <strong>metrics and logs</strong> during chaos experiments</li>
+<li>Define clear <strong>SLOs/SLAs</strong> and <strong>recovery thresholds</strong></li>
+<li>Use <strong>feature flags</strong> to disable chaos in critical paths</li>
+<li>Run chaos tests in <strong>non-production</strong> first</li>
+<li>Always run <strong>post-chaos assertions</strong> to validate recovery</li>
+</ul>
+<h2>✅ Summary</h2>
+<p>Chaos testing APIs helps simulate unexpected behavior and infrastructure failures in order to build <strong>resilient systems</strong>. With fault injection and network partitioning techniques, you can proactively identify failure points and harden your APIs before real outages occur.</p>
+    </body>
+    </html>
+    

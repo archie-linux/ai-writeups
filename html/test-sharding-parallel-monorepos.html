@@ -1,0 +1,57 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h2>Test Sharding and Parallelization in Large Monorepos</h2>
+<p>In large-scale engineering organizations, monolithic repositories (monorepos) are often used to maintain codebases for multiple applications, libraries, or services. Running tests efficiently in such repositories becomes a major challenge, especially as the number of test cases and their execution time grow. <strong>Test sharding</strong> and <strong>parallelization</strong> are two critical strategies to scale test execution, reduce feedback cycles, and improve developer productivity.</p>
+<h3>🔸 Test Sharding: Divide and Conquer</h3>
+<p><strong>Test sharding</strong> refers to splitting the total test suite into smaller subsets (shards) which can be executed independently and in parallel.</p>
+<h4>Key Strategies:</h4>
+<ul>
+<li><strong>Static Sharding</strong>: Predefined test splits based on test file names, directories, or modules.</li>
+<li><strong>Dynamic Sharding</strong>: Tests are split at runtime based on historical duration data to balance execution time across shards.</li>
+</ul>
+<h4>Benefits:</h4>
+<ul>
+<li>Reduced test wall time by distributing work.</li>
+<li>Easier to scale horizontally by increasing workers.</li>
+<li>Enables large suites to fit within CI time limits.</li>
+</ul>
+<h4>Example (Pytest):</h4>
+<pre><code class="language-bash">pytest --dist=loadscope --tx 4*popen
+</code></pre>
+<h3>🔹 Tools and Frameworks</h3>
+<ul>
+<li><strong>Bazel</strong>: Native support for test parallelization and caching</li>
+<li><strong>pytest-xdist</strong>: Parallel test runner plugin</li>
+<li><strong>JUnit + Gradle</strong>: <code>maxParallelForks</code>, <code>testLogging</code>, etc.</li>
+<li><strong>TestNG (Java)</strong>: Allows defining test groups and parallelism at suite/class/method level</li>
+<li><strong>GitHub Actions / GitLab CI</strong>: Matrix builds for sharding</li>
+</ul>
+<h3>🔹 Best Practices</h3>
+<ul>
+<li>Tag tests for selective runs (e.g., <code>@smoke</code>, <code>@integration</code>)</li>
+<li>Collect and analyze test duration metrics</li>
+<li>Use isolated environments per shard (e.g., containers)</li>
+<li>Combine sharding with change-based test selection</li>
+<li>Monitor and retry flaky shards independently</li>
+</ul>
+<hr />
+<h3>🔸 Conclusion</h3>
+<p>Test sharding and parallelization are essential for maintaining agility and scalability in large monorepos. By carefully splitting test execution and using modern tooling, teams can drastically cut down CI times, reduce flakiness, and deliver faster, more reliable code.</p>
+    </body>
+    </html>
+    

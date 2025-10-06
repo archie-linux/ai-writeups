@@ -1,0 +1,86 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h1>Monitoring with Prometheus and Grafana</h1>
+<p>Monitoring is a fundamental aspect of modern DevOps and SRE practices. Prometheus and Grafana are among the most widely used tools for collecting, analyzing, and visualizing system and application metrics. Together, they form a powerful, open-source monitoring stack.</p>
+<h2>📊 What is Grafana?</h2>
+<p><strong>Grafana</strong> is a multi-platform, open-source analytics and interactive visualization web application. It allows users to query, visualize, alert on, and explore metrics from various data sources, including Prometheus.</p>
+<h3>📌 Key Features:</h3>
+<ul>
+<li>Interactive dashboards</li>
+<li>Rich plugin ecosystem</li>
+<li>Alerting and notifications</li>
+<li>Role-based access control</li>
+<li>Data source agnostic (supports Prometheus, Loki, InfluxDB, MySQL, etc.)</li>
+</ul>
+<h2>🚀 Setting Up Prometheus and Grafana</h2>
+<h3>1. Export Metrics</h3>
+<p>Target applications need to expose metrics at an HTTP endpoint (<code>/metrics</code>). For example, in Python using <code>prometheus_client</code>:</p>
+<pre><code class="language-python">from prometheus_client import start_http_server, Summary
+
+REQUEST_TIME = Summary('request_processing_seconds', 'Time spent processing request')
+
+@REQUEST_TIME.time()
+def process_request():
+    # Simulated workload
+    pass
+
+if __name__ == '__main__':
+    start_http_server(8000)
+    while True:
+        process_request()
+</code></pre>
+<h3>3. Grafana Setup</h3>
+<ul>
+<li>Install Grafana</li>
+<li>Access at <code>http://localhost:3000</code> (default creds: admin/admin)</li>
+<li>Add Prometheus as a data source</li>
+<li>Import a dashboard or create a custom one</li>
+<li>Set alerts based on PromQL queries</li>
+</ul>
+<h2>⚠️ Alerting with Prometheus</h2>
+<p>Configure alert rules in <code>prometheus.yml</code>:</p>
+<pre><code class="language-yaml">groups:
+  - name: instance-down
+    rules:
+      - alert: InstanceDown
+        expr: up == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: &quot;Instance {{ $labels.instance }} down&quot;
+</code></pre>
+<p>Use <strong>Alertmanager</strong> to route alerts via:</p>
+<ul>
+<li>Email</li>
+<li>Slack</li>
+<li>PagerDuty</li>
+<li>Webhooks</li>
+</ul>
+<h2>📚 Use Cases</h2>
+<ul>
+<li>Kubernetes monitoring (<code>kube-prometheus-stack</code>)</li>
+<li>Microservices performance visualization</li>
+<li>SLA/SLO compliance tracking</li>
+<li>Anomaly detection via Grafana + machine learning plugins</li>
+</ul>
+<h2>🔚 Conclusion</h2>
+<p>Prometheus and Grafana provide a robust, flexible, and scalable monitoring stack that’s widely adopted in cloud-native environments. Prometheus handles metric collection and alerting, while Grafana turns those metrics into rich dashboards and insights.</p>
+    </body>
+    </html>
+    

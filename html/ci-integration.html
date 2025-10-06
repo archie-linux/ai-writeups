@@ -1,0 +1,112 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h1>CI Integration for Test Result Reporting (e.g., TestRail)</h1>
+<p>Continuous Integration (CI) is a fundamental part of modern software development, enabling automated build, test, and deployment pipelines. A critical component of this pipeline is <strong>test result reporting</strong>—tracking and analyzing test outcomes in a centralized system like <strong>TestRail</strong>. Integrating your CI/CD pipeline with TestRail allows teams to maintain visibility into test coverage, detect regressions early, and ensure accountability across automated and manual QA processes.</p>
+<h2>🧱 Architecture Overview</h2>
+<pre><code>CI/CD Tool (GitHub Actions / GitLab CI / Jenkins / CircleCI)
+        |
+        |---&gt; Run automated tests (e.g., Pytest, JUnit, TestNG)
+        |
+        |---&gt; Parse results (XML/JSON/HTML)
+        |
+        |---&gt; Push results to TestRail using TestRail API
+</code></pre>
+<h2>⚙️ Integration Steps</h2>
+<h3>1. <strong>Tag Test Cases with TestRail IDs</strong></h3>
+<p>Use a consistent naming pattern like <code>C1234</code> in your test case names, docstrings, or comments.</p>
+<pre><code class="language-python"># test_login.py
+def test_valid_login():
+    &quot;&quot;&quot;C1010 Verify user can login with valid credentials&quot;&quot;&quot;
+    ...
+</code></pre>
+<h3>3. <strong>Parse the Results in CI Pipeline</strong></h3>
+<p>Use a test parser to extract case IDs and status.</p>
+<p>Sample Python snippet to parse Pytest output:</p>
+<pre><code class="language-python">import xml.etree.ElementTree as ET
+
+def parse_pytest_results(xml_path):
+    tree = ET.parse(xml_path)
+    root = tree.getroot()
+    results = []
+    for testcase in root.iter(&quot;testcase&quot;):
+        case_id = extract_case_id(testcase.attrib[&quot;name&quot;])  # Cxxxx
+        status = &quot;passed&quot;
+        if testcase.find(&quot;failure&quot;) is not None:
+            status = &quot;failed&quot;
+        results.append((case_id, status))
+    return results
+</code></pre>
+<h2>⚙️ CI Pipeline Example – GitHub Actions</h2>
+<pre><code class="language-yaml">name: Test and Report
+
+on: [push]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install Dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run Pytest
+        run: pytest --junitxml=result.xml
+
+      - name: Push to TestRail
+        run: python scripts/report_to_testrail.py
+        env:
+          TESTRAIL_USER: ${{ secrets.TESTRAIL_USER }}
+          TESTRAIL_PASS: ${{ secrets.TESTRAIL_PASS }}
+</code></pre>
+<h2>🧪 Sample TestRail Status IDs</h2>
+<table>
+<thead>
+<tr>
+<th>Status</th>
+<th>ID</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Passed</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Blocked</td>
+<td>2</td>
+</tr>
+<tr>
+<td>Untested</td>
+<td>3</td>
+</tr>
+<tr>
+<td>Retest</td>
+<td>4</td>
+</tr>
+<tr>
+<td>Failed</td>
+<td>5</td>
+</tr>
+</tbody>
+</table>
+<h2>✅ Summary</h2>
+<p>CI-TestRail integration ensures real-time, traceable, and accurate test reporting across automated test pipelines. By pushing test results directly to TestRail, teams gain visibility and control over release readiness and can make informed decisions with confidence.</p>
+    </body>
+    </html>
+    

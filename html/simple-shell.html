@@ -1,0 +1,53 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h1>Writing a Simple Shell in C</h1>
+<p>A <strong>shell</strong> is a command-line interpreter that provides a user interface for accessing an operating system's services. Linux shells like <code>bash</code>, <code>zsh</code>, and <code>fish</code> are sophisticated programs with features like job control, redirection, and scripting. In this writeup, we'll explore how to <strong>write a basic shell in C</strong>, explaining the core components involved.</p>
+<h2>🛠️ Required System Calls</h2>
+<ul>
+<li><code>fork()</code>: Creates a new process (child).</li>
+<li><code>execvp()</code>: Replaces the current process image with a new one.</li>
+<li><code>waitpid()</code>: Parent waits for child to terminate.</li>
+<li><code>getline()</code>: Reads a line of input from the user.</li>
+</ul>
+<h2>🔧 Enhancements to Explore</h2>
+<ul>
+<li><strong>Pipelines (<code>|</code>)</strong> – Use <code>pipe()</code> and <code>dup2()</code>.</li>
+<li><strong>Redirection (<code>&gt;</code>, <code>&lt;</code>)</strong> – Use <code>open()</code> and <code>dup2()</code>.</li>
+<li><strong>Built-in commands</strong> – Implement <code>cd</code>, <code>exit</code>, etc. without <code>execvp</code>.</li>
+<li><strong>Job control</strong> – Handle background execution with <code>&amp;</code>.</li>
+</ul>
+<h2>🧪 Example Run</h2>
+<pre><code>mysh&gt; echo Hello, World!
+Hello, World!
+mysh&gt; ls -l
+(total output)
+mysh&gt; exit
+</code></pre>
+<hr />
+<h2>🧩 Conclusion</h2>
+<p>Writing a shell helps you deeply understand:</p>
+<ul>
+<li>Process creation</li>
+<li>Inter-process communication</li>
+<li>System calls</li>
+<li>Input parsing and error handling</li>
+</ul>
+<p>This exercise is an essential step for systems programmers and anyone interested in OS internals or building minimal containers, scripting environments, or DevOps tools.</p>
+    </body>
+    </html>
+    

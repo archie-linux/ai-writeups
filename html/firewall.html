@@ -1,0 +1,100 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h1>🔥 Firewall Architectures: A Technical Overview</h1>
+<p>Firewalls form the cornerstone of any organization’s network security. Their evolution spans from simple packet-filtering devices to intelligent systems that perform deep inspection and integrate with broader security frameworks.</p>
+<p>This writeup explores the <strong>core types of firewall architectures</strong>:</p>
+<ul>
+<li>Stateless vs Stateful Firewalls</li>
+<li>Unified Threat Management (UTM)</li>
+<li>Next-Generation Firewalls (NGFW)</li>
+</ul>
+<h3>🔸 Stateful Firewalls</h3>
+<p><strong>Definition:</strong>
+Stateful firewalls monitor the full state of active connections and make decisions based on the <strong>context</strong> of traffic.</p>
+<p><strong>Key Characteristics:</strong></p>
+<ul>
+<li>Track connection <strong>state tables</strong> (e.g., SYN/ACK flags).</li>
+<li>Can dynamically allow return traffic.</li>
+<li>Better suited to protect internal systems from unauthorized access.</li>
+</ul>
+<p><strong>Advantages:</strong></p>
+<ul>
+<li>More secure than stateless firewalls.</li>
+<li>Can enforce <strong>session-level security</strong>.</li>
+<li>Handles NAT and dynamic port mapping better.</li>
+</ul>
+<p><strong>Limitations:</strong></p>
+<ul>
+<li>More resource-intensive (needs RAM and CPU).</li>
+<li>Vulnerable to state-table exhaustion (DoS attack vector).</li>
+</ul>
+<p><strong>Use Cases:</strong></p>
+<ul>
+<li>Enterprise networks.</li>
+<li>Internal segmentation and DMZ protection.</li>
+</ul>
+<p><strong>Example:</strong>
+If a client sends a SYN to a server, the firewall remembers the session and allows the SYN-ACK reply.</p>
+<h2>3. 🧠 Next-Generation Firewalls (NGFW)</h2>
+<p><strong>Definition:</strong>
+NGFWs combine traditional firewall functions with <strong>deep packet inspection</strong>, <strong>application-level awareness</strong>, and <strong>threat intelligence integration</strong>.</p>
+<h3>📌 Core Capabilities:</h3>
+<ul>
+<li>Deep Packet Inspection (DPI) to look beyond ports/protocols.</li>
+<li><strong>Application awareness and control</strong> (e.g., block Dropbox, allow Google Drive).</li>
+<li><strong>User identity integration</strong> (Active Directory, LDAP).</li>
+<li><strong>Advanced threat protection</strong> with sandboxing.</li>
+<li><strong>SSL/TLS decryption</strong> and inspection.</li>
+<li>Built-in <strong>IPS/IDS</strong>.</li>
+</ul>
+<h3>🔧 Architecture:</h3>
+<ul>
+<li>Operates at <strong>Layers 3–7</strong>.</li>
+<li>Uses behavioral analytics and threat intelligence feeds.</li>
+<li>Can enforce granular policies by user, group, or application.</li>
+</ul>
+<h3>✅ Benefits:</h3>
+<ul>
+<li>Enhanced visibility and control.</li>
+<li>Detects sophisticated threats (e.g., zero-days, encrypted malware).</li>
+<li>Integrated logging and analytics dashboards.</li>
+</ul>
+<h3>⚠️ Drawbacks:</h3>
+<ul>
+<li>More expensive than traditional firewalls.</li>
+<li>Requires skilled personnel to configure and maintain.</li>
+<li>Can impact performance if DPI and SSL inspection are fully enabled.</li>
+</ul>
+<p><strong>Use Cases:</strong></p>
+<ul>
+<li>Large enterprises.</li>
+<li>Regulated environments (e.g., finance, healthcare).</li>
+<li>Cloud and hybrid infrastructure security.</li>
+</ul>
+<h2>🧠 Conclusion</h2>
+<p>Firewall technologies have matured from <strong>simple packet filters</strong> to <strong>context-aware, intelligent defense systems</strong> that play a central role in modern cybersecurity strategies.</p>
+<ul>
+<li><strong>Stateless firewalls</strong> are fast but primitive.</li>
+<li><strong>Stateful firewalls</strong> offer contextual tracking and are still common.</li>
+<li><strong>UTMs</strong> provide bundled security for smaller environments.</li>
+<li><strong>NGFWs</strong> are the gold standard for sophisticated threat detection and application control.</li>
+</ul>
+<p>In today’s landscape of <strong>zero-trust architectures, encrypted traffic, and hybrid networks</strong>, organizations are increasingly shifting toward <strong>NGFWs</strong> for their advanced capabilities and layered protection.</p>
+    </body>
+    </html>
+    

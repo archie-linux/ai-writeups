@@ -1,0 +1,134 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h2>⚙️ TCP Fragmentation</h2>
+<h3>🔹 2. Path MTU and Fragmentation Trigger</h3>
+<ul>
+<li><strong>MTU (Maximum Transmission Unit)</strong>: Largest IP packet size (typically 1500 bytes for Ethernet).</li>
+<li><strong>MSS (Maximum Segment Size)</strong>: Largest segment TCP can send (MTU - 40 bytes).</li>
+<li>
+<p><strong>Fragmentation occurs</strong> if an IP packet exceeds the MTU and:</p>
+</li>
+<li>
+<p>PMTUD is disabled or fails</p>
+</li>
+<li>DF (Don't Fragment) bit is <strong>not set</strong></li>
+<li>Underlying path contains small-MTU links (VPNs, tunnels, MPLS)</li>
+</ul>
+<h4>Diagram:</h4>
+<pre><code>App Layer       ─────────────────────&gt; Sends 16KB data
+TCP Layer       ─────────────────────&gt; Breaks into 1460B segments (MSS)
+IP Layer        ─────────────────────&gt; Each segment + headers (~1500B)
+↓
+Router detects MTU = 1200
+→ Fragments each 1500B packet into:
+    - Fragment 1: 1200 bytes
+    - Fragment 2: 300 bytes
+</code></pre>
+<h3>🔹 4. Path MTU Discovery (PMTUD)</h3>
+<ul>
+<li>TCP uses PMTUD to avoid IP fragmentation.</li>
+<li>Works by sending packets with the <strong>DF</strong> (Don’t Fragment) bit set.</li>
+<li>If a router can’t forward due to MTU, it sends an ICMP type 3 code 4 message:
+  <strong>"Fragmentation needed and DF set"</strong></li>
+</ul>
+<h4>PMTUD Failure: "Black Hole" Symptoms</h4>
+<ul>
+<li>ICMP blocked by firewall (common in enterprises)</li>
+<li>Large packets mysteriously disappear</li>
+<li>Connections hang during TLS handshakes, file transfers, etc.</li>
+</ul>
+<h3>🔹 6. Fragmentation and TCP Performance Tuning</h3>
+<h4>🔸 Tunneling Protocols</h4>
+<ul>
+<li>IP-in-IP, GRE, IPSec add 20-60 bytes of headers.</li>
+<li>Reduces effective MTU, often to <strong>\~1400 or lower</strong>.</li>
+<li>Neglecting this causes fragmentation or black holes.</li>
+</ul>
+<h4>🔸 MSS Clamping</h4>
+<p>Ensures TCP doesn't try to send segments larger than the path can carry:</p>
+<pre><code class="language-bash"># Example: Clamp MSS to 1360
+iptables -t mangle -A FORWARD -p tcp --tcp-flags SYN,RST SYN \
+         -j TCPMSS --clamp-mss-to-pmtu
+</code></pre>
+<blockquote>
+<p>MSS clamping is especially important on <strong>edge routers</strong>, <strong>VPN concentrators</strong>, and <strong>cloud VPC gateways</strong>.</p>
+</blockquote>
+<h3>🔹 8. Kernel Internals and Fragmentation</h3>
+<h4>Fragmentation Logic in Linux</h4>
+<ul>
+<li>Linux fragments <strong>before</strong> queuing to NIC.</li>
+<li>Uses <strong>skb (socket buffer)</strong> structure.</li>
+<li>Fragment queues tracked via <code>/proc/net/ip_frag</code> (on older kernels).</li>
+<li>Reassembly timeout is \~30 seconds (<code>/proc/sys/net/ipv4/ipfrag_time</code>)</li>
+</ul>
+<h4>Netfilter Hooks</h4>
+<ul>
+<li>Fragmented packets hit the <code>PREROUTING</code> chain.</li>
+<li>Fragments do <strong>not pass through</strong> <code>INPUT</code> in the same form.</li>
+<li>IDS must reassemble fragments <strong>before</strong> TCP stream reassembly.</li>
+</ul>
+<h2>✅ Best Practices Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th>Recommendation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Security</strong></td>
+<td>Drop or limit fragmented traffic unless necessary</td>
+</tr>
+<tr>
+<td><strong>Performance</strong></td>
+<td>Enable MSS clamping on tunnels, VPNs</td>
+</tr>
+<tr>
+<td><strong>Debugging</strong></td>
+<td>Use <code>ping -M do</code>, <code>tcpdump</code>, <code>traceroute -F</code></td>
+</tr>
+<tr>
+<td><strong>PMTUD</strong></td>
+<td>Allow ICMP type 3 code 4 messages through firewalls</td>
+</tr>
+<tr>
+<td><strong>IPv6</strong></td>
+<td>Don’t rely on fragmentation; use PMTUD or PLPMTUD</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>📌 Real-World Scenarios</h3>
+<ol>
+<li>
+<p><strong>VPN tunnel breaks large TCP transfers</strong>
+   → Fix: Clamp MSS to \~1350</p>
+</li>
+<li>
+<p><strong>TLS handshake fails intermittently</strong>
+   → Root cause: PMTUD broken, fragmentation blocked by intermediate device</p>
+</li>
+<li>
+<p><strong>IDS/IPS fails to detect attack</strong>
+   → Attacker used fragmented payloads to evade deep packet inspection</p>
+</li>
+</ol>
+    </body>
+    </html>
+    

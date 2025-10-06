@@ -1,17 +1,20 @@
-### 📖 View in Browser
-
 #### 🔹 Instructions:
 
 1. Clone the writeups repository:
 
 ```bash
 git clone https://github.com/anish7600/ai-writeups.git
+cd ai-writeups
 ```
 
-2. Open your browser and enter the URL:
+2. Start a local web server using Python:
+
+```bash
+python3 -m http.server
+```
+
+3. Open your browser and visit:
 
 ```
-file:///path-to-ai-writeups
+http://localhost:8000
 ```
-
-3. Bookmark this link in your browser for easy access.

@@ -1,0 +1,61 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h2><strong>User-space vs Kernel-space Threads: Performance Implications</strong></h2>
+<p>Multithreading is essential for parallelism and responsiveness. Threads can be implemented either entirely in user space or with kernel support. Each approach has trade-offs in performance, flexibility, and complexity.</p>
+<h3>🔹 2. <strong>User-space Threads: Advantages and Disadvantages</strong></h3>
+<h4>✅ Advantages:</h4>
+<ul>
+<li><strong>Fast context switching</strong>: No kernel mode switch → low overhead.</li>
+<li><strong>Custom scheduling</strong>: Can use cooperative or application-specific strategies.</li>
+<li><strong>Lightweight</strong>: No need to allocate kernel data structures per thread.</li>
+</ul>
+<h4>❌ Disadvantages:</h4>
+<ul>
+<li><strong>Blocking system calls block all threads</strong> unless wrapped or multiplexed (e.g., using <code>select</code>/<code>epoll</code>).</li>
+<li><strong>No parallelism on multicore</strong> unless multiplexed on kernel threads (e.g., M\:N model).</li>
+<li><strong>Difficult debugging and profiling</strong>.</li>
+</ul>
+<h3>🔹 4. <strong>Hybrid Models (M\:N Threading)</strong></h3>
+<p>Used by:</p>
+<ul>
+<li><strong>Java</strong> (older JVMs), <strong>Go</strong>, and <strong>Erlang</strong> runtimes.</li>
+</ul>
+<p><strong>Model</strong>:</p>
+<ul>
+<li>Map M user threads onto N kernel threads.</li>
+<li>Balances the efficiency of user threads with the robustness of kernel threads.</li>
+<li>Scheduler must manage thread multiplexing.</li>
+</ul>
+<h3>🔹 6. <strong>Real-world Examples</strong></h3>
+<ul>
+<li><strong>Go</strong>: M\:N goroutines with internal scheduler.</li>
+<li><strong>Python (CPython)</strong>: OS threads but limited by Global Interpreter Lock (GIL).</li>
+<li><strong>Java</strong>: Uses OS threads; used to be green threads in early JVMs.</li>
+<li><strong>Node.js</strong>: Single-threaded event loop with async I/O (user-level concurrency).</li>
+</ul>
+<hr />
+<h3>🔹 7. <strong>Conclusion</strong></h3>
+<p>The choice between user-space and kernel-space threads hinges on the workload:</p>
+<ul>
+<li>For <strong>lightweight, cooperative concurrency</strong>: user-space threads are ideal.</li>
+<li>For <strong>blocking operations and multicore usage</strong>: kernel threads excel.</li>
+<li>For <strong>balanced performance</strong>, languages often build <strong>hybrid models</strong>.</li>
+</ul>
+    </body>
+    </html>
+    

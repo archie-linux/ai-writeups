@@ -1,0 +1,80 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h1>Accessibility in Web Apps (WCAG Guidelines)</h1>
+<p>Web accessibility ensures that websites, applications, and tools are usable by people with disabilities. It encompasses a range of practices that enable users with visual, auditory, motor, and cognitive impairments to perceive, understand, navigate, and interact with the web.</p>
+<p>The <strong>Web Content Accessibility Guidelines (WCAG)</strong>, developed by the W3C, provide a global standard for accessibility. These guidelines are structured around four core principles: <strong>Perceivable, Operable, Understandable, and Robust (POUR).</strong></p>
+<h2>🎯 Practical Accessibility Techniques</h2>
+<table>
+<thead>
+<tr>
+<th>Technique</th>
+<th>Benefit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Use <code>aria-label</code>/<code>aria-*</code></td>
+<td>Enhances screen reader compatibility</td>
+</tr>
+<tr>
+<td>Semantic HTML tags</td>
+<td>Better structure for assistive tools</td>
+</tr>
+<tr>
+<td>Keyboard focus indicators</td>
+<td>Enables keyboard-only navigation</td>
+</tr>
+<tr>
+<td>Skip links (<code>&lt;a href="#main"&gt;</code>)</td>
+<td>Helps users bypass repeated content</td>
+</tr>
+<tr>
+<td>Responsive and zoomable UI</td>
+<td>Supports low-vision users</td>
+</tr>
+<tr>
+<td>Descriptive link text</td>
+<td>Improves clarity for screen readers</td>
+</tr>
+</tbody>
+</table>
+<h2>🛠️ Tools for Accessibility Testing</h2>
+<ul>
+<li><strong>Lighthouse (Chrome DevTools)</strong> – Provides accessibility audits.</li>
+<li><strong>axe DevTools</strong> – Browser extension for detecting WCAG issues.</li>
+<li><strong>NVDA / VoiceOver / JAWS</strong> – Screen readers for manual testing.</li>
+<li><strong>Wave (WebAIM)</strong> – Visual feedback on accessibility issues.</li>
+<li><strong>Keyboard-only testing</strong> – Ensure the app is fully navigable via keyboard.</li>
+</ul>
+<h2>🧪 Example: Accessible Button</h2>
+<pre><code class="language-html">&lt;!-- Good --&gt;
+&lt;button type=&quot;submit&quot; aria-label=&quot;Submit form&quot;&gt;Submit&lt;/button&gt;
+
+&lt;!-- Bad --&gt;
+&lt;div onclick=&quot;submitForm()&quot;&gt;Submit&lt;/div&gt; &lt;!-- Not accessible --&gt;
+</code></pre>
+<hr />
+<h2>📚 References</h2>
+<ul>
+<li><a href="https://www.w3.org/WAI/WCAG21/quickref/">WCAG 2.1 Guidelines</a></li>
+<li><a href="https://webaim.org/standards/wcag/checklist">WebAIM Checklist</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/Accessibility">MDN Accessibility Docs</a></li>
+</ul>
+    </body>
+    </html>
+    

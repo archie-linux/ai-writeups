@@ -1,0 +1,116 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h2><strong>NUMA (Non-Uniform Memory Access) and Memory Pinning</strong></h2>
+<p>Modern multi-CPU systems increasingly rely on <strong>NUMA architectures</strong> to scale memory and compute performance. But performance gains are only realized when developers and operating systems are NUMA-aware. Memory pinning further fine-tunes control by locking memory to specific NUMA nodes.</p>
+<h3>🔹 2. NUMA Implications on Performance</h3>
+<ul>
+<li><strong>Local memory access</strong>: Low latency, high throughput.</li>
+<li><strong>Remote memory access</strong>: High latency, potential bottlenecks.</li>
+<li><strong>Memory bandwidth contention</strong>: May occur if many threads access a remote node’s memory.</li>
+</ul>
+<p>Poor NUMA locality leads to:</p>
+<ul>
+<li>Cache misses.</li>
+<li>Memory access delays.</li>
+<li>Reduced overall throughput.</li>
+</ul>
+<h3>🔹 4. Tools for NUMA Awareness</h3>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>numactl</code></td>
+<td>Run programs with specific NUMA bindings.</td>
+</tr>
+<tr>
+<td><code>numastat</code></td>
+<td>Show memory usage per NUMA node.</td>
+</tr>
+<tr>
+<td><code>hwloc</code></td>
+<td>Visualize hardware layout (topology-aware).</td>
+</tr>
+<tr>
+<td><code>taskset</code></td>
+<td>Bind process to specific CPUs.</td>
+</tr>
+<tr>
+<td><code>libnuma</code></td>
+<td>C library to manage memory/node affinity.</td>
+</tr>
+</tbody>
+</table>
+<h4>Example using <code>numactl</code>:</h4>
+<pre><code class="language-bash"># Run a process on CPU node 0 and allocate memory from node 0
+numactl --cpunodebind=0 --membind=0 ./my_app
+</code></pre>
+<h3>🔹 6. NUMA and Multi-threading</h3>
+<p>In multithreaded applications (e.g., using <code>pthread</code>, OpenMP):</p>
+<ul>
+<li>Threads should be <strong>affinitized to cores</strong>.</li>
+<li>Memory allocations should be <strong>localized to the threads’ NUMA nodes</strong>.</li>
+</ul>
+<h4>Example:</h4>
+<ul>
+<li>Bind threads in a worker pool to separate NUMA nodes.</li>
+<li>Use per-node memory pools for data locality.</li>
+</ul>
+<h3>🔹 8. Performance Tips</h3>
+<table>
+<thead>
+<tr>
+<th>Tip</th>
+<th>Benefit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pin threads and memory to same NUMA node</td>
+<td>Reduced latency, increased cache hits</td>
+</tr>
+<tr>
+<td>Avoid cross-node memory access</td>
+<td>Prevents bus congestion and slowdowns</td>
+</tr>
+<tr>
+<td>Use per-node memory pools</td>
+<td>Better scaling with more cores/sockets</td>
+</tr>
+<tr>
+<td>Monitor with <code>numastat</code>, <code>perf</code>, <code>htop</code></td>
+<td>Detect imbalances or remote memory use</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>🔹 9. Conclusion</h3>
+<p>NUMA and memory pinning are critical for performance on modern multicore/multisocket systems. Developers writing low-latency, high-throughput applications must:</p>
+<ul>
+<li>Be aware of the memory topology.</li>
+<li>Use tools and APIs to enforce memory locality.</li>
+<li>Align thread and memory placement for optimal performance.</li>
+</ul>
+<p>Failing to consider NUMA effects can result in underutilized hardware, memory stalls, and unnecessary cross-node traffic.</p>
+    </body>
+    </html>
+    

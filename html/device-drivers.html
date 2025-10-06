@@ -1,0 +1,61 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h1>Writing Device Drivers in Linux: A Beginner's Guide</h1>
+<p>Device drivers act as the bridge between the hardware and the kernel. They allow user applications to interact with hardware devices without knowing the intricate details of how they operate. Linux, being an open-source OS, provides a rich environment for writing, testing, and deploying custom device drivers.</p>
+<h2>🧩 Anatomy of a Simple Character Device Driver</h2>
+<p>Here's what’s typically needed for a character device:</p>
+<ol>
+<li><strong>Register the device</strong> with the kernel</li>
+<li><strong>Define file operations</strong> (open, read, write, release)</li>
+<li><strong>Handle data exchange</strong></li>
+<li><strong>Unregister on exit</strong></li>
+</ol>
+<h2>🧪 Testing the Driver</h2>
+<ol>
+<li><strong>Compile</strong> with a Makefile</li>
+<li><strong>Insert</strong> using <code>insmod mydriver.ko</code></li>
+<li><strong>Create device node</strong>:</li>
+</ol>
+<p><code>bash
+   mknod /dev/mychardev c &lt;major&gt; 0</code>
+4. <strong>Interact</strong>:</p>
+<p><code>bash
+   echo "hello" &gt; /dev/mychardev
+   cat /dev/mychardev</code></p>
+<h2>📚 Key Concepts</h2>
+<ul>
+<li><strong>Device number (major/minor)</strong>: Identifies the driver and the device.</li>
+<li><strong>File operations struct</strong>: Maps system calls (<code>read</code>, <code>write</code>, etc.) to your driver’s functions.</li>
+<li><strong>Copy_to_user / copy_from_user</strong>: Used for safely transferring data between kernel and user space.</li>
+</ul>
+<h2>🚧 Precautions</h2>
+<ul>
+<li>Always test drivers on virtual machines or non-critical systems.</li>
+<li>Use logging (<code>printk</code>) generously.</li>
+<li>Be cautious with memory access and pointer dereferencing.</li>
+</ul>
+<hr />
+<h2>📘 References</h2>
+<ul>
+<li><a href="https://lwn.net/Kernel/LDD3/">Linux Device Drivers, 3rd Edition</a></li>
+<li><code>man 9</code> pages: <code>man 9 register_chrdev</code>, <code>man 9 file_operations</code></li>
+<li><a href="https://www.kernel.org/doc/html/latest/">kernel.org documentation</a></li>
+</ul>
+    </body>
+    </html>
+    

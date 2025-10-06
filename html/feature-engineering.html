@@ -1,0 +1,101 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h1>Feature Engineering Techniques in Fraud Detection</h1>
+<p>Fraud detection, particularly in domains like banking, e-commerce, and insurance, relies heavily on the quality of features fed into machine learning models. Since fraudulent activities often mimic legitimate ones, carefully crafted features can significantly enhance model performance by uncovering hidden patterns. This writeup explores key <strong>feature engineering techniques</strong> specifically tuned for fraud detection use cases.</p>
+<h2>🧩 Types of Features in Fraud Detection</h2>
+<h3>1. <strong>Transactional Features</strong></h3>
+<p>These are directly extracted from each transaction.</p>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>amount</code></td>
+<td>Monetary value of transaction</td>
+</tr>
+<tr>
+<td><code>merchant</code></td>
+<td>Merchant or vendor ID</td>
+</tr>
+<tr>
+<td><code>category</code></td>
+<td>Type of transaction (e.g., electronics, food)</td>
+</tr>
+<tr>
+<td><code>timestamp</code></td>
+<td>Time of the transaction</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Transformations:</strong></p>
+<ul>
+<li>Log-transform the <code>amount</code> to reduce skew.</li>
+<li>One-hot encode or target-encode <code>category</code>.</li>
+</ul>
+<h3>3. <strong>Historical Aggregates</strong></h3>
+<p>Use rolling windows to detect deviation from normal behavior:</p>
+<ul>
+<li>Rolling average transaction amount over N days</li>
+<li>Standard deviation or z-score of past spending</li>
+<li>Frequency of visiting same merchant</li>
+</ul>
+<pre><code class="language-python">df['rolling_avg_7d'] = df.groupby('user_id')['amount'].transform(lambda x: x.rolling('7D').mean())
+</code></pre>
+<h3>5. <strong>Temporal Features</strong></h3>
+<p>Fraud tends to follow abnormal timing patterns:</p>
+<ul>
+<li>Hour of day or day of week</li>
+<li>Night-time or weekend transactions</li>
+<li>Time gaps between successive transactions</li>
+</ul>
+<pre><code class="language-python">df['hour'] = pd.to_datetime(df['timestamp']).dt.hour
+df['is_night'] = df['hour'].apply(lambda x: x &lt; 6 or x &gt; 22)
+</code></pre>
+<h3>7. <strong>Entity Linking Features</strong></h3>
+<ul>
+<li>Shared card number, device ID, or IP address across multiple users</li>
+<li>Transactions from different users using the same device</li>
+<li>Graph-based clustering for fraud rings</li>
+</ul>
+<h2>🛠 Best Practices</h2>
+<ul>
+<li>Normalize or scale numeric features</li>
+<li>Handle class imbalance (SMOTE, undersampling)</li>
+<li>Avoid data leakage (e.g., future info)</li>
+<li>Use cross-validation across time splits</li>
+<li>Monitor concept drift in production</li>
+</ul>
+<h2>🔍 Tools and Libraries</h2>
+<ul>
+<li><strong>Pandas</strong> / <strong>Polars</strong> – Data manipulation</li>
+<li><strong>scikit-learn</strong> – Preprocessing, pipelines</li>
+<li><strong>XGBoost/LightGBM</strong> – Tree-based models</li>
+<li><strong>PyOD</strong> – Outlier detection</li>
+<li><strong>GraphFrames</strong> – Fraud ring detection in Spark</li>
+</ul>
+<hr />
+<h2>🎯 Conclusion</h2>
+<p>Feature engineering is central to fraud detection. Unlike some ML applications, off-the-shelf models perform poorly without customized domain features. A deep understanding of both domain context and user behavior is key to designing high-value features that surface subtle fraud signals.</p>
+<p>In production systems, feature pipelines must be efficient, scalable, and real-time, especially when used with streaming platforms like Apache Kafka and Spark Streaming.</p>
+    </body>
+    </html>
+    

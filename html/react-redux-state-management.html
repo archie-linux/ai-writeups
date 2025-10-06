@@ -1,0 +1,109 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h1>State Management in React: Redux, Context API, Recoil</h1>
+<p>Managing state is a cornerstone of building reliable, scalable, and maintainable React applications. As apps grow, so does the complexity of managing shared state across components. This article compares three widely used tools for managing state in React: <strong>Redux</strong>, <strong>Context API</strong>, and <strong>Recoil</strong>.</p>
+<h2>1. 🔁 Redux</h2>
+<h3>Overview:</h3>
+<p>Redux is a <strong>predictable state container</strong> based on a unidirectional data flow pattern. It maintains application state in a single store and updates it through actions and reducers.</p>
+<h3>Key Concepts:</h3>
+<ul>
+<li><strong>Store</strong>: Holds the global application state.</li>
+<li><strong>Actions</strong>: Plain JavaScript objects that describe what happened.</li>
+<li><strong>Reducers</strong>: Pure functions that take previous state and action, and return the next state.</li>
+<li><strong>Middleware</strong>: Used for side effects like API calls (e.g., Redux Thunk, Redux Saga).</li>
+</ul>
+<h3>Pros:</h3>
+<ul>
+<li>Mature ecosystem and community support.</li>
+<li>Time-travel debugging and DevTools.</li>
+<li>Enforces a clear data flow and separation of concerns.</li>
+</ul>
+<h3>Cons:</h3>
+<ul>
+<li>Verbose boilerplate.</li>
+<li>Overhead for small to medium apps.</li>
+<li>Asynchronous handling can feel complex.</li>
+</ul>
+<h3>Usage Example:</h3>
+<pre><code class="language-js">// actions.js
+export const increment = () =&gt; ({ type: 'INCREMENT' });
+
+// reducer.js
+const counter = (state = 0, action) =&gt; {
+  switch (action.type) {
+    case 'INCREMENT': return state + 1;
+    default: return state;
+  }
+};
+
+// store.js
+const store = createStore(counter);
+
+// Component
+const Counter = () =&gt; {
+  const count = useSelector(state =&gt; state);
+  const dispatch = useDispatch();
+  return &lt;button onClick={() =&gt; dispatch(increment())}&gt;{count}&lt;/button&gt;;
+};
+</code></pre>
+<h2>3. ⚛️ Recoil</h2>
+<h3>Overview:</h3>
+<p><strong>Recoil</strong> is a modern experimental state management library for React by Facebook. It introduces the concept of <strong>atoms</strong> (shared state) and <strong>selectors</strong> (derived state) with fine-grained updates.</p>
+<h3>Key Concepts:</h3>
+<ul>
+<li><strong>Atoms</strong>: Units of state.</li>
+<li><strong>Selectors</strong>: Compute derived state.</li>
+<li><strong>RecoilRoot</strong>: Top-level provider.</li>
+</ul>
+<h3>Pros:</h3>
+<ul>
+<li>Easy to use with React’s functional API.</li>
+<li>Fine-grained subscriptions — fewer re-renders.</li>
+<li>Derived/computed state is built-in.</li>
+<li>Concurrent Mode compatible.</li>
+</ul>
+<h3>Cons:</h3>
+<ul>
+<li>Experimental and evolving.</li>
+<li>Smaller community than Redux.</li>
+</ul>
+<h3>Usage Example:</h3>
+<pre><code class="language-js">import { atom, selector, useRecoilState } from 'recoil';
+
+const countState = atom({
+  key: 'countState',
+  default: 0,
+});
+
+const Counter = () =&gt; {
+  const [count, setCount] = useRecoilState(countState);
+  return &lt;button onClick={() =&gt; setCount(count + 1)}&gt;{count}&lt;/button&gt;;
+};
+</code></pre>
+<h2>🧩 When to Use What?</h2>
+<ul>
+<li><strong>Redux</strong>: Ideal for large-scale applications with complex state logic, strict architectural needs, and the need for debugging tools.</li>
+<li><strong>Context API</strong>: Suitable for simple use cases like theme, language, or authentication state.</li>
+<li><strong>Recoil</strong>: Great for medium to large applications that want better performance and a more modern, flexible approach without Redux’s boilerplate.</li>
+</ul>
+<hr />
+<h2>🧵 Conclusion</h2>
+<p>State management is not one-size-fits-all. Choose based on your <strong>app size</strong>, <strong>complexity</strong>, <strong>performance needs</strong>, and <strong>team familiarity</strong>. Modern React applications can even mix and match — using Context for auth, Redux for global app state, and Recoil for local yet shared atoms.</p>
+    </body>
+    </html>
+    

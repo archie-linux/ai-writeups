@@ -1,0 +1,75 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h2>REST vs GraphQL: When to Use What</h2>
+<p>In modern web and mobile application development, APIs are essential for client-server communication. Two dominant API styles are REST and GraphQL. Understanding their differences, strengths, and appropriate use cases is critical for designing scalable, efficient systems.</p>
+<h3>🔗 What is GraphQL?</h3>
+<p><strong>GraphQL</strong> is a query language for APIs and a runtime for executing those queries, developed by Facebook. Unlike REST, the client specifies exactly what data it needs.</p>
+<h4>Key Characteristics:</h4>
+<ul>
+<li><strong>Schema-based and strongly typed</strong></li>
+<li><strong>Single endpoint</strong> (e.g., <code>/graphql</code>)</li>
+<li>Client-defined queries (nested and selective)</li>
+<li>Supports <strong>real-time subscriptions</strong></li>
+<li>Avoids over-fetching and under-fetching</li>
+</ul>
+<h3>🧠 When to Use REST</h3>
+<p>Use REST when:</p>
+<ul>
+<li>The API is <strong>simple and CRUD-based</strong></li>
+<li>You want <strong>easy caching</strong> via HTTP</li>
+<li>Existing tools or clients are REST-optimized</li>
+<li>You need <strong>low complexity</strong> and <strong>broad compatibility</strong></li>
+<li>You're exposing resources with well-defined URIs</li>
+</ul>
+<h3>⚖️ Summary</h3>
+<table>
+<thead>
+<tr>
+<th>Use Case</th>
+<th>Best Fit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Simple CRUD APIs</td>
+<td>REST</td>
+</tr>
+<tr>
+<td>Mobile clients needing efficiency</td>
+<td>GraphQL</td>
+</tr>
+<tr>
+<td>Public APIs needing HTTP caching</td>
+<td>REST</td>
+</tr>
+<tr>
+<td>APIs with complex data relationships</td>
+<td>GraphQL</td>
+</tr>
+<tr>
+<td>Long-lived clients with changing needs</td>
+<td>GraphQL</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>🔚 Conclusion</h3>
+<p>REST and GraphQL serve different needs. REST shines in simplicity, standardization, and compatibility. GraphQL excels in flexibility and efficiency, especially for modern frontend-driven development. Choosing the right one depends on your application’s requirements, data complexity, and development velocity.</p>
+    </body>
+    </html>
+    

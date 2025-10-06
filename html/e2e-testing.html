@@ -1,0 +1,146 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h2>🧰 What is Selenium?</h2>
+<p><strong>Selenium</strong> is a mature and widely-used automation framework that allows testers to write tests in multiple languages (Java, Python, C#, etc.) and run them on various browsers.</p>
+<ul>
+<li><strong>Language Support</strong>: Java, Python, C#, Ruby, JavaScript</li>
+<li><strong>Browser Support</strong>: Chrome, Firefox, Safari, Edge, IE</li>
+<li><strong>Execution Layer</strong>: WebDriver Protocol</li>
+</ul>
+<h3>✅ Pros</h3>
+<ul>
+<li>Mature ecosystem with wide community support</li>
+<li>BrowserStack, SauceLabs integration</li>
+<li>Supports parallel and distributed testing via Selenium Grid</li>
+</ul>
+<h3>❌ Cons</h3>
+<ul>
+<li>Slower execution due to reliance on the WebDriver</li>
+<li>Complex setup for browser drivers</li>
+<li>Flaky tests due to asynchronous browser behavior</li>
+</ul>
+<h2>🧪 Typical Use Cases</h2>
+<table>
+<thead>
+<tr>
+<th>Use Case</th>
+<th>Selenium</th>
+<th>Playwright</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cross-browser testing (including IE)</td>
+<td>✅ Yes</td>
+<td>❌ No IE support</td>
+</tr>
+<tr>
+<td>Fast feedback with modern browsers</td>
+<td>⚠️ Slower</td>
+<td>✅ Fast</td>
+</tr>
+<tr>
+<td>CI/CD Integration</td>
+<td>✅ Well-supported</td>
+<td>✅ Seamless</td>
+</tr>
+<tr>
+<td>Test flakiness reduction</td>
+<td>⚠️ Manual waits required</td>
+<td>✅ Auto-waiting</td>
+</tr>
+<tr>
+<td>Mobile web testing</td>
+<td>✅ With Appium</td>
+<td>⚠️ Limited support</td>
+</tr>
+</tbody>
+</table>
+<h2>🧱 Real-World Test Scenario Example</h2>
+<h3>✅ Scenario: User Login Flow</h3>
+<h4>🔹 Selenium Example (Python)</h4>
+<pre><code class="language-python">driver.get(&quot;https://myapp.com/login&quot;)
+driver.find_element(By.ID, &quot;username&quot;).send_keys(&quot;admin&quot;)
+driver.find_element(By.ID, &quot;password&quot;).send_keys(&quot;password&quot;)
+driver.find_element(By.ID, &quot;submit&quot;).click()
+assert &quot;Dashboard&quot; in driver.title
+</code></pre>
+<h4>🔹 Playwright Example (Python)</h4>
+<pre><code class="language-python">page.goto(&quot;https://myapp.com/login&quot;)
+page.fill(&quot;#username&quot;, &quot;admin&quot;)
+page.fill(&quot;#password&quot;, &quot;password&quot;)
+page.click(&quot;#submit&quot;)
+page.wait_for_url(&quot;**/dashboard&quot;)
+assert &quot;Dashboard&quot; in page.title()
+</code></pre>
+<h2>📊 Comparison Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Selenium</th>
+<th>Playwright</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Browser Support</td>
+<td>✅ Broad (incl. IE)</td>
+<td>✅ Modern browsers only</td>
+</tr>
+<tr>
+<td>Execution Speed</td>
+<td>⚠️ Slower</td>
+<td>✅ Faster</td>
+</tr>
+<tr>
+<td>Auto-wait for Elements</td>
+<td>❌ Manual waits</td>
+<td>✅ Built-in</td>
+</tr>
+<tr>
+<td>Setup Complexity</td>
+<td>⚠️ Driver configuration</td>
+<td>✅ One-liner setup</td>
+</tr>
+<tr>
+<td>Test Stability</td>
+<td>⚠️ Flaky at times</td>
+<td>✅ More stable</td>
+</tr>
+<tr>
+<td>Debugging Tools</td>
+<td>⚠️ Manual logs</td>
+<td>✅ Tracing, video, screenshots</td>
+</tr>
+<tr>
+<td>Mobile/Web Hybrid</td>
+<td>✅ With Appium</td>
+<td>⚠️ Limited</td>
+</tr>
+</tbody>
+</table>
+<h2>🧾 Conclusion</h2>
+<p>Both <strong>Selenium</strong> and <strong>Playwright</strong> are powerful tools for E2E testing. If you're working with legacy browsers or enterprise stacks, Selenium remains a solid choice. However, for modern web applications, <strong>Playwright offers a faster, more reliable</strong>, and <strong>developer-friendly</strong> testing experience.</p>
+<blockquote>
+<p>✅ <strong>Recommendation</strong>:
+Choose <strong>Playwright</strong> for modern applications and CI-first pipelines. Choose <strong>Selenium</strong> if you require legacy browser support or have an existing large test suite in Selenium.</p>
+</blockquote>
+    </body>
+    </html>
+    

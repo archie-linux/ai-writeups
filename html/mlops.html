@@ -1,0 +1,92 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h1>MLOps: Versioning Models and Automating Deployment</h1>
+<p>MLOps (Machine Learning Operations) bridges the gap between data science and operations, bringing DevOps principles into the lifecycle of machine learning models. A critical component of MLOps is <strong>model versioning</strong> and <strong>automated deployment</strong>, ensuring models are reproducible, traceable, and scalable in production environments.</p>
+<h2>🚀 Automating Deployment of Models</h2>
+<p>Automating deployment is about continuously delivering and updating models in production with minimal manual intervention.</p>
+<h3>📦 Packaging the Model</h3>
+<p>Models are usually packaged as:</p>
+<ul>
+<li>Python packages (<code>setup.py</code>)</li>
+<li>REST APIs using Flask/FastAPI</li>
+<li>Docker containers for portability</li>
+</ul>
+<h3>📈 CI/CD Pipeline for ML (MLOps)</h3>
+<pre><code class="language-plaintext">[Git Push] ➜ [CI: Test + Build] ➜ [Model Registry Push] ➜ 
+[CD: Deploy to Staging/Production] ➜ [Monitor and Retrain]
+</code></pre>
+<p><strong>Popular CI/CD Tools for MLOps:</strong></p>
+<ul>
+<li><strong>GitHub Actions / GitLab CI:</strong> Trigger pipelines on code/model changes</li>
+<li><strong>Jenkins:</strong> Custom automation jobs</li>
+<li><strong>Seldon Core / KFServing:</strong> Deploy models on Kubernetes</li>
+<li><strong>Argo Workflows:</strong> For ML workflows in Kubernetes</li>
+</ul>
+<h3>⚙️ Deployment Patterns</h3>
+<ul>
+<li><strong>Batch Inference</strong>: Pre-compute predictions and store</li>
+<li><strong>Online Inference</strong>: Serve predictions in real-time via API</li>
+<li><strong>Streaming Inference</strong>: Combine with Kafka/Spark for real-time processing</li>
+</ul>
+<h2>📊 Monitoring and Retraining</h2>
+<p>Once deployed, models must be:</p>
+<ul>
+<li><strong>Monitored</strong> for performance drift (e.g., accuracy drop)</li>
+<li><strong>Logged</strong> for input/output</li>
+<li><strong>Re-trained</strong> on fresh data via automated workflows</li>
+</ul>
+<p>Tools: Prometheus + Grafana, EvidentlyAI, A/B Testing pipelines</p>
+<h2>✅ Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Tool/Concept</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Code Versioning</td>
+<td>Git</td>
+</tr>
+<tr>
+<td>Data/Model Versioning</td>
+<td>DVC, MLflow</td>
+</tr>
+<tr>
+<td>Packaging</td>
+<td>Docker, FastAPI</td>
+</tr>
+<tr>
+<td>CI/CD</td>
+<td>GitHub Actions, Jenkins</td>
+</tr>
+<tr>
+<td>Deployment</td>
+<td>Kubernetes, Seldon Core</td>
+</tr>
+<tr>
+<td>Monitoring</td>
+<td>Prometheus, Grafana</td>
+</tr>
+</tbody>
+</table>
+<p>MLOps enables reliable, repeatable, and scalable ML pipelines. Versioning and automated deployment are foundational for ensuring that ML models remain robust and accountable in production.</p>
+    </body>
+    </html>
+    

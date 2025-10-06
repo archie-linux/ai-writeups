@@ -1,0 +1,91 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h2>Mounting File Systems Manually with <code>mount</code> and Loop Devices</h2>
+<p>Mounting file systems manually is a core task in Linux system administration. It allows a system to access storage devices or filesystems not automatically mounted at boot time. One powerful but less commonly discussed capability is mounting <strong>loop devices</strong>, which lets you mount disk images as if they were physical devices.</p>
+<h2>🔄 Loop Devices: Mounting Disk Images</h2>
+<p>A <strong>loop device</strong> is a pseudo-device that allows a file to be accessed as a block device. This is useful for mounting ISO files or raw disk images.</p>
+<h3>🔧 Use Case: Mounting an ISO File</h3>
+<ol>
+<li><strong>Create a mount point:</strong></li>
+</ol>
+<p><code>bash
+   sudo mkdir /mnt/iso</code></p>
+<ol>
+<li><strong>Mount using <code>mount</code> with <code>-o loop</code>:</strong></li>
+</ol>
+<p><code>bash
+   sudo mount -o loop file.iso /mnt/iso</code></p>
+<ul>
+<li><code>-o loop</code> tells the kernel to treat the file as a block device using a loop device.</li>
+<li>
+<p>Contents of <code>file.iso</code> can now be accessed at <code>/mnt/iso</code>.</p>
+</li>
+<li>
+<p><strong>Unmount when done:</strong></p>
+</li>
+</ul>
+<p><code>bash
+   sudo umount /mnt/iso</code></p>
+<h2>📁 Mounting File Systems Manually</h2>
+<h3>Mounting a USB drive (e.g., <code>/dev/sdb1</code>):</h3>
+<pre><code class="language-bash">sudo mkdir /mnt/usb
+sudo mount /dev/sdb1 /mnt/usb
+</code></pre>
+<p>To <strong>specify file system type</strong> (optional):</p>
+<pre><code class="language-bash">sudo mount -t vfat /dev/sdb1 /mnt/usb  # For FAT32
+</code></pre>
+<h3>Unmount:</h3>
+<pre><code class="language-bash">sudo umount /mnt/usb
+</code></pre>
+<h2>📚 Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Task</th>
+<th>Command</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mount ISO using loop</td>
+<td><code>mount -o loop file.iso /mnt/iso</code></td>
+</tr>
+<tr>
+<td>Mount USB drive</td>
+<td><code>mount /dev/sdb1 /mnt/usb</code></td>
+</tr>
+<tr>
+<td>Mount specific partition in <code>.img</code></td>
+<td><code>mount -o loop,offset=... disk.img /mnt</code></td>
+</tr>
+<tr>
+<td>Unmount any mount point</td>
+<td><code>umount /mnt/...</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p>Loop mounting is particularly useful for:</p>
+<ul>
+<li>Mounting OS images for inspection.</li>
+<li>Testing ISO contents before burning.</li>
+<li>Performing forensic analysis on disk images.</li>
+</ul>
+    </body>
+    </html>
+    

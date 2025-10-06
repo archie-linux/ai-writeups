@@ -1,0 +1,75 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h2>Automating Contract Testing with Pact (Consumer/Provider Flow)</h2>
+<h3>1. <strong>Why Contract Testing?</strong></h3>
+<ul>
+<li>Unit tests test internal logic.</li>
+<li>Integration tests validate component interactions but can become brittle or complex.</li>
+<li><strong>Contract testing</strong> verifies that service-to-service communication matches expectations <strong>without needing the entire system up</strong>.</li>
+</ul>
+<h3>3. <strong>Consumer-Driven Workflow</strong></h3>
+<ol>
+<li>
+<p><strong>Consumer Test Setup</strong> (e.g., frontend or client service):</p>
+</li>
+<li>
+<p>Write Pact tests simulating how the consumer expects to call the provider.</p>
+</li>
+<li>
+<p>Pact generates a <strong>contract</strong> during test execution.</p>
+</li>
+<li>
+<p><strong>Publish Contract</strong>:</p>
+</li>
+<li>
+<p>The consumer publishes the generated contract to a Pact Broker.</p>
+</li>
+<li>
+<p><strong>Provider Verification</strong>:</p>
+</li>
+<li>
+<p>The provider downloads the contract from the broker.</p>
+</li>
+<li>
+<p>It runs verification tests to assert it fulfills the contract.</p>
+</li>
+<li>
+<p><strong>CI/CD Integration</strong>:</p>
+</li>
+<li>
+<p>Both steps (consumer generation &amp; provider verification) run in separate pipelines.</p>
+</li>
+<li>Verification status is pushed back to the Pact Broker.</li>
+</ol>
+<h3>5. <strong>Advantages</strong></h3>
+<ul>
+<li>Independent verification → safe parallel development.</li>
+<li>Prevents “API drift” where changes silently break clients.</li>
+<li>Allows stubbing during development before actual implementation.</li>
+</ul>
+<h3>7. <strong>Limitations</strong></h3>
+<ul>
+<li>Best suited for synchronous HTTP/REST APIs.</li>
+<li>Async messaging support (Kafka/RabbitMQ) is available but more complex.</li>
+<li>Requires discipline to maintain up-to-date contracts.</li>
+</ul>
+<h3>Conclusion</h3>
+<p>Contract testing with Pact enforces tight API contracts in a decentralized, loosely coupled service architecture. It shifts responsibility to the <strong>consumer</strong>, ensuring contracts are well-defined, shareable, and verifiable — leading to more reliable integrations and faster feedback loops.</p>
+    </body>
+    </html>
+    

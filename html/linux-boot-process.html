@@ -1,0 +1,71 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h1>🐧 Technical Writeup: Linux Boot Process — From BIOS to Shell</h1>
+<p>The Linux boot process is a sequence of steps that your system follows to transition from powered-off hardware to a fully functional Linux environment, complete with a shell. Understanding each stage is crucial for system administrators, developers, and security professionals.</p>
+<h2>💽 2. Bootloader: GRUB or systemd-boot</h2>
+<p>The bootloader is responsible for loading the Linux kernel into memory.</p>
+<h3>GRUB (GRand Unified Bootloader)</h3>
+<ul>
+<li>Reads its configuration file: <code>/boot/grub/grub.cfg</code></li>
+<li>Presents a menu to choose the kernel (if multiple available).</li>
+<li>Loads the selected kernel image (<code>vmlinuz-&lt;version&gt;</code>) and <strong>initramfs</strong> (initial RAM filesystem) into memory.</li>
+<li>Passes control to the kernel with selected parameters (e.g., root filesystem).</li>
+</ul>
+<h3>systemd-boot (alternative to GRUB on UEFI systems)</h3>
+<ul>
+<li>Simpler than GRUB, reads <code>/boot/loader/loader.conf</code> and entries in <code>/boot/loader/entries/</code>.</li>
+</ul>
+<h2>🧱 4. init System: PID 1</h2>
+<p>The init system is the first userspace process (PID 1) that manages user-space services.</p>
+<h3>Options:</h3>
+<ul>
+<li><strong>Systemd</strong> (default in most modern distros): Reads configuration from <code>/etc/systemd/</code></li>
+<li><strong>SysVinit</strong> (older): Executes scripts in <code>/etc/init.d/</code></li>
+<li><strong>Upstart</strong> (legacy Ubuntu): Uses <code>.conf</code> files in <code>/etc/init/</code></li>
+</ul>
+<h4>What init does:</h4>
+<ul>
+<li>Mounts remaining filesystems.</li>
+<li>Starts essential services (udev, networking, cron, syslog).</li>
+<li>Spawns <strong>getty</strong> processes to manage TTYs (terminals).</li>
+<li>Launches the <strong>default target</strong> (multi-user, graphical, etc.).</li>
+</ul>
+<h2>🔁 Summary Diagram</h2>
+<pre><code>[Power On]
+     ↓
+[BIOS / UEFI]
+     ↓
+[Bootloader (GRUB / systemd-boot)]
+     ↓
+[Kernel + initramfs]
+     ↓
+[Init system (systemd, SysV)]
+     ↓
+[Login Prompt (TTY or GUI)]
+     ↓
+[Shell or Desktop Environment]
+</code></pre>
+<h2>📌 Final Notes</h2>
+<ul>
+<li><strong>Fast Boot</strong> options in UEFI/BIOS can skip POST checks.</li>
+<li><strong>Secure Boot</strong> restricts unsigned kernel/modules — must be configured correctly for custom kernels.</li>
+<li><strong>initrd vs initramfs</strong>: initrd is a block device image, initramfs is a cpio archive in RAM.</li>
+</ul>
+    </body>
+    </html>
+    

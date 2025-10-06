@@ -1,0 +1,113 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h1>UART, SPI, I2C Protocols in Embedded Systems</h1>
+<p>Communication between microcontrollers and peripheral devices is a cornerstone of embedded systems. Three widely used communication protocols for this purpose are <strong>UART</strong>, <strong>SPI</strong>, and <strong>I2C</strong>. Each protocol has distinct characteristics, trade-offs, and use cases.</p>
+<h2>🔸 2. SPI (Serial Peripheral Interface)</h2>
+<h3>➤ Overview</h3>
+<p>SPI is a <strong>synchronous</strong>, <strong>full-duplex</strong> protocol typically used for high-speed communication between a master device and one or more slaves.</p>
+<h3>➤ Characteristics</h3>
+<ul>
+<li>
+<p><strong>Lines Required</strong>: 4+</p>
+</li>
+<li>
+<p>MOSI (Master Out Slave In)</p>
+</li>
+<li>MISO (Master In Slave Out)</li>
+<li>SCLK (Serial Clock)</li>
+<li>SS/CS (Slave Select)</li>
+<li><strong>Speed</strong>: Typically up to 10+ Mbps</li>
+<li><strong>Multi-Device</strong>: ✅ Yes, using separate SS lines or daisy-chaining</li>
+</ul>
+<h3>➤ Pros</h3>
+<ul>
+<li>High-speed communication</li>
+<li>Simple protocol, low overhead</li>
+<li>Full-duplex (can send and receive simultaneously)</li>
+</ul>
+<h3>➤ Cons</h3>
+<ul>
+<li>Requires more GPIOs for multiple devices</li>
+<li>No error checking or acknowledgment</li>
+<li>No formal standard, leading to compatibility issues</li>
+</ul>
+<h2>🔍 Protocol Comparison Table</h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>UART</th>
+<th>SPI</th>
+<th>I2C</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Wires Required</td>
+<td>2 (TX, RX)</td>
+<td>4+ (MOSI, MISO, SCLK, SS)</td>
+<td>2 (SDA, SCL)</td>
+</tr>
+<tr>
+<td>Speed</td>
+<td>Medium</td>
+<td>High</td>
+<td>Low to Medium</td>
+</tr>
+<tr>
+<td>Duplex Mode</td>
+<td>Full</td>
+<td>Full</td>
+<td>Half</td>
+</tr>
+<tr>
+<td>Clock Sync</td>
+<td>No</td>
+<td>Yes (Master)</td>
+<td>Yes (Master)</td>
+</tr>
+<tr>
+<td>Multiple Devices</td>
+<td>❌</td>
+<td>✅ (with multiple SS)</td>
+<td>✅ (with addressing)</td>
+</tr>
+<tr>
+<td>Complexity</td>
+<td>Low</td>
+<td>Medium</td>
+<td>High</td>
+</tr>
+<tr>
+<td>Use Case Examples</td>
+<td>Debug UART, GPS</td>
+<td>Flash memory, LCD</td>
+<td>Sensors, RTC, EEPROM</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>🔧 When to Use What?</h2>
+<ul>
+<li><strong>UART</strong>: Use for <strong>console communication</strong>, <strong>GPS modules</strong>, or where simple one-to-one connection is enough.</li>
+<li><strong>SPI</strong>: Ideal for <strong>high-speed</strong>, <strong>low-pin-count</strong> communication with <strong>displays</strong>, <strong>flash memory</strong>, or <strong>high-speed ADCs</strong>.</li>
+<li><strong>I2C</strong>: Best for connecting <strong>multiple low-speed peripherals</strong> like <strong>temperature sensors</strong>, <strong>RTC</strong>, or <strong>EEPROM</strong> on the same bus.</li>
+</ul>
+    </body>
+    </html>
+    

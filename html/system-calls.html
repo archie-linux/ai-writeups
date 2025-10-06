@@ -1,0 +1,134 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h1>🧩 System Calls in Linux and How They Work</h1>
+<p>In Linux (and Unix-like systems), <strong>system calls</strong> are the <strong>primary interface between user-space applications and the kernel</strong>. When a program wants to perform a privileged operation—like reading a file, allocating memory, or creating a process—it uses a system call.</p>
+<h2>🔗 User Space vs Kernel Space</h2>
+<ul>
+<li><strong>User Space</strong>: Where applications like editors, browsers, and your shell run.</li>
+<li><strong>Kernel Space</strong>: Privileged mode with direct access to hardware and core system resources.</li>
+</ul>
+<p>System calls act as the <strong>gateway between these two spaces</strong>. Direct access is not allowed for security and stability reasons.</p>
+<h2>🧮 Registers Used in x86-64 Syscalls</h2>
+<table>
+<thead>
+<tr>
+<th>Purpose</th>
+<th>Register</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Syscall number</td>
+<td><code>rax</code></td>
+</tr>
+<tr>
+<td>arg1</td>
+<td><code>rdi</code></td>
+</tr>
+<tr>
+<td>arg2</td>
+<td><code>rsi</code></td>
+</tr>
+<tr>
+<td>arg3</td>
+<td><code>rdx</code></td>
+</tr>
+<tr>
+<td>arg4</td>
+<td><code>r10</code></td>
+</tr>
+<tr>
+<td>arg5</td>
+<td><code>r8</code></td>
+</tr>
+<tr>
+<td>arg6</td>
+<td><code>r9</code></td>
+</tr>
+<tr>
+<td>Return value</td>
+<td><code>rax</code></td>
+</tr>
+</tbody>
+</table>
+<h2>🧪 Example: Raw syscall in Assembly (x86-64)</h2>
+<pre><code class="language-asm">section .data
+    msg db &quot;Hello, world!&quot;, 0xA
+    len equ $ - msg
+
+section .text
+    global _start
+
+_start:
+    mov rax, 1          ; syscall number for write
+    mov rdi, 1          ; file descriptor: stdout
+    mov rsi, msg        ; message to write
+    mov rdx, len        ; message length
+    syscall             ; make the syscall
+
+    mov rax, 60         ; syscall: exit
+    xor rdi, rdi        ; exit code 0
+    syscall
+</code></pre>
+<p>Assembled and run with:</p>
+<pre><code class="language-bash">nasm -f elf64 hello.asm &amp;&amp; ld -o hello hello.o &amp;&amp; ./hello
+</code></pre>
+<h2>🔐 System Call Filtering: seccomp</h2>
+<p>Linux provides <strong>seccomp</strong> (Secure Computing Mode) to restrict the system calls a process can make.</p>
+<p>Example: Block everything except <code>read</code>, <code>write</code>, and <code>exit</code>.</p>
+<p>Used in:</p>
+<ul>
+<li>Containers (e.g., Docker)</li>
+<li>Sandboxing tools (e.g., Firejail)</li>
+<li>Browser and VM isolation</li>
+</ul>
+<h2>🧠 Bonus: System Call vs Function Call</h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Function Call</th>
+<th>System Call</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Context Switch</td>
+<td>No</td>
+<td>Yes (user → kernel → user)</td>
+</tr>
+<tr>
+<td>Scope</td>
+<td>Within the process</td>
+<td>Into the kernel</td>
+</tr>
+<tr>
+<td>Overhead</td>
+<td>Low</td>
+<td>High</td>
+</tr>
+<tr>
+<td>Example</td>
+<td><code>strlen("abc")</code></td>
+<td><code>write(1, "abc", 3)</code></td>
+</tr>
+</tbody>
+</table>
+    </body>
+    </html>
+    

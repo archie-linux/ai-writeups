@@ -1,0 +1,60 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h1>Docker Internals: Layers, Volumes, and Networking</h1>
+<p>Docker revolutionized how developers build, ship, and run applications by using containers to encapsulate environments. Understanding Docker internals like layers, volumes, and networking is essential for optimizing container performance, managing persistent data, and ensuring smooth communication across containers.</p>
+<h2>2. Docker Volumes: Persistent Storage</h2>
+<h3>💾 Why Volumes?</h3>
+<p>Containers are <strong>ephemeral</strong> — once destroyed, data in them is lost. Volumes provide a <strong>persistent storage mechanism</strong>.</p>
+<h3>🔍 Types of Mounts:</h3>
+<ul>
+<li><strong>Volumes</strong>: Managed by Docker (<code>/var/lib/docker/volumes/</code>)</li>
+<li><strong>Bind Mounts</strong>: Maps host path to container path</li>
+<li><strong>tmpfs Mounts</strong>: RAM-only storage, useful for sensitive data</li>
+</ul>
+<h3>📘 Use Cases:</h3>
+<ul>
+<li>Database storage</li>
+<li>Sharing logs between containers</li>
+<li>Caching dependencies</li>
+</ul>
+<pre><code class="language-bash"># Create and mount volume
+docker volume create mydata
+docker run -v mydata:/data myimage
+</code></pre>
+<h3>🧹 Volume Lifecycle:</h3>
+<p>Volumes persist beyond the life of a container unless manually removed:</p>
+<pre><code class="language-bash">docker volume rm mydata
+</code></pre>
+<h2>4. Advanced Concepts</h2>
+<h3>🔄 Copy-on-Write (COW)</h3>
+<p>When a container writes to a file, it's copied from the underlying image layer to the writable container layer. This is how Docker maintains immutability of base image layers.</p>
+<h3>🕵️ Debugging:</h3>
+<pre><code class="language-bash">docker inspect &lt;container-name&gt;
+</code></pre>
+<p>Useful to understand:</p>
+<ul>
+<li>Network settings</li>
+<li>Volume mounts</li>
+<li>Layer diffs</li>
+</ul>
+<hr />
+<h2>🔚 Conclusion</h2>
+<p>Understanding Docker's internal workings — how it builds images with layers, manages persistent state with volumes, and connects containers through networks — empowers developers to write efficient, scalable, and secure containerized applications. Mastery of these concepts also helps in debugging complex container orchestration setups in tools like Docker Compose and Kubernetes.</p>
+    </body>
+    </html>
+    

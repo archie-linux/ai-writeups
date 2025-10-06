@@ -1,0 +1,96 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h1>Infrastructure as Code: Terraform vs Ansible</h1>
+<p>Infrastructure as Code (IaC) is the practice of managing and provisioning infrastructure through code instead of manual processes. This approach brings automation, repeatability, and version control to infrastructure provisioning, aligning it closely with modern DevOps practices.</p>
+<p>Two of the most popular tools in the IaC ecosystem are <strong>Terraform</strong> and <strong>Ansible</strong>. While both are used to automate infrastructure, they differ in purpose, approach, and underlying architecture.</p>
+<h2>🛠️ Terraform: Declarative Provisioning</h2>
+<p><strong>Terraform</strong>, developed by HashiCorp, is a tool focused on <strong>provisioning infrastructure</strong>.</p>
+<h3>Key Features:</h3>
+<ul>
+<li><strong>Declarative Syntax</strong> (HCL): You describe what the infrastructure should look like, not how to create it.</li>
+<li><strong>Immutable Infrastructure</strong>: Rather than modifying existing infrastructure, Terraform often destroys and recreates resources to reach the desired state.</li>
+<li><strong>State Management</strong>: Maintains a <code>.tfstate</code> file that tracks real infrastructure vs. desired state.</li>
+<li><strong>Provider Ecosystem</strong>: Supports AWS, Azure, GCP, Kubernetes, and more through plugins called providers.</li>
+</ul>
+<h3>Use Cases:</h3>
+<ul>
+<li>Provisioning EC2 instances, load balancers, databases, VPCs.</li>
+<li>Setting up cloud resources across multi-cloud environments.</li>
+<li>Managing Kubernetes infrastructure.</li>
+</ul>
+<h2>🔍 Terraform vs Ansible: Key Differences</h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Terraform</th>
+<th>Ansible</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Type</td>
+<td>Infrastructure Provisioning</td>
+<td>Configuration Management</td>
+</tr>
+<tr>
+<td>Language</td>
+<td>Declarative (HCL)</td>
+<td>Procedural (YAML)</td>
+</tr>
+<tr>
+<td>State Management</td>
+<td>Yes (tfstate)</td>
+<td>No (stateless)</td>
+</tr>
+<tr>
+<td>Execution Mode</td>
+<td>Plan → Apply</td>
+<td>Ad-hoc or Playbook-driven</td>
+</tr>
+<tr>
+<td>Agent Requirement</td>
+<td>No</td>
+<td>No (uses SSH)</td>
+</tr>
+<tr>
+<td>Best For</td>
+<td>Provisioning infrastructure</td>
+<td>Configuring OS and software</td>
+</tr>
+<tr>
+<td>Cloud Support</td>
+<td>Excellent (AWS, Azure, GCP, etc.)</td>
+<td>Good (through modules)</td>
+</tr>
+<tr>
+<td>Orchestration</td>
+<td>Limited (via <code>depends_on</code>)</td>
+<td>Strong (task sequencing, roles)</td>
+</tr>
+</tbody>
+</table>
+<h2>🧠 Summary</h2>
+<ul>
+<li><strong>Terraform</strong> is best for infrastructure provisioning in a consistent, version-controlled manner.</li>
+<li><strong>Ansible</strong> excels at post-provisioning configuration and ongoing system management.</li>
+<li>They solve different problems but together enable robust, scalable, and automated infrastructure.</li>
+</ul>
+    </body>
+    </html>
+    

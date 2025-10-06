@@ -1,0 +1,113 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h1>🔐 Secure Coding Practices in Web Applications</h1>
+<h3>Focus Areas: XSS, CSRF, SQL Injection</h3>
+<p>Web applications are exposed to various security threats due to improper coding practices. Among the most common and severe vulnerabilities are Cross-Site Scripting (XSS), Cross-Site Request Forgery (CSRF), and SQL Injection. This document outlines each threat and highlights secure coding techniques to prevent them.</p>
+<h2>2. 🛡️ Cross-Site Request Forgery (CSRF)</h2>
+<h3>🔍 What is CSRF?</h3>
+<p>CSRF exploits the trust that a web application has in the user’s browser. An attacker tricks the user into submitting unwanted actions (like changing their email) on an authenticated session.</p>
+<h3>🧠 Attack Vector:</h3>
+<p>A malicious website submits a form or makes a GET/POST request to another site where the user is already logged in.</p>
+<h3>✅ Secure Coding Practices:</h3>
+<ul>
+<li><strong>Anti-CSRF Tokens:</strong> Generate a unique token for each session/form and validate it on submission.</li>
+<li><strong>SameSite Cookies:</strong> Use <code>SameSite=Lax</code> or <code>Strict</code> to restrict cross-site cookies.</li>
+<li><strong>Double Submit Cookies:</strong> Set a cookie and include the same value in a form/header for verification.</li>
+</ul>
+<h3>✅ Example in Flask-WTF:</h3>
+<pre><code class="language-python">from flask_wtf import FlaskForm
+from wtforms import StringField
+from wtforms.validators import DataRequired
+
+class ProfileForm(FlaskForm):
+    email = StringField('Email', validators=[DataRequired()])
+</code></pre>
+<pre><code class="language-html">&lt;form method=&quot;post&quot;&gt;
+  {{ form.csrf_token }}
+  {{ form.email.label }} {{ form.email() }}
+&lt;/form&gt;
+</code></pre>
+<h2>🔐 General Secure Coding Practices</h2>
+<table>
+<thead>
+<tr>
+<th>Practice</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>✅ Input Validation</td>
+<td>Whitelist approach – only allow expected formats</td>
+</tr>
+<tr>
+<td>✅ Output Encoding</td>
+<td>Encode data based on context (HTML, URL, JavaScript)</td>
+</tr>
+<tr>
+<td>✅ Least Privilege</td>
+<td>DB accounts should have minimal privileges</td>
+</tr>
+<tr>
+<td>✅ Secure Headers</td>
+<td>Use headers like <code>X-Frame-Options</code>, <code>X-XSS-Protection</code>, <code>Content-Security-Policy</code></td>
+</tr>
+<tr>
+<td>✅ Session Management</td>
+<td>Use secure, HTTP-only cookies; regenerate session IDs</td>
+</tr>
+<tr>
+<td>✅ Logging and Monitoring</td>
+<td>Log access attempts, unusual activities, and validation failures</td>
+</tr>
+</tbody>
+</table>
+<h2>🧩 Summary Table</h2>
+<table>
+<thead>
+<tr>
+<th>Threat</th>
+<th>Prevention</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>XSS</strong></td>
+<td>Escape output, CSP, input validation</td>
+</tr>
+<tr>
+<td><strong>CSRF</strong></td>
+<td>CSRF tokens, SameSite cookies</td>
+</tr>
+<tr>
+<td><strong>SQLi</strong></td>
+<td>Prepared statements, input validation</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>📚 References</h2>
+<ul>
+<li><a href="https://owasp.org/www-project-top-ten/">OWASP Top 10</a></li>
+<li><a href="https://cheatsheetseries.owasp.org/">OWASP Cheat Sheet Series</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP">Mozilla CSP Guide</a></li>
+<li><a href="https://flask.palletsprojects.com/en/2.3.x/security/">Flask Security Docs</a></li>
+</ul>
+    </body>
+    </html>
+    

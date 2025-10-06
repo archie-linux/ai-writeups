@@ -1,0 +1,95 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h1>Kubernetes Concepts: Pods, Services, Deployments, and CRDs</h1>
+<p>Kubernetes (K8s) is a powerful container orchestration platform designed to automate the deployment, scaling, and management of containerized applications. While Kubernetes offers a wide range of features, understanding its core building blocks is essential to effectively working with it. This write-up focuses on four fundamental concepts: <strong>Pods</strong>, <strong>Services</strong>, <strong>Deployments</strong>, and <strong>Custom Resource Definitions (CRDs)</strong>.</p>
+<h2>🌐 2. Services</h2>
+<p><strong>Definition</strong>: A Service is an abstraction that exposes a set of Pods as a network service.</p>
+<h3>Types of Services:</h3>
+<ul>
+<li><strong>ClusterIP</strong>: Exposes the service internally within the cluster (default).</li>
+<li><strong>NodePort</strong>: Exposes the service on each Node’s IP at a static port.</li>
+<li><strong>LoadBalancer</strong>: Provisions an external load balancer (cloud environments).</li>
+<li><strong>ExternalName</strong>: Maps the service to an external DNS name.</li>
+</ul>
+<h3>Benefits:</h3>
+<ul>
+<li>Provides a stable endpoint for a set of ephemeral Pods.</li>
+<li>Performs basic load balancing.</li>
+</ul>
+<h3>Example YAML:</h3>
+<pre><code class="language-yaml">apiVersion: v1
+kind: Service
+metadata:
+  name: my-service
+spec:
+  selector:
+    app: my-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: ClusterIP
+</code></pre>
+<h2>⚙️ 4. Custom Resource Definitions (CRDs)</h2>
+<p><strong>Definition</strong>: CRDs allow users to extend Kubernetes by defining their own resource types.</p>
+<h3>Use Case:</h3>
+<ul>
+<li>Build custom controllers/operators.</li>
+<li>Add domain-specific APIs (e.g., <code>MySQLCluster</code>, <code>KafkaTopic</code>).</li>
+</ul>
+<h3>Workflow:</h3>
+<ol>
+<li>Define a CRD.</li>
+<li>Deploy a controller to manage the lifecycle of the custom resource.</li>
+<li>Use <code>kubectl</code> and the Kubernetes API to create/manage these new types.</li>
+</ol>
+<h3>Example YAML:</h3>
+<pre><code class="language-yaml">apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: crontabs.stable.example.com
+spec:
+  group: stable.example.com
+  versions:
+    - name: v1
+      served: true
+      storage: true
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            spec:
+              type: object
+              properties:
+                cronSpec:
+                  type: string
+                image:
+                  type: string
+  scope: Namespaced
+  names:
+    plural: crontabs
+    singular: crontab
+    kind: CronTab
+    shortNames:
+    - ct
+</code></pre>
+<h2>✅ Conclusion</h2>
+<p>Kubernetes provides a modular and extensible system through these primitives. Understanding <strong>Pods</strong> for container execution, <strong>Services</strong> for networking, <strong>Deployments</strong> for declarative management, and <strong>CRDs</strong> for custom workflows equips you to build robust, scalable systems on Kubernetes.</p>
+    </body>
+    </html>
+    

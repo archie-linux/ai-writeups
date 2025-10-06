@@ -1,0 +1,88 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h2>CI/CD Integration with TestRail and JIRA using Webhooks</h2>
+<p>Modern DevOps pipelines demand seamless integration between test management tools like <strong>TestRail</strong>, issue tracking systems like <strong>JIRA</strong>, and automation pipelines (CI/CD) like Jenkins, GitLab CI, GitHub Actions, etc. Using <strong>webhooks</strong> and APIs, we can create an automated feedback loop from code commits to defect tracking and test result reporting.</p>
+<h3>🔧 Tools Involved</h3>
+<ul>
+<li><strong>TestRail</strong>: Test case and test run management</li>
+<li><strong>JIRA</strong>: Issue and project tracking</li>
+<li><strong>CI/CD Tools</strong>: GitLab CI, Jenkins, GitHub Actions, etc.</li>
+<li><strong>Webhooks + REST APIs</strong>: Event-driven updates and data sharing</li>
+</ul>
+<h3>🔌 Webhook and API Setup</h3>
+<h4>🧪 TestRail API Integration (Python Snippet)</h4>
+<pre><code class="language-python">import requests
+
+testrail_url = &quot;https://yourdomain.testrail.io&quot;
+auth = (&quot;user@example.com&quot;, &quot;API_KEY&quot;)
+
+def add_test_run(project_id, suite_id, name):
+    payload = {
+        &quot;suite_id&quot;: suite_id,
+        &quot;name&quot;: name,
+        &quot;include_all&quot;: True
+    }
+    response = requests.post(
+        f&quot;{testrail_url}/index.php?/api/v2/add_run/{project_id}&quot;,
+        json=payload,
+        auth=auth
+    )
+    return response.json()
+</code></pre>
+<h4>🐞 JIRA Webhook Example</h4>
+<p>In <strong>JIRA</strong>:</p>
+<ul>
+<li>Navigate to: <em>System → Webhooks</em></li>
+<li>Create a new webhook:</li>
+</ul>
+<p><code>json
+  {
+    "name": "CI Failed Test Hook",
+    "url": "https://ci.example.com/webhook-handler",
+    "events": ["jira:issue_created", "jira:issue_updated"]
+  }</code></p>
+<p>CI/CD pipeline can listen for these updates and respond accordingly.</p>
+<h3>✅ Benefits of Integration</h3>
+<ul>
+<li>Unified visibility into test and defect status</li>
+<li>Faster triage and RCA of test failures</li>
+<li>Traceability from test case → test run → bug report</li>
+<li>Automates redundant workflows (like test result upload or bug creation)</li>
+</ul>
+<hr />
+<h3>📦 CI Example: GitLab <code>.gitlab-ci.yml</code> Snippet</h3>
+<pre><code class="language-yaml">stages:
+  - test
+  - report
+
+test:
+  script:
+    - pytest --junitxml=report.xml
+  artifacts:
+    paths:
+      - report.xml
+
+report:
+  script:
+    - python scripts/upload_results_to_testrail.py
+  only:
+    - main
+</code></pre>
+    </body>
+    </html>
+    

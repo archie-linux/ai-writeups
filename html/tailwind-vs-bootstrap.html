@@ -1,0 +1,83 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h1>Tailwind vs Bootstrap vs CSS-in-JS: A Comparative Study</h1>
+<p>Modern frontend development involves several choices when it comes to styling: utility-first frameworks, component-based styles, and traditional class-based approaches. This writeup compares <strong>Tailwind CSS</strong>, <strong>Bootstrap</strong>, and <strong>CSS-in-JS</strong> across several dimensions: philosophy, developer experience, performance, customization, and use cases.</p>
+<h2>🛠️ 2. Developer Experience</h2>
+<h3>✅ Tailwind CSS</h3>
+<ul>
+<li>No need to leave HTML/JSX; style using utility classes.</li>
+<li>Autocompletion support in IDEs (with plugins).</li>
+<li>Easy to apply conditional styling (with variants).</li>
+</ul>
+<h3>✅ Bootstrap</h3>
+<ul>
+<li>Quick to prototype using pre-built components.</li>
+<li>Great documentation and consistent design patterns.</li>
+<li>Requires custom CSS/overrides for deep customization.</li>
+</ul>
+<h3>✅ CSS-in-JS</h3>
+<ul>
+<li>Full dynamic styling capabilities using JS/TS.</li>
+<li>Can access props, themes, and runtime logic in styles.</li>
+<li>Requires Babel or build tool support (emotion, styled-components).</li>
+</ul>
+<h2>🎨 4. Customization and Theming</h2>
+<h3>✅ Tailwind CSS</h3>
+<ul>
+<li>Uses <code>tailwind.config.js</code> for central configuration.</li>
+<li>Supports custom themes, color palettes, breakpoints.</li>
+</ul>
+<h3>✅ Bootstrap</h3>
+<ul>
+<li>Customizable using SCSS variables.</li>
+<li>Theming system is comprehensive but can be verbose.</li>
+</ul>
+<h3>✅ CSS-in-JS</h3>
+<ul>
+<li>Ultimate flexibility: you can define themes in JS and use logic to change styles dynamically.</li>
+</ul>
+<h2>📚 Use Cases</h2>
+<table>
+<thead>
+<tr>
+<th>Use Case</th>
+<th>Recommended Approach</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Design systems or UI libraries</td>
+<td>Tailwind or CSS-in-JS</td>
+</tr>
+<tr>
+<td>Prototyping or admin dashboards</td>
+<td>Bootstrap</td>
+</tr>
+<tr>
+<td>Themed apps with dynamic styles</td>
+<td>CSS-in-JS</td>
+</tr>
+<tr>
+<td>Performance-critical SPAs</td>
+<td>Tailwind</td>
+</tr>
+</tbody>
+</table>
+    </body>
+    </html>
+    

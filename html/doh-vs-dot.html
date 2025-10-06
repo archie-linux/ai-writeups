@@ -1,0 +1,77 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h3>DNS over HTTPS (DoH) vs DNS over TLS (DoT)</h3>
+<h4>Introduction</h4>
+<p>Domain Name System (DNS) is a fundamental component of the internet, translating human-readable domain names (like <code>example.com</code>) into IP addresses. Traditionally, DNS queries are sent in plaintext over UDP or TCP, exposing them to surveillance, manipulation, and censorship.</p>
+<p>To mitigate these privacy and security concerns, two encrypted DNS protocols have emerged:</p>
+<ul>
+<li><strong>DNS over HTTPS (DoH)</strong></li>
+<li><strong>DNS over TLS (DoT)</strong></li>
+</ul>
+<p>While both encrypt DNS traffic, they differ in transport mechanisms, performance, and deployment models.</p>
+<h3>DNS over HTTPS (DoH)</h3>
+<p><strong>Definition</strong>: DNS over HTTPS sends DNS queries over standard HTTPS connections (port <strong>443</strong>) using the HTTP/2 or HTTP/3 protocol.</p>
+<h4>Key Characteristics:</h4>
+<ul>
+<li>Encapsulates DNS queries inside HTTPS traffic</li>
+<li>Uses port <code>443</code>—the same as regular web traffic</li>
+<li>Often integrated directly into browsers (e.g., Firefox, Chrome)</li>
+<li>Harder to distinguish from normal HTTPS traffic</li>
+</ul>
+<h4>Pros:</h4>
+<ul>
+<li><strong>Difficult to block or censor</strong> due to use of port 443</li>
+<li><strong>Provides privacy even in restrictive networks</strong></li>
+<li><strong>Easily integrated into browsers and apps</strong> for per-app privacy</li>
+</ul>
+<h4>Cons:</h4>
+<ul>
+<li><strong>Harder to filter or log</strong> DNS traffic by enterprises</li>
+<li><strong>Can bypass local DNS controls</strong>, causing security or compliance concerns</li>
+<li><strong>Potential centralization</strong> of DNS data with third-party DoH providers</li>
+</ul>
+<h3>Use Cases</h3>
+<ul>
+<li>
+<p><strong>DoH is ideal for</strong>:</p>
+</li>
+<li>
+<p>Circumventing DNS-based censorship</p>
+</li>
+<li>Privacy in public or hostile networks</li>
+<li>
+<p>Applications needing built-in DNS privacy</p>
+</li>
+<li>
+<p><strong>DoT is ideal for</strong>:</p>
+</li>
+<li>
+<p>Securing DNS at the network or system resolver level</p>
+</li>
+<li>Enterprises that want DNS privacy with more control</li>
+<li>Networks that rely on traditional DNS monitoring tools</li>
+</ul>
+<h3>Conclusion</h3>
+<p>DoH and DoT represent significant improvements in DNS privacy and integrity, each suited for different environments:</p>
+<ul>
+<li>Use <strong>DoH</strong> when you need stealth, app-level integration, or must bypass network controls.</li>
+<li>Use <strong>DoT</strong> when you want system-wide encrypted DNS with more visibility and control.</li>
+</ul>
+    </body>
+    </html>
+    

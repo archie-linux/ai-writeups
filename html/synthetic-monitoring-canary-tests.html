@@ -1,0 +1,83 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h2>Synthetic Monitoring and Canary Tests in Production</h2>
+<p>Modern production systems must remain highly available and performant, yet they often face complex deployments, real-time updates, and unpredictable failures. Two key techniques that help ensure reliability in production environments are <strong>Synthetic Monitoring</strong> and <strong>Canary Testing</strong>. While both aim to detect issues early, they serve different purposes and are best used in combination.</p>
+<h3>2. Canary Testing: Progressive Deployments</h3>
+<p><strong>Canary Testing</strong> involves releasing a new version of software to a <strong>small subset</strong> of users or infrastructure before a full-scale rollout. The goal is to detect regressions or unexpected behavior in production under real traffic conditions.</p>
+<h4>🧪 Workflow</h4>
+<ol>
+<li>Deploy new version to a small user base (e.g., 5%).</li>
+<li>Monitor metrics: error rate, latency, CPU/memory usage.</li>
+<li>If stable, increase rollout to more users; if not, rollback.</li>
+</ol>
+<h4>🛡️ Key Metrics to Monitor</h4>
+<ul>
+<li>HTTP 5xx error rates</li>
+<li>Increased response times</li>
+<li>Application-level KPIs (e.g., failed payments)</li>
+<li>Resource usage and memory leaks</li>
+</ul>
+<h4>⚙️ Tools</h4>
+<ul>
+<li><strong>Istio</strong>, <strong>Linkerd</strong> – for traffic splitting and observability in Kubernetes.</li>
+<li><strong>Spinnaker</strong>, <strong>Argo Rollouts</strong> – for canary and blue/green deployments.</li>
+<li><strong>AWS CodeDeploy</strong>, <strong>LaunchDarkly</strong> – feature flag–based canaries.</li>
+</ul>
+<h4>🎯 Canary vs Blue-Green</h4>
+<ul>
+<li><strong>Canary</strong>: gradual exposure and rollback.</li>
+<li><strong>Blue-Green</strong>: swap full environments with a fallback option.</li>
+</ul>
+<h3>4. Best Practices</h3>
+<ul>
+<li>Add synthetic monitors for login, checkout, search, and API health.</li>
+<li>Use canaries for all production rollouts, starting at 1% traffic.</li>
+<li>Alert on anomalies using baseline metrics.</li>
+<li>Automate rollbacks based on SLO violations.</li>
+<li>Store historical synthetic results to detect regressions over time.</li>
+</ul>
+<hr />
+<h3>Summary</h3>
+<table>
+<thead>
+<tr>
+<th>Technique</th>
+<th>Use Case</th>
+<th>Traffic</th>
+<th>Risk</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Synthetic Monitoring</td>
+<td>Detects outages proactively</td>
+<td>Simulated</td>
+<td>Low</td>
+</tr>
+<tr>
+<td>Canary Testing</td>
+<td>Safe incremental deployment</td>
+<td>Real users</td>
+<td>Medium</td>
+</tr>
+</tbody>
+</table>
+<p>By integrating both strategies into your DevOps workflow, you achieve <strong>early failure detection</strong>, <strong>risk-managed deployment</strong>, and <strong>continuous reliability</strong> of services in production.</p>
+    </body>
+    </html>
+    

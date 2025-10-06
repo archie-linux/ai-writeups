@@ -1,0 +1,93 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h2>Multi-threaded Process Scheduling and Context Switch Metrics</h2>
+<p>Modern operating systems handle multiple processes and threads by interleaving their execution on available CPUs. This is done through <strong>scheduling</strong> and results in <strong>context switching</strong>, especially in multi-threaded applications. Here's a deep dive into how multi-threaded scheduling works and how to observe and measure context switches in Linux.</p>
+<h2>🔄 Context Switching: What Happens?</h2>
+<p><strong>Context Switch</strong> is the process where the CPU switches from one task (process/thread) to another. This involves:</p>
+<ul>
+<li>Saving the state (registers, stack pointer, program counter) of the currently running thread.</li>
+<li>Loading the state of the next thread to be scheduled.</li>
+</ul>
+<p>Types of context switches:</p>
+<ul>
+<li><strong>Voluntary:</strong> When a thread sleeps or yields.</li>
+<li><strong>Involuntary:</strong> When the scheduler preempts a thread due to time slice expiration or higher-priority thread.</li>
+</ul>
+<p>Context switching is <strong>CPU-intensive</strong> and too many context switches can lead to performance degradation (thrashing).</p>
+<h2>🧵 Multi-threaded Programming Impact</h2>
+<ul>
+<li>Threads that block frequently (I/O-bound) may result in many <strong>voluntary context switches</strong>.</li>
+<li>CPU-bound threads may face <strong>involuntary context switches</strong> due to time-sharing.</li>
+</ul>
+<p>🔍 High thread count apps (like Nginx, JVM apps) must balance between concurrency and switch overhead.</p>
+<h2>📊 Example</h2>
+<pre><code class="language-c">// multithreaded.c
+#include &lt;pthread.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;unistd.h&gt;
+
+void* busy_loop(void* arg) {
+    while (1);
+}
+
+int main() {
+    pthread_t tid[4];
+    for (int i = 0; i &lt; 4; ++i)
+        pthread_create(&amp;tid[i], NULL, busy_loop, NULL);
+    sleep(30);
+    return 0;
+}
+</code></pre>
+<p>Run with:</p>
+<pre><code class="language-bash">gcc multithreaded.c -o mt -lpthread
+./mt &amp;
+pidstat -w -p $(pidof mt) 1
+</code></pre>
+<p>You’ll observe high context switch counts due to constant thread competition.</p>
+<hr />
+<h2>✅ Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Tool</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Vol/Invol switches</td>
+<td><code>pidstat</code>, <code>perf</code></td>
+</tr>
+<tr>
+<td>Scheduler behavior</td>
+<td><code>schedtool</code>, <code>chrt</code></td>
+</tr>
+<tr>
+<td>Global switch rate</td>
+<td><code>vmstat</code></td>
+</tr>
+<tr>
+<td>Thread view</td>
+<td><code>htop</code>, <code>top -H</code></td>
+</tr>
+</tbody>
+</table>
+<p>Understanding thread scheduling and context switching is crucial for building <strong>scalable</strong>, <strong>real-time</strong>, or <strong>low-latency</strong> applications in Linux environments.</p>
+    </body>
+    </html>
+    

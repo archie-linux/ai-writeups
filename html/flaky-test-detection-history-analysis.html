@@ -1,0 +1,93 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h2>🧪 Flaky Test Detection with Historical Test Analysis</h2>
+<h3>Overview</h3>
+<p><strong>Flaky tests</strong> are tests that fail non-deterministically — they fail sometimes and pass at other times without any change in the underlying code. These are major productivity killers in CI/CD pipelines and can erode developer trust in test results. A robust flaky test detection strategy involves <strong>historical test analysis</strong>, statistical modeling, and automated quarantine systems.</p>
+<h3>🧠 Historical Analysis for Flake Detection</h3>
+<h4>1. <strong>Test Result Logging</strong></h4>
+<p>Track the result of each test over time:</p>
+<ul>
+<li>Test name</li>
+<li>Commit hash or build ID</li>
+<li>Pass/Fail status</li>
+<li>Execution time</li>
+<li>Platform/Environment details</li>
+</ul>
+<p>Store in a structured format (e.g., Postgres, Elasticsearch, or BigQuery).</p>
+<h4>2. <strong>Flake Scoring</strong></h4>
+<p>Define metrics such as:</p>
+<ul>
+<li><strong>Flake rate</strong>: <code>Failures / Total runs</code></li>
+<li><strong>Bounce rate</strong>: Failures followed by pass in next retry</li>
+<li><strong>Intermittency score</strong>: Normalized standard deviation of results</li>
+</ul>
+<blockquote>
+<p>🔁 Example:</p>
+<p><code>test_login_flow:
+  15 runs → [✓ ✓ ✗ ✓ ✓ ✗ ✓ ✓ ✓ ✓ ✓ ✓ ✗ ✓ ✓]
+  Flake Rate = 3/15 = 20%</code></p>
+</blockquote>
+<h3>🛠 Tools for Flake Detection</h3>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Features</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>FlakyBot</strong> (Google)</td>
+<td>GitHub Action that detects and quarantines flaky tests</td>
+</tr>
+<tr>
+<td><strong>BuildPulse</strong></td>
+<td>SaaS that collects CI data, ranks flaky tests</td>
+</tr>
+<tr>
+<td><strong>pytest-rerunfailures</strong></td>
+<td>Useful for retry logic and detection support</td>
+</tr>
+<tr>
+<td><strong>TestAnalytics</strong> (CircleCI)</td>
+<td>Test insights with flake analysis</td>
+</tr>
+<tr>
+<td><strong>Custom ELK Stack</strong></td>
+<td>Aggregates test logs and applies heuristics</td>
+</tr>
+</tbody>
+</table>
+<h3>🧪 Automated Flaky Test Quarantine</h3>
+<ol>
+<li>Label flake candidates via thresholds (<code>flake_rate &gt; 10%</code>)</li>
+<li>Auto-quarantine in CI (e.g., skip unless manually invoked)</li>
+<li>Notify developers with links to analysis</li>
+<li>Periodically reintroduce and retest quarantined tests</li>
+</ol>
+<blockquote>
+<p>✅ GitHub Actions Example:</p>
+</blockquote>
+<pre><code class="language-yaml">if: steps.detect-flake.outputs.flaky == 'true'
+run: echo &quot;Quarantining test ${{ matrix.test }}&quot;
+</code></pre>
+<h3>Conclusion</h3>
+<p>Historical test analysis is essential for proactively identifying and managing flaky tests. By collecting long-term data, computing flake scores, and integrating detection into CI, teams can prevent unreliable tests from blocking deploys and eroding confidence. The key is <strong>detection, isolation, and continuous cleanup</strong>.</p>
+    </body>
+    </html>
+    

@@ -1,0 +1,69 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h1>Explainable AI (XAI) Techniques for Black-Box Models</h1>
+<p>As machine learning (ML) models grow in complexity—ranging from random forests to deep neural networks—their decision-making processes become increasingly opaque. These models, often referred to as <strong>black boxes</strong>, can achieve high performance but offer little insight into how they arrive at predictions. <strong>Explainable AI (XAI)</strong> seeks to bridge this gap by providing transparency and interpretability without sacrificing accuracy.</p>
+<h2>🧠 Types of Models</h2>
+<ul>
+<li><strong>White-box models</strong>: Interpretable by design (e.g., decision trees, linear/logistic regression).</li>
+<li><strong>Black-box models</strong>: High-performing but opaque (e.g., deep learning, ensemble methods like XGBoost or random forests).</li>
+</ul>
+<p>XAI primarily targets <strong>black-box models</strong>.</p>
+<h3>2. <strong>SHAP (SHapley Additive exPlanations)</strong></h3>
+<ul>
+<li>Based on cooperative game theory; assigns each feature an importance value for a particular prediction.</li>
+<li><strong>Additive</strong>: Contributions sum to the difference between the model's prediction and the baseline.</li>
+<li><strong>Visualizations</strong>: Summary plots, force plots, waterfall charts</li>
+</ul>
+<pre><code class="language-python">import shap
+explainer = shap.Explainer(model)
+shap_values = explainer(X_test)
+shap.plots.waterfall(shap_values[0])
+</code></pre>
+<p><strong>Pros</strong>: Solid theoretical foundation, consistent
+<strong>Cons</strong>: Computationally expensive on large datasets</p>
+<h3>4. <strong>Partial Dependence Plots (PDP)</strong></h3>
+<ul>
+<li>Show the effect of a feature on the predicted outcome, marginalizing over other features.</li>
+</ul>
+<pre><code class="language-python">from sklearn.inspection import plot_partial_dependence
+plot_partial_dependence(model, X, features=[0, 1])
+</code></pre>
+<p><strong>Pros</strong>: Good for visualizing non-linear relationships
+<strong>Cons</strong>: Assumes feature independence</p>
+<h3>6. <strong>Integrated Gradients (for Deep Learning)</strong></h3>
+<ul>
+<li>Computes gradients of the output with respect to inputs while integrating along a path from a baseline input to the actual input.</li>
+</ul>
+<pre><code class="language-python">import captum
+from captum.attr import IntegratedGradients
+</code></pre>
+<p><strong>Pros</strong>: More accurate than raw gradients
+<strong>Cons</strong>: Requires differentiable models (e.g., neural networks)</p>
+<h2>🚨 Challenges in XAI</h2>
+<ul>
+<li><strong>Scalability</strong>: Many methods are slow for large datasets or complex models.</li>
+<li><strong>Faithfulness</strong>: Do explanations truly reflect what the model is doing?</li>
+<li><strong>Human interpretability</strong>: Technical explanations might not be understandable to non-experts.</li>
+</ul>
+<hr />
+<h2>🧾 Summary</h2>
+<p>Explainable AI techniques are crucial for understanding, trusting, and debugging complex black-box models. Tools like SHAP and LIME are powerful allies in demystifying model predictions, especially in domains where accountability and fairness are paramount.</p>
+<p>As the ML landscape continues to evolve, integrating explainability into the model development lifecycle is not just a best practice—it’s a necessity.</p>
+    </body>
+    </html>
+    

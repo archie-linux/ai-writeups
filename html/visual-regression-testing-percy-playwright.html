@@ -1,0 +1,78 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h2>Visual Regression Testing with Percy or Playwright</h2>
+<p>Visual regression testing ensures that the <strong>UI doesn’t break unexpectedly</strong> by comparing current screenshots with known-good "baselines". It catches layout shifts, missing elements, font issues, and styling regressions that traditional assertions miss.</p>
+<p>Two of the most popular tools in this domain are <strong>Percy</strong> (by BrowserStack) and <strong>Playwright</strong> (with built-in screenshot comparison support). Let’s explore how they work and when to use each.</p>
+<h2>🟢 Option 1: Visual Testing with <strong>Percy</strong></h2>
+<h3>✅ Pros:</h3>
+<ul>
+<li>Works with multiple test frameworks (Selenium, Cypress, Playwright)</li>
+<li>Handles parallelization and responsive testing</li>
+<li>Offers web dashboard for reviewing diffs</li>
+<li>Integrates well with CI/CD (GitHub Actions, GitLab, Jenkins)</li>
+</ul>
+<h3>🧪 Example: Percy with Playwright</h3>
+<p><strong>Install Percy CLI and SDK:</strong></p>
+<pre><code class="language-bash">npm install --save-dev @percy/cli @percy/playwright
+</code></pre>
+<p><strong>Run Percy with Playwright:</strong></p>
+<pre><code class="language-javascript">// tests/visual.spec.js
+const { test } = require('@playwright/test');
+const percySnapshot = require('@percy/playwright');
+
+test('homepage visual test', async ({ page }) =&gt; {
+  await page.goto('http://localhost:3000');
+  await percySnapshot(page, 'Homepage Snapshot');
+});
+</code></pre>
+<p><strong>Run test with Percy:</strong></p>
+<pre><code class="language-bash">npx percy exec -- npx playwright test
+</code></pre>
+<p>Percy will upload screenshots to your Percy dashboard, where you can <strong>review and approve</strong> or <strong>reject</strong> changes.</p>
+<h2>🧩 CI/CD Integration</h2>
+<p>Both Percy and Playwright can run in CI:</p>
+<ul>
+<li><strong>Percy</strong> uses <code>PERCY_TOKEN</code> to securely upload screenshots to their dashboard.</li>
+<li><strong>Playwright</strong> works with any CI tool (e.g., GitHub Actions), and stores screenshots in <code>test-results</code> by default.</li>
+</ul>
+<h3>📌 Summary</h3>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Best For</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Percy</td>
+<td>Teams needing review UI, responsive testing</td>
+<td>Powerful, polished, requires a cloud token</td>
+</tr>
+<tr>
+<td>Playwright (native)</td>
+<td>Lightweight local workflows</td>
+<td>Fast, minimal setup, best for smaller teams</td>
+</tr>
+</tbody>
+</table>
+<p>Visual regression testing is essential for frontend stability and user confidence. Whether you choose Percy for rich dashboards or Playwright for speed and simplicity, integrating these into your test suite pays off in catching UI bugs before they reach users.</p>
+    </body>
+    </html>
+    

@@ -1,0 +1,54 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<p>Creating a <strong>custom init system with PID 1 and syscall filtering using seccomp</strong> is a niche but powerful exercise in systems programming and Linux security. It gives insight into how init systems like <code>systemd</code>, <code>SysVinit</code>, and others orchestrate process lifecycle and apply security hardening.</p>
+<h3>🔧 Basic Responsibilities of an Init Process</h3>
+<p>A minimal init process in Linux must:</p>
+<ol>
+<li>Be assigned PID 1.</li>
+<li>Reap zombie child processes.</li>
+<li>Spawn and supervise key daemons or shells.</li>
+<li>Optionally handle signals like <code>SIGTERM</code>, <code>SIGCHLD</code>.</li>
+</ol>
+<h3>🧪 Running Your Init in a Container</h3>
+<p>You can test it inside a minimal Docker container:</p>
+<pre><code class="language-Dockerfile">FROM alpine
+COPY myinit /sbin/init
+ENTRYPOINT [&quot;/sbin/init&quot;]
+</code></pre>
+<pre><code class="language-bash">docker build -t custom-init .
+docker run --rm -it --init=false custom-init
+</code></pre>
+<p>Note: <code>--init=false</code> disables Docker's own tini init process.</p>
+<h3>📌 Security Hardening Additions</h3>
+<ul>
+<li>Use <code>prctl(PR_SET_NO_NEW_PRIVS, 1, 0, 0, 0)</code> before applying filters.</li>
+<li>Use <code>capset</code> to drop capabilities.</li>
+<li>Mount <code>/proc</code>, <code>/sys</code> manually if you're in a custom namespace.</li>
+<li>Apply seccomp at a per-process level to children.</li>
+</ul>
+<hr />
+<h3>🔚 Summary</h3>
+<p>A custom init with syscall filtering:</p>
+<ul>
+<li>Helps understand low-level Linux process management.</li>
+<li>Provides security isolation for minimal environments.</li>
+<li>Can serve as a lightweight replacement for full init systems in containers.</li>
+</ul>
+    </body>
+    </html>
+    

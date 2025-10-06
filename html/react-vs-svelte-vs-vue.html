@@ -1,0 +1,99 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h1>React vs Svelte vs Vue: Comparative Study</h1>
+<p>Frontend frameworks and libraries form the backbone of modern web development. Among the most popular are <strong>React</strong>, <strong>Vue</strong>, and <strong>Svelte</strong>. While they aim to solve similar problems—building reactive, component-based UIs—they approach these goals differently under the hood.</p>
+<h2>2. Rendering Mechanism</h2>
+<ul>
+<li><strong>React</strong> uses a <em>Virtual DOM</em> and re-renders components based on state changes, using diffing to minimize DOM updates.</li>
+<li><strong>Vue</strong> also uses a <em>Virtual DOM</em>, but combines it with a more declarative syntax and template system.</li>
+<li><strong>Svelte</strong> takes a radical approach: it compiles components to imperative JavaScript code at build time—eliminating the Virtual DOM entirely.</li>
+</ul>
+<h2>4. Performance</h2>
+<table>
+<thead>
+<tr>
+<th>Factor</th>
+<th>React</th>
+<th>Vue</th>
+<th>Svelte</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Runtime Size</td>
+<td>\~40–45 KB</td>
+<td>\~30 KB</td>
+<td>\~1.5 KB (compiled)</td>
+</tr>
+<tr>
+<td>Initial Load Time</td>
+<td>Moderate</td>
+<td>Fast</td>
+<td>Fastest</td>
+</tr>
+<tr>
+<td>Update Performance</td>
+<td>Good</td>
+<td>Very Good</td>
+<td>Excellent</td>
+</tr>
+</tbody>
+</table>
+<p>Svelte’s compile-time optimizations yield minimal runtime overhead and better performance for smaller apps.</p>
+<h2>6. Community and Adoption</h2>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>React</th>
+<th>Vue</th>
+<th>Svelte</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GitHub Stars</td>
+<td>⭐⭐⭐⭐⭐</td>
+<td>⭐⭐⭐⭐</td>
+<td>⭐⭐⭐</td>
+</tr>
+<tr>
+<td>Job Market</td>
+<td>High</td>
+<td>Moderate</td>
+<td>Low</td>
+</tr>
+<tr>
+<td>Community Size</td>
+<td>Very Large</td>
+<td>Large</td>
+<td>Growing</td>
+</tr>
+</tbody>
+</table>
+<p>React dominates in enterprise usage. Vue has significant traction in Asia and open-source projects. Svelte is popular in hobbyist and performance-focused apps.</p>
+<h2>Conclusion</h2>
+<ul>
+<li><strong>React</strong> is a solid choice with strong community support and a mature ecosystem.</li>
+<li><strong>Vue</strong> is ideal for beginners and offers a smooth learning curve.</li>
+<li><strong>Svelte</strong> brings innovation by shifting work to the compiler, resulting in better runtime performance and smaller bundles.</li>
+</ul>
+<p>Each has its strengths—choose based on project size, team familiarity, and performance needs.</p>
+    </body>
+    </html>
+    

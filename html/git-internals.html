@@ -1,0 +1,61 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h1>Git Internals: How Commits, Trees, and Refs Work</h1>
+<p>Git is not just a version control system; it's a content-addressable file system with a powerful graph-based history model. Understanding how Git works under the hood—how commits, trees, and refs operate—can demystify its seemingly complex behavior and empower developers to troubleshoot or optimize their workflows.</p>
+<h2>2. <strong>Blobs and Trees</strong></h2>
+<h3>Blob</h3>
+<p>A <code>blob</code> is a binary large object storing the contents of a file.</p>
+<pre><code class="language-bash">echo &quot;hello&quot; | git hash-object --stdin
+</code></pre>
+<p>This generates a SHA-1 hash and stores it in <code>.git/objects/</code>.</p>
+<h3>Tree</h3>
+<p>A <code>tree</code> represents a directory. It maps filenames to blob (file) or tree (subdirectory) objects.</p>
+<pre><code class="language-bash">git cat-file -p &lt;tree-hash&gt;
+</code></pre>
+<p>This shows filenames, permissions, and associated object hashes.</p>
+<p>Example:</p>
+<pre><code>100644 blob a1b2c3...    README.md
+040000 tree d4e5f6...    src
+</code></pre>
+<h2>4. <strong>Refs and HEAD</strong></h2>
+<p>Refs are human-readable names pointing to commit hashes:</p>
+<ul>
+<li><code>refs/heads/master</code> → current branch pointer</li>
+<li><code>refs/tags/v1.0</code> → tag pointer</li>
+<li><code>HEAD</code> → points to current branch (symbolic ref)</li>
+</ul>
+<pre><code class="language-bash">cat .git/HEAD
+</code></pre>
+<p>Example:</p>
+<pre><code>ref: refs/heads/main
+</code></pre>
+<p>Changing branches updates the <code>HEAD</code> pointer.</p>
+<h2>6. <strong>DAG and History</strong></h2>
+<p>Commits form a <strong>Directed Acyclic Graph (DAG)</strong>. Each commit points to its parent(s). This allows Git to:</p>
+<ul>
+<li>Rebase: move a commit subtree elsewhere.</li>
+<li>Merge: combine histories from multiple parents.</li>
+<li>Cherry-pick: reapply changes elsewhere.</li>
+</ul>
+<hr />
+<h2>7. <strong>Conclusion</strong></h2>
+<p>Understanding Git internals—objects, trees, commits, and references—helps explain Git's robustness and flexibility. It's why operations like branching, merging, and rebasing are fast and efficient: Git is simply rewriting or redirecting pointers to snapshots.</p>
+<p>For power users, tools like <code>git cat-file</code>, <code>git rev-parse</code>, and <code>git ls-tree</code> open a deeper understanding of what's going on behind the scenes.</p>
+    </body>
+    </html>
+    

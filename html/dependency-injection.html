@@ -1,0 +1,71 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h1>Dependency Injection with Real-Life Examples</h1>
+<p><strong>Dependency Injection (DI)</strong> is a design pattern used in software engineering to reduce tight coupling between components, making code more modular, testable, and maintainable. It allows objects to receive their dependencies from external sources rather than creating them internally.</p>
+<h2>🛠️ Types of Dependency Injection</h2>
+<ol>
+<li><strong>Constructor Injection</strong>
+   Dependencies are passed via the class constructor.</li>
+</ol>
+<p><code>python
+   class Controller:
+       def __init__(self, repository):
+           self.repo = repository</code></p>
+<ol>
+<li><strong>Setter Injection</strong>
+   Dependencies are set via setter methods after object construction.</li>
+</ol>
+<p><code>python
+   controller = Controller()
+   controller.set_repository(repo)</code></p>
+<ol>
+<li><strong>Interface Injection</strong> (less common in Python)
+   The dependency exposes a method that the consumer calls to pass itself.</li>
+</ol>
+<h3>2. <strong>Testing with Mocks</strong></h3>
+<pre><code class="language-python">class MockService:
+    def process(self):
+        print(&quot;Mocked!&quot;)
+
+client = Client(MockService())
+client.do_work()  # prints &quot;Mocked!&quot;
+</code></pre>
+<p>DI makes testing easy without needing complex setups or modifying core logic.</p>
+<h3>4. <strong>Framework Support</strong></h3>
+<ul>
+<li><strong>Spring (Java)</strong> – built-in support for DI using annotations like <code>@Autowired</code></li>
+<li><strong>Angular</strong> – powerful DI system for injecting services into components</li>
+<li><strong>FastAPI / Flask / Django</strong> – can implement DI via constructor-based or third-party libs like <code>dependency-injector</code></li>
+</ul>
+<h2>⚠️ Caveats</h2>
+<ul>
+<li>Can introduce complexity</li>
+<li>Overhead of managing containers/injectors</li>
+<li>May reduce readability for newcomers</li>
+</ul>
+<h2>🔚 Conclusion</h2>
+<p>Dependency Injection fosters flexibility and testability in modern codebases. While not always necessary in simple scripts, it becomes indispensable in large-scale applications and microservices where decoupling is key.</p>
+<p>Use it when:</p>
+<ul>
+<li>Components have multiple responsibilities</li>
+<li>You need testability with mocks/stubs</li>
+<li>You want to follow SOLID principles (esp. the D in <strong>D</strong>IP)</li>
+</ul>
+    </body>
+    </html>
+    

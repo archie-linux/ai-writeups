@@ -1,0 +1,75 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h2>Linux Process Lifecycle: <code>fork</code>–<code>exec</code>–<code>wait</code> Mechanics</h2>
+<h3>🧬 1. <code>fork()</code> — Cloning a Process</h3>
+<h4>Purpose:</h4>
+<p><code>fork()</code> creates a <strong>new child process</strong> by duplicating the <strong>parent's memory space</strong>, file descriptors, and execution context.</p>
+<h4>Key Characteristics:</h4>
+<ul>
+<li>Returns <strong>0</strong> in the child process</li>
+<li>Returns <strong>child PID</strong> in the parent process</li>
+<li>Returns <strong>-1</strong> on error</li>
+</ul>
+<pre><code class="language-c">pid_t pid = fork();
+if (pid == 0) {
+    // Child process
+} else if (pid &gt; 0) {
+    // Parent process
+} else {
+    // Error
+}
+</code></pre>
+<h4>Behind the Scenes:</h4>
+<ul>
+<li><strong>Copy-on-write (COW)</strong> is used — memory is not physically copied unless modified.</li>
+<li>The child gets a new PID, but shares open file descriptors initially.</li>
+</ul>
+<h3>⏳ 3. <code>wait()</code> / <code>waitpid()</code> — Synchronizing with Child Termination</h3>
+<h4>Purpose:</h4>
+<p>Allows a parent process to <strong>pause</strong> until its child process <strong>exits</strong>, so it can collect the <strong>exit status</strong> and prevent <strong>zombie processes</strong>.</p>
+<h4>Example:</h4>
+<pre><code class="language-c">pid_t pid = wait(&amp;status);  // blocks until any child exits
+</code></pre>
+<pre><code class="language-c">pid_t pid = waitpid(child_pid, &amp;status, 0);  // wait for a specific child
+</code></pre>
+<ul>
+<li>Macros like <code>WIFEXITED(status)</code> and <code>WEXITSTATUS(status)</code> extract exit codes.</li>
+</ul>
+<h3>⚰️ Zombie and Orphan Processes</h3>
+<ul>
+<li><strong>Zombie</strong>: A child that has exited but has not been waited on; still occupies an entry in the process table.</li>
+<li><strong>Orphan</strong>: A child whose parent exited before it; reparented to <code>init</code> (<code>PID 1</code>) which will reap it.</li>
+</ul>
+<h3>🔍 Tools to Observe This Lifecycle</h3>
+<ul>
+<li><code>strace ./a.out</code> — trace system calls like <code>fork</code>, <code>execve</code>, <code>wait</code></li>
+<li><code>ps -ef</code> — view process hierarchy</li>
+<li><code>top</code> or <code>htop</code> — live process info</li>
+</ul>
+<hr />
+<h3>✅ Conclusion</h3>
+<p>Understanding <code>fork()</code>, <code>exec()</code>, and <code>wait()</code> is crucial for:</p>
+<ul>
+<li>Writing custom shells or process supervisors</li>
+<li>Building daemons and services</li>
+<li>Handling concurrency and job control</li>
+</ul>
+<p>This trio defines how processes are spawned, programs are executed, and resources are released — forming the backbone of Unix/Linux multitasking.</p>
+    </body>
+    </html>
+    

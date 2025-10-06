@@ -1,0 +1,65 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h2>Port Knocking and Single Packet Authorization</h2>
+<p>Port Knocking and Single Packet Authorization (SPA) are stealthy, layered techniques used to hide open ports and control access to networked services. They play a crucial role in enhancing security, particularly on servers exposed to the internet, by ensuring that ports appear closed unless specific access patterns are used. Let’s explore how both methods work, how they differ, and when to use them.</p>
+<h3>2. <strong>What is Single Packet Authorization (SPA)?</strong></h3>
+<p>SPA is a more modern, secure evolution of port knocking that uses a single, encrypted packet to authenticate and authorize access.</p>
+<h4><strong>How it Works</strong></h4>
+<ul>
+<li>The client sends a single UDP or ICMP packet containing an encrypted payload (usually including authentication info, IP, port to open, and timestamp).</li>
+<li>A server-side daemon (like <code>fwknop</code>) decrypts the payload and, if valid, opens the relevant port for the client IP.</li>
+<li>No sequence is needed—just one secure packet.</li>
+</ul>
+<h4><strong>Security Enhancements Over Port Knocking</strong></h4>
+<ul>
+<li>Strong cryptography (e.g., AES, GPG) is used to prevent replay and sniffing attacks.</li>
+<li>More resistant to packet spoofing and sniffing due to encryption and authentication.</li>
+<li>Can include timestamps, HMACs, and nonces for additional validation.</li>
+</ul>
+<h3>4. <strong>Use Cases and Scenarios</strong></h3>
+<ul>
+<li><strong>Remote Administration:</strong> Hide SSH access unless the correct knock or SPA is used.</li>
+<li><strong>IoT Devices or Edge Servers:</strong> Limit access in constrained environments.</li>
+<li><strong>High-Security Environments:</strong> Add a stealthy, second-layer defense for internet-facing services.</li>
+<li><strong>Bypassing Geo/IP Firewalls:</strong> Allow access only after successful SPA, even behind NAT.</li>
+</ul>
+<h3>6. <strong>Risks and Limitations</strong></h3>
+<ul>
+<li>
+<p><strong>Port Knocking</strong></p>
+</li>
+<li>
+<p>Vulnerable to replay attacks if not randomized.</p>
+</li>
+<li>Can be logged and fingerprinted by IDS/IPS tools.</li>
+<li>
+<p>Sequences may be guessed or brute-forced if short.</p>
+</li>
+<li>
+<p><strong>SPA</strong></p>
+</li>
+<li>
+<p>Requires time synchronization (e.g., NTP) for timestamp validation.</p>
+</li>
+<li>If SPA daemon is misconfigured, it can become a DoS vector.</li>
+</ul>
+<h3>Conclusion</h3>
+<p>Port Knocking and SPA are not substitutes for firewalls or VPNs but serve as a valuable layer of <em>security through obscurity</em>—especially when SSH or other critical services must be hidden. SPA is the recommended modern solution due to its robustness, simplicity, and security features. When used properly, these techniques can substantially reduce attack surfaces in exposed environments.</p>
+    </body>
+    </html>
+    

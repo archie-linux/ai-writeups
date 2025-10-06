@@ -1,0 +1,108 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h1>🧠 Virtual Memory, Paging, and Swapping Explained</h1>
+<p>Efficient memory management is critical for any modern operating system. <strong>Virtual memory</strong>, <strong>paging</strong>, and <strong>swapping</strong> are key mechanisms that make it possible to run large and multiple applications on limited physical RAM, while maintaining system stability and performance.</p>
+<h2>📄 2. Paging</h2>
+<h3>🔍 What is Paging?</h3>
+<p>Paging divides memory into fixed-size blocks:</p>
+<ul>
+<li><strong>Pages</strong> (virtual memory): usually 4 KB each</li>
+<li><strong>Page Frames</strong> (physical memory): same size</li>
+</ul>
+<p>The OS maintains a <strong>page table</strong> for each process, mapping virtual pages to physical frames.</p>
+<h3>💡 Benefits of Paging:</h3>
+<ul>
+<li><strong>No external fragmentation</strong></li>
+<li>Enables <strong>non-contiguous allocation</strong></li>
+<li>Easy to implement <strong>demand paging</strong> (load pages only when needed)</li>
+</ul>
+<h3>🔁 Page Table Mechanics:</h3>
+<table>
+<thead>
+<tr>
+<th>Virtual Address</th>
+<th>→</th>
+<th>Page Table</th>
+<th>→</th>
+<th>Physical Address</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Each memory access goes through the <strong>page table lookup</strong>, often cached via <strong>TLB (Translation Lookaside Buffer)</strong> for performance.</li>
+</ul>
+<h2>📉 Performance Implications</h2>
+<table>
+<thead>
+<tr>
+<th>Mechanism</th>
+<th>Speed</th>
+<th>Memory Location</th>
+<th>Use Case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RAM Access</td>
+<td>Fast</td>
+<td>Physical RAM</td>
+<td>Active data</td>
+</tr>
+<tr>
+<td>Swapped Page</td>
+<td>Very Slow</td>
+<td>Disk</td>
+<td>Idle or rarely-used pages</td>
+</tr>
+<tr>
+<td>Page Fault</td>
+<td>Slow</td>
+<td>Triggers disk I/O</td>
+<td>When accessing swapped-out page</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>⚠️ <strong>Thrashing</strong> occurs when the system spends more time swapping pages in and out than doing useful work — typically due to insufficient RAM.</p>
+</blockquote>
+<h2>🧠 Real-World Analogy</h2>
+<ul>
+<li><strong>Virtual Memory</strong> = A large office desk with many drawers (virtual space)</li>
+<li><strong>RAM</strong> = The part of the desk where you’re currently working</li>
+<li><strong>Swap</strong> = A cabinet in another room (slow to reach)</li>
+<li><strong>Page Table</strong> = The index showing where each document is located</li>
+</ul>
+<h2>🔚 Conclusion</h2>
+<ul>
+<li><strong>Virtual memory</strong> provides abstraction and isolation.</li>
+<li><strong>Paging</strong> enables fine-grained memory management without fragmentation.</li>
+<li><strong>Swapping</strong> allows the system to handle memory pressure, albeit with a performance cost.</li>
+</ul>
+<p>Understanding these mechanisms helps in tuning systems, debugging performance issues, and building efficient applications.</p>
+    </body>
+    </html>
+    

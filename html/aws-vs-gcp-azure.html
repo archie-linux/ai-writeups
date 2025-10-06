@@ -1,0 +1,228 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h1>AWS vs Azure vs GCP: Core Services Compared</h1>
+<h3>⚙️ 1. <strong>Compute Services</strong></h3>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>AWS</th>
+<th>Azure</th>
+<th>GCP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Virtual Machines</td>
+<td>EC2 (Elastic Compute Cloud)</td>
+<td>Azure Virtual Machines</td>
+<td>Compute Engine</td>
+</tr>
+<tr>
+<td>Serverless</td>
+<td>AWS Lambda</td>
+<td>Azure Functions</td>
+<td>Cloud Functions</td>
+</tr>
+<tr>
+<td>Container Services</td>
+<td>ECS, EKS</td>
+<td>Azure Kubernetes Service (AKS)</td>
+<td>GKE (Google Kubernetes Engine)</td>
+</tr>
+<tr>
+<td>Autoscaling</td>
+<td>Auto Scaling Groups (ASG)</td>
+<td>VM Scale Sets</td>
+<td>Managed Instance Groups</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Highlight</strong>: AWS offers more instance types and customization; GCP emphasizes fast boot and billing per second.</li>
+</ul>
+<h3>🌐 3. <strong>Networking Services</strong></h3>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>AWS</th>
+<th>Azure</th>
+<th>GCP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Virtual Network</td>
+<td>VPC</td>
+<td>Virtual Network (VNet)</td>
+<td>VPC</td>
+</tr>
+<tr>
+<td>Load Balancer</td>
+<td>Elastic Load Balancing</td>
+<td>Azure Load Balancer / App GW</td>
+<td>Cloud Load Balancing</td>
+</tr>
+<tr>
+<td>DNS</td>
+<td>Route 53</td>
+<td>Azure DNS</td>
+<td>Cloud DNS</td>
+</tr>
+<tr>
+<td>CDN</td>
+<td>CloudFront</td>
+<td>Azure CDN</td>
+<td>Cloud CDN</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Highlight</strong>: GCP provides global load balancers that aren’t region-bound, making it strong for multi-region apps.</li>
+</ul>
+<h3>📊 5. <strong>Databases</strong></h3>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>AWS</th>
+<th>Azure</th>
+<th>GCP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Relational</td>
+<td>RDS (MySQL, PostgreSQL, etc.)</td>
+<td>Azure SQL Database</td>
+<td>Cloud SQL</td>
+</tr>
+<tr>
+<td>NoSQL</td>
+<td>DynamoDB</td>
+<td>Cosmos DB</td>
+<td>Firestore / Bigtable</td>
+</tr>
+<tr>
+<td>Data Warehousing</td>
+<td>Redshift</td>
+<td>Synapse Analytics</td>
+<td>BigQuery</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Highlight</strong>: BigQuery is highly optimized for analytics; Cosmos DB is globally distributed and multi-model.</li>
+</ul>
+<h3>🛠️ 7. <strong>DevOps &amp; CI/CD Tools</strong></h3>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>AWS</th>
+<th>Azure</th>
+<th>GCP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CI/CD</td>
+<td>CodePipeline, CodeBuild</td>
+<td>Azure DevOps, GitHub Actions</td>
+<td>Cloud Build, Cloud Deploy</td>
+</tr>
+<tr>
+<td>Infrastructure as Code</td>
+<td>CloudFormation</td>
+<td>ARM/Bicep</td>
+<td>Deployment Manager, Terraform</td>
+</tr>
+<tr>
+<td>Monitoring</td>
+<td>CloudWatch</td>
+<td>Azure Monitor</td>
+<td>Cloud Operations Suite</td>
+</tr>
+</tbody>
+</table>
+<h3>🔁 Summary Table</h3>
+<table>
+<thead>
+<tr>
+<th>Category</th>
+<th>AWS</th>
+<th>Azure</th>
+<th>GCP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Compute</td>
+<td>EC2, Lambda</td>
+<td>VM, Functions</td>
+<td>Compute Engine</td>
+</tr>
+<tr>
+<td>Object Storage</td>
+<td>S3</td>
+<td>Blob Storage</td>
+<td>Cloud Storage</td>
+</tr>
+<tr>
+<td>Container Orchestration</td>
+<td>ECS, EKS</td>
+<td>AKS</td>
+<td>GKE</td>
+</tr>
+<tr>
+<td>DB &amp; Data</td>
+<td>RDS, DynamoDB</td>
+<td>SQL DB, Cosmos</td>
+<td>Cloud SQL, BQ</td>
+</tr>
+<tr>
+<td>IAM &amp; Identity</td>
+<td>IAM</td>
+<td>AAD</td>
+<td>IAM</td>
+</tr>
+<tr>
+<td>AI/ML</td>
+<td>SageMaker</td>
+<td>Azure ML</td>
+<td>Vertex AI</td>
+</tr>
+<tr>
+<td>CI/CD</td>
+<td>CodePipeline</td>
+<td>Azure DevOps</td>
+<td>Cloud Build</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>📌 Conclusion</h3>
+<ul>
+<li><strong>AWS</strong> is the most mature and has the largest ecosystem.</li>
+<li><strong>Azure</strong> integrates deeply with Windows environments and Active Directory.</li>
+<li><strong>GCP</strong> excels at data analytics, ML, and developer-friendly pricing.</li>
+</ul>
+    </body>
+    </html>
+    

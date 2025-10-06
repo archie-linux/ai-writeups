@@ -1,0 +1,72 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h1>Web Performance Optimization (Lighthouse, Web Vitals)</h1>
+<p>In an era where milliseconds matter, optimizing web performance is crucial not only for user satisfaction but also for SEO, retention, and revenue. Modern tools like <strong>Lighthouse</strong> and <strong>Web Vitals</strong> provide detailed metrics and actionable feedback to developers. This writeup explores these tools, key metrics, and effective strategies for improving site performance.</p>
+<h2>🚀 Lighthouse: Auditing Your Site</h2>
+<p><strong>Lighthouse</strong> is an open-source tool from Google that audits websites for performance, accessibility, SEO, best practices, and PWA capabilities.</p>
+<h3>🔍 Key Lighthouse Metrics:</h3>
+<ol>
+<li><strong>Performance</strong>: Measures page speed and interactivity.</li>
+<li><strong>Accessibility</strong>: Checks for ARIA roles, color contrast, semantic HTML.</li>
+<li><strong>Best Practices</strong>: Security, HTTPS, deprecated APIs, etc.</li>
+<li><strong>SEO</strong>: Valid HTML, meta tags, canonical links.</li>
+<li><strong>Progressive Web App (PWA)</strong> readiness.</li>
+</ol>
+<h3>✅ How to Use:</h3>
+<ul>
+<li><strong>Chrome DevTools</strong> &gt; Lighthouse tab.</li>
+<li>CLI: <code>npx lighthouse https://your-site.com</code></li>
+<li>CI integration via GitHub Actions or custom pipelines.</li>
+</ul>
+<h2>🛠 Optimization Techniques</h2>
+<h3>1. <strong>Reduce Initial Load Time</strong></h3>
+<ul>
+<li>Minimize JavaScript and CSS bundles (tree-shaking, code splitting).</li>
+<li>Lazy-load images and components.</li>
+<li>Compress assets (gzip, Brotli).</li>
+</ul>
+<h3>2. <strong>Improve LCP</strong></h3>
+<ul>
+<li>Serve critical content early (above-the-fold).</li>
+<li>Optimize server response time (TTFB).</li>
+<li>Use CDN for static resources.</li>
+</ul>
+<h3>3. <strong>Reduce FID / INP</strong></h3>
+<ul>
+<li>Minimize long JavaScript tasks.</li>
+<li>Use <code>requestIdleCallback</code> and <code>web workers</code>.</li>
+<li>Defer non-essential scripts.</li>
+</ul>
+<h3>4. <strong>Minimize CLS</strong></h3>
+<ul>
+<li>Set dimensions for all images, ads, and iframes.</li>
+<li>Avoid layout shifts from font loading using <code>font-display: swap</code>.</li>
+</ul>
+<h2>🧠 Best Practices</h2>
+<ul>
+<li>Monitor both <strong>lab data</strong> (controlled testing) and <strong>field data</strong> (real-user metrics).</li>
+<li>Use lazy hydration and progressive enhancement techniques.</li>
+<li>Regularly audit 3rd-party scripts (ads, analytics) for performance impact.</li>
+<li>Keep your Lighthouse score ≥ 90 for best UX and SEO results.</li>
+</ul>
+<hr />
+<h2>🔚 Conclusion</h2>
+<p>Web performance is a critical pillar of modern web development. By leveraging tools like <strong>Lighthouse</strong> and tracking <strong>Core Web Vitals</strong>, developers can ensure their applications deliver a fast, accessible, and user-friendly experience. Continuous monitoring and optimization will not only boost user engagement but also provide a competitive SEO edge.</p>
+    </body>
+    </html>
+    

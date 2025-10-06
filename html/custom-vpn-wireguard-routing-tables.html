@@ -1,0 +1,76 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h2>Implementing a Custom VPN Using WireGuard and Routing Tables</h2>
+<p>WireGuard is a modern, fast, and simple VPN solution that’s well-suited for both embedded devices and high-throughput servers. It uses state-of-the-art cryptography and operates at Layer 3 (network layer). This write-up covers how to implement a custom VPN using WireGuard and modify routing tables for secure communication between two endpoints.</p>
+<h3>2. <strong>WireGuard Basics</strong></h3>
+<ul>
+<li><strong>Interface</strong>: <code>wg0</code>, <code>wg1</code>, etc.</li>
+<li><strong>Peers</strong>: Defined by public key and allowed IPs.</li>
+<li><strong>Port</strong>: Defaults to UDP 51820.</li>
+<li><strong>Configuration</strong>: Can be done via <code>wg-quick</code> or directly with <code>wg</code>.</li>
+</ul>
+<h3>4. <strong>Configuration Files</strong></h3>
+<p><strong>Server <code>/etc/wireguard/wg0.conf</code>:</strong></p>
+<pre><code class="language-ini">[Interface]
+Address = 10.0.0.1/24
+PrivateKey = &lt;server-private-key&gt;
+ListenPort = 51820
+
+[Peer]
+PublicKey = &lt;client-public-key&gt;
+AllowedIPs = 10.0.0.2/32
+</code></pre>
+<p><strong>Client <code>/etc/wireguard/wg0.conf</code>:</strong></p>
+<pre><code class="language-ini">[Interface]
+Address = 10.0.0.2/24
+PrivateKey = &lt;client-private-key&gt;
+
+[Peer]
+PublicKey = &lt;server-public-key&gt;
+Endpoint = &lt;server-ip&gt;:51820
+AllowedIPs = 0.0.0.0/0
+PersistentKeepalive = 25
+</code></pre>
+<h3>6. <strong>Starting WireGuard</strong></h3>
+<pre><code class="language-bash">sudo wg-quick up wg0
+</code></pre>
+<p>To stop:</p>
+<pre><code class="language-bash">sudo wg-quick down wg0
+</code></pre>
+<h3>8. <strong>Routing Table Adjustments</strong></h3>
+<p>You may want to route only specific subnets (split tunneling) or all traffic.</p>
+<p>For split tunneling on client:</p>
+<pre><code class="language-ini">AllowedIPs = 10.0.0.0/24, 192.168.1.0/24
+</code></pre>
+<p>For full tunneling:</p>
+<pre><code class="language-ini">AllowedIPs = 0.0.0.0/0, ::/0
+</code></pre>
+<p>Check routes:</p>
+<pre><code class="language-bash">ip route show
+</code></pre>
+<h3>10. <strong>Use Cases</strong></h3>
+<ul>
+<li>Secure remote access to private networks</li>
+<li>Site-to-site connectivity (e.g., branch office to HQ)</li>
+<li>VPN for Kubernetes pods or microservices</li>
+</ul>
+<h3>Summary</h3>
+<p>Implementing a VPN with WireGuard involves minimal setup but offers robust and performant security. Combined with correct routing table and firewall adjustments, it serves as a lightweight yet production-grade VPN solution suitable for many networking needs.</p>
+    </body>
+    </html>
+    

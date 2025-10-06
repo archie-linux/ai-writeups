@@ -1,0 +1,71 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h1>OAuth 2.0 vs OpenID Connect: Authentication vs Authorization</h1>
+<h2>Introduction</h2>
+<p>Modern web applications often rely on third-party services to manage <strong>user identity</strong> and <strong>access control</strong>. Two widely adopted protocols for these tasks are <strong>OAuth 2.0</strong> and <strong>OpenID Connect (OIDC)</strong>. While they are related, they serve fundamentally different purposes.</p>
+<p>This write-up explores the <strong>technical differences</strong> between OAuth 2.0 and OpenID Connect, focusing on how they handle <strong>authorization</strong> and <strong>authentication</strong>, respectively.</p>
+<h2>What is OpenID Connect?</h2>
+<p><strong>OpenID Connect (OIDC)</strong> is an <strong>authentication layer</strong> built on top of OAuth 2.0.</p>
+<h3>Primary Use Case</h3>
+<ul>
+<li><strong>Single Sign-On (SSO)</strong> and user identity verification.</li>
+<li>Enables apps to <strong>know who the user is</strong>, i.e., <strong>authentication</strong>.</li>
+</ul>
+<h3>What it Adds to OAuth 2.0</h3>
+<ul>
+<li>Introduces an <strong>ID Token</strong>, a JWT (JSON Web Token) that contains user identity information.</li>
+<li>Defines a standard <code>/userinfo</code> endpoint to fetch profile data.</li>
+<li>
+<p>Adds scopes like:</p>
+</li>
+<li>
+<p><code>openid</code> (required to use OIDC)</p>
+</li>
+<li><code>profile</code>, <code>email</code>, etc.</li>
+</ul>
+<h3>ID Token Example (decoded):</h3>
+<pre><code class="language-json">{
+  &quot;sub&quot;: &quot;248289761001&quot;,
+  &quot;name&quot;: &quot;Jane Doe&quot;,
+  &quot;email&quot;: &quot;janedoe@example.com&quot;,
+  &quot;iss&quot;: &quot;https://accounts.google.com&quot;,
+  &quot;aud&quot;: &quot;client-id&quot;,
+  &quot;exp&quot;: 1625070900
+}
+</code></pre>
+<h3>OIDC Flow</h3>
+<ul>
+<li>Reuses OAuth 2.0 Authorization Code flow.</li>
+<li>Additionally returns an <strong>ID Token</strong> alongside the Access Token.</li>
+</ul>
+<h2>Analogy</h2>
+<p>Imagine logging into a third-party photo editing app using Google:</p>
+<ul>
+<li><strong>OAuth 2.0</strong> lets the app access your Google Drive photos <strong>after you grant permission</strong>.</li>
+<li><strong>OpenID Connect</strong> lets the app <strong>log you in using your Google account</strong>, knowing your name and email.</li>
+</ul>
+<h2>Conclusion</h2>
+<p>While OAuth 2.0 and OpenID Connect often coexist, they serve <strong>different security goals</strong>:</p>
+<ul>
+<li>Use <strong>OAuth 2.0</strong> for <strong>secure delegated access</strong> to APIs.</li>
+<li>Use <strong>OpenID Connect</strong> when you need to <strong>identify and authenticate users</strong>.</li>
+</ul>
+<p>When designing modern web and mobile apps, understanding and correctly implementing both is essential to ensure secure authentication and authorization mechanisms.</p>
+    </body>
+    </html>
+    

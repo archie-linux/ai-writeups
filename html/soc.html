@@ -1,0 +1,90 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h1>Security Operations Center (SOC) and SIEM Systems: Architecture and Log Analysis</h1>
+<h2>Introduction</h2>
+<p>Modern organizations face increasing cybersecurity threats. To monitor, detect, and respond to these threats in real time, two critical components are employed:</p>
+<ul>
+<li><strong>SOC (Security Operations Center)</strong> – A centralized facility where security professionals monitor, analyze, and respond to security incidents.</li>
+<li><strong>SIEM (Security Information and Event Management)</strong> – A software solution that collects and analyzes security logs from various sources to identify anomalies or attacks.</li>
+</ul>
+<p>Together, SOC and SIEM form the foundation of an organization’s cybersecurity monitoring and response strategy.</p>
+<h2>2. SIEM Systems: Architecture and Components</h2>
+<h3>2.1 What is SIEM?</h3>
+<p>SIEM (Security Information and Event Management) is a platform that provides:</p>
+<ul>
+<li><strong>Real-time analysis of security alerts</strong></li>
+<li><strong>Correlation of log data from multiple systems</strong></li>
+<li><strong>Historical data storage for compliance and investigation</strong></li>
+</ul>
+<h3>2.2 SIEM Architecture</h3>
+<pre><code class="language-plaintext">+------------------+      +------------------+      +-------------------+
+|  Log Sources     | ---&gt; |   Log Collector  | ---&gt; |   SIEM Engine     |
+|  (Firewalls, IDS)|      | (Syslog, Agents) |      | (Parser, Rules,   |
+|  Servers, Apps)  |      +------------------+      | Correlator, DB)   |
++------------------+                                 +--------+----------+
+                                                            |
+                                                            v
+                                                   +------------------+
+                                                   |   Dashboards,    |
+                                                   | Alerts &amp; Reports |
+                                                   +------------------+
+</code></pre>
+<h3>2.3 Components</h3>
+<ul>
+<li><strong>Log Collectors</strong>: Agents or services that gather logs from endpoints, applications, and network devices.</li>
+<li><strong>Normalization/Parsing</strong>: Converts raw log formats into a consistent, structured format.</li>
+<li><strong>Correlation Engine</strong>: Applies rules or machine learning to detect suspicious patterns across multiple sources.</li>
+<li><strong>Data Store</strong>: Archives raw and processed logs for retention and forensic analysis.</li>
+<li><strong>Dashboards &amp; Alerts</strong>: Visualize security events and generate real-time alerts.</li>
+</ul>
+<h2>4. Log Analysis in SIEM</h2>
+<h3>4.1 Parsing and Normalization</h3>
+<p>Logs from different sources are parsed using regular expressions or parsing rules. The normalized format includes fields like:</p>
+<pre><code class="language-json">{
+  &quot;timestamp&quot;: &quot;2025-07-21T01:00:00Z&quot;,
+  &quot;src_ip&quot;: &quot;10.0.0.5&quot;,
+  &quot;dst_ip&quot;: &quot;192.168.1.10&quot;,
+  &quot;event_type&quot;: &quot;login_failure&quot;,
+  &quot;username&quot;: &quot;admin&quot;
+}
+</code></pre>
+<h3>4.2 Correlation Rules</h3>
+<p>Correlation links multiple log events into a meaningful alert:</p>
+<ul>
+<li><strong>Example 1</strong>: 5 failed logins followed by a successful login from the same IP → brute-force attack.</li>
+<li><strong>Example 2</strong>: User downloads &gt;500 MB of data outside business hours → potential data exfiltration.</li>
+</ul>
+<h3>4.3 Use Cases</h3>
+<ul>
+<li><strong>Insider Threat Detection</strong>: Privileged users accessing restricted data.</li>
+<li><strong>Advanced Persistent Threats (APT)</strong>: Long dwell-time, multi-stage attacks.</li>
+<li><strong>Malware Outbreaks</strong>: Identifying lateral movement and command &amp; control (C2) traffic.</li>
+<li><strong>Compliance Violations</strong>: Logins from blacklisted IPs, disabled accounts used.</li>
+</ul>
+<h2>6. Challenges</h2>
+<ul>
+<li><strong>False Positives</strong>: Alert fatigue due to noisy rules.</li>
+<li><strong>Log Volume</strong>: High ingestion costs and storage overhead.</li>
+<li><strong>Complex Configuration</strong>: Rules and normalization can be time-consuming.</li>
+<li><strong>Encrypted Traffic</strong>: Limits visibility without SSL interception.</li>
+</ul>
+<h2>Conclusion</h2>
+<p>The integration of a well-staffed SOC and a powerful SIEM system enables organizations to detect, investigate, and respond to cyber threats efficiently. By analyzing logs from across the IT landscape, SIEM tools offer invaluable insights, and with automated response through SOAR or threat intelligence enrichment, organizations can stay ahead of adversaries in today’s dynamic threat environment.</p>
+    </body>
+    </html>
+    

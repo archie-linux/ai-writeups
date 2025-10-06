@@ -1,0 +1,56 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h1>Building a Recommendation Engine with Collaborative Filtering</h1>
+<p>Recommendation systems are ubiquitous in the digital world, powering everything from Netflix movie suggestions to Amazon product recommendations. One of the most popular approaches to building recommendation systems is <strong>Collaborative Filtering</strong>.</p>
+<h2>🧠 Types of Collaborative Filtering</h2>
+<h3>1. <strong>User-Based Collaborative Filtering</strong></h3>
+<ul>
+<li>Measures similarity between users.</li>
+<li>Recommends items liked by similar users.</li>
+</ul>
+<p><strong>Example</strong>: If Alice and Bob liked the same movies in the past, and Bob also liked "Inception", Alice is likely to enjoy "Inception" too.</p>
+<h3>2. <strong>Item-Based Collaborative Filtering</strong></h3>
+<ul>
+<li>Measures similarity between items based on user interactions.</li>
+<li>Recommends items similar to ones the user already liked.</li>
+</ul>
+<p><strong>Example</strong>: If users who liked "The Matrix" also liked "Blade Runner", then a user who liked "The Matrix" may be recommended "Blade Runner".</p>
+<h2>🛠️ Matrix Factorization (Advanced Collaborative Filtering)</h2>
+<p>Traditional CF can struggle with sparse data. Matrix factorization techniques like <strong>Singular Value Decomposition (SVD)</strong> or <strong>Alternating Least Squares (ALS)</strong> are used to decompose the user-item matrix into lower-dimensional representations.</p>
+<h3>Formula:</h3>
+<p>If <code>R</code> is the original matrix, we aim to find:</p>
+<pre><code>R ≈ U × Vᵗ
+</code></pre>
+<p>Where:</p>
+<ul>
+<li><code>U</code>: User-feature matrix</li>
+<li><code>V</code>: Item-feature matrix</li>
+</ul>
+<p>These latent features capture user preferences and item characteristics.</p>
+<h2>⚠️ Challenges</h2>
+<ul>
+<li><strong>Cold Start</strong>: New users/items with no history.</li>
+<li><strong>Scalability</strong>: CF becomes slow with large matrices.</li>
+<li><strong>Sparsity</strong>: Most real-world data is sparse (few ratings per user).</li>
+<li><strong>Bias &amp; Privacy</strong>: User preferences can be sensitive.</li>
+</ul>
+<h2>✅ Conclusion</h2>
+<p>Collaborative Filtering is a powerful and widely-used approach to build recommendation engines. Whether through user similarity or matrix factorization, it enables personalized experiences without needing detailed item descriptions. For large-scale applications, combining CF with content-based filtering (Hybrid models) yields even better results.</p>
+    </body>
+    </html>
+    

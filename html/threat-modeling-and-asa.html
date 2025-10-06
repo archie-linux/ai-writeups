@@ -1,0 +1,137 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h1>🔐 Threat Modeling and Attack Surface Analysis: A Technical Overview</h1>
+<h2>🔎 Introduction</h2>
+<p>In today's cybersecurity landscape, understanding <em>how</em> attackers might target your systems is just as important as securing them. <strong>Threat Modeling</strong> and <strong>Attack Surface Analysis (ASA)</strong> are two proactive techniques used during software development and security assessments to identify and mitigate potential vulnerabilities before they are exploited.</p>
+<h2>🧩 Core Components of Threat Modeling</h2>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Assets</strong></td>
+<td>What are we trying to protect? (e.g., PII, credentials, IP)</td>
+</tr>
+<tr>
+<td><strong>Threats</strong></td>
+<td>What can go wrong? (e.g., SQLi, XSS, privilege escalation)</td>
+</tr>
+<tr>
+<td><strong>Attackers</strong></td>
+<td>Who might try to attack the system? (e.g., insiders, hackers, competitors)</td>
+</tr>
+<tr>
+<td><strong>Entry Points</strong></td>
+<td>How might an attacker gain access? (e.g., APIs, UI, open ports)</td>
+</tr>
+<tr>
+<td><strong>Mitigations</strong></td>
+<td>How can we reduce the risk? (e.g., validation, authN, monitoring)</td>
+</tr>
+</tbody>
+</table>
+<h2>🧱 What is Attack Surface Analysis?</h2>
+<p><strong>Attack Surface Analysis (ASA)</strong> involves identifying all the points where an attacker could interact with your system — also known as <strong>attack vectors</strong>.</p>
+<blockquote>
+<p>Think of ASA as mapping the doors and windows into your digital "house."</p>
+</blockquote>
+<h3>🎯 Goals of ASA</h3>
+<ul>
+<li>Minimize entry points.</li>
+<li>Harden each entry point with security controls.</li>
+<li>Continuously monitor for surface changes (e.g., via CI/CD pipelines).</li>
+</ul>
+<h2>🧰 Tools for Threat Modeling &amp; ASA</h2>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Microsoft Threat Modeling Tool</td>
+<td>STRIDE-based diagrams</td>
+</tr>
+<tr>
+<td>OWASP Threat Dragon</td>
+<td>Open-source threat modeling tool</td>
+</tr>
+<tr>
+<td>attack surface analyzer</td>
+<td>Microsoft's ASA CLI/GUI tool</td>
+</tr>
+<tr>
+<td>Burp Suite/ZAP</td>
+<td>Active web/API surface discovery</td>
+</tr>
+<tr>
+<td>Nmap</td>
+<td>Network port scanning</td>
+</tr>
+<tr>
+<td>Shodan</td>
+<td>External internet-exposed surfaces</td>
+</tr>
+</tbody>
+</table>
+<h2>📉 Threat Modeling vs Attack Surface Analysis</h2>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Threat Modeling</th>
+<th>Attack Surface Analysis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Focus</strong></td>
+<td>Identifying threats</td>
+<td>Identifying entry points</td>
+</tr>
+<tr>
+<td><strong>Goal</strong></td>
+<td>Understand attacker motivations &amp; defenses</td>
+<td>Map and reduce exposure</td>
+</tr>
+<tr>
+<td><strong>Timing</strong></td>
+<td>During design or review phase</td>
+<td>During design and during/after deployment</td>
+</tr>
+<tr>
+<td><strong>Approach</strong></td>
+<td>Conceptual + diagram-based</td>
+<td>Empirical + discovery</td>
+</tr>
+</tbody>
+</table>
+<h2>🧩 Conclusion</h2>
+<p>Threat Modeling and Attack Surface Analysis are complementary practices that together build a resilient security posture. By identifying <em>what can go wrong</em> and <em>how attackers could break in</em>, teams can proactively defend systems — reducing costly vulnerabilities and protecting critical assets.</p>
+<blockquote>
+<p>In the battle for secure systems, knowing your enemy—and how they might attack—is half the fight.</p>
+</blockquote>
+    </body>
+    </html>
+    

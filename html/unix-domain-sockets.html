@@ -1,0 +1,50 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h2>Unix Domain Sockets: Local IPC with File System-Based Endpoints</h2>
+<p><strong>Unix Domain Sockets (UDS)</strong> are a powerful form of <strong>inter-process communication (IPC)</strong> available on Unix-like operating systems. Unlike TCP/IP sockets that communicate over a network, UDS operates <strong>locally</strong> between processes on the same host, using the <strong>file system as the addressing namespace</strong>.</p>
+<h3>📁 How It Works</h3>
+<ol>
+<li><strong>Server process</strong> creates a socket and binds it to a pathname.</li>
+<li><strong>Client process</strong> connects to that path to initiate communication.</li>
+<li>They exchange data via <code>read/write</code>, <code>send/recv</code>.</li>
+</ol>
+<p>The kernel mediates all interactions without going through the network stack.</p>
+<h3>📦 Advantages</h3>
+<ul>
+<li><strong>Faster than TCP/IP</strong>: No overhead of IP stack, no checksum/fragmentation.</li>
+<li><strong>Secure</strong>: Access controlled via file system permissions (<code>chmod</code>, <code>chown</code>).</li>
+<li><strong>No Port Conflicts</strong>: Uses file paths instead of numeric ports.</li>
+<li><strong>Pass File Descriptors</strong>: Can send open file descriptors using <code>sendmsg()</code> and <code>SCM_RIGHTS</code>.</li>
+</ul>
+<h3>⚙️ Real-World Integration Example</h3>
+<h4>Nginx Configuration</h4>
+<pre><code class="language-nginx">upstream php_backend {
+    server unix:/run/php/php7.4-fpm.sock;
+}
+</code></pre>
+<p>This avoids TCP overhead by communicating over a Unix socket instead of localhost TCP.</p>
+<h3>⚠️ Considerations</h3>
+<ul>
+<li>Path length limit (often 108 bytes for <code>sun_path</code>).</li>
+<li>Must manually clean up the socket file on shutdown.</li>
+<li>Only usable on the same host – no cross-network communication.</li>
+</ul>
+<p>Unix Domain Sockets are an ideal choice when building fast, secure, and local IPC mechanisms. They’re widely used across system-level applications and container ecosystems.</p>
+    </body>
+    </html>
+    

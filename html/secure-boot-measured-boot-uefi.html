@@ -1,0 +1,45 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h2>Secure Boot and Measured Boot in UEFI Systems</h2>
+<p>Secure Boot and Measured Boot are two critical components in the UEFI (Unified Extensible Firmware Interface) specification that enhance the integrity and trustworthiness of a system during the boot process. While both aim to protect against rootkits and bootkits, they operate with different mechanisms and goals.</p>
+<h3>📏 Measured Boot</h3>
+<p><strong>Objective:</strong> Record and report the integrity of the boot process, allowing detection of unauthorized modifications.</p>
+<h4>How It Works:</h4>
+<ol>
+<li><strong>TPM (Trusted Platform Module):</strong> Each stage of the boot process calculates a hash of the next stage and stores it in TPM Platform Configuration Registers (PCRs).</li>
+<li><strong>Measurements:</strong> Include UEFI firmware, bootloaders, kernel, and critical configuration files.</li>
+<li><strong>Remote Attestation:</strong> A remote system (e.g., enterprise attestation server) can request a quote of the TPM PCR values to verify boot integrity.</li>
+<li><strong>Integrity Validation:</strong> Based on known-good hashes (golden measurements), an enterprise system can determine if the boot process was tampered with.</li>
+</ol>
+<h4>Benefits:</h4>
+<ul>
+<li>Detects unauthorized changes even if Secure Boot was bypassed.</li>
+<li>Enables remote auditing and policy enforcement (e.g., deny network access to tampered systems).</li>
+</ul>
+<h4>Limitations:</h4>
+<ul>
+<li>Requires TPM hardware and proper attestation infrastructure.</li>
+<li>Doesn’t block execution; it only records for later analysis.</li>
+</ul>
+<h3>🛡 Real-World Example</h3>
+<p><strong>Secure Boot in Action:</strong> On a Windows 11 machine, the bootloader and kernel are signed by Microsoft. If a rootkit modifies the bootloader, the signature won’t match, and the firmware blocks it.</p>
+<p><strong>Measured Boot in Action:</strong> In an enterprise network, the TPM records boot measurements. During login, the enterprise server checks the TPM quote. If bootloader hashes don’t match the golden image, access is denied or flagged.</p>
+<p>By combining Secure Boot and Measured Boot, modern systems gain both <strong>protection</strong> and <strong>visibility</strong>—one prevents threats at the source, the other detects them when prevention fails.</p>
+    </body>
+    </html>
+    

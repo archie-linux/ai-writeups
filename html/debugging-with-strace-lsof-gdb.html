@@ -1,0 +1,99 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h2>Debugging with <code>strace</code>, <code>lsof</code>, and <code>gdb</code> for System-Level Errors</h2>
+<p>When programs fail silently or behave unexpectedly at the system level—such as crashing, hanging, or failing to open files—<strong>system-level debugging tools</strong> become invaluable. Tools like <code>strace</code>, <code>lsof</code>, and <code>gdb</code> let you inspect program behavior from the kernel interaction level up to memory and symbol resolution.</p>
+<h2>🔗 2. <code>lsof</code>: List Open Files</h2>
+<p>Every file, socket, pipe, and device in Unix is a file descriptor. <code>lsof</code> shows which files a process has open.</p>
+<h3>🧪 Use Case: Check if a File or Port is in Use</h3>
+<pre><code class="language-bash">lsof /path/to/file
+</code></pre>
+<pre><code class="language-bash">lsof -i :8080
+</code></pre>
+<p>Shows which process is using port 8080.</p>
+<h3>🧪 Use Case: See What Files a Process Has Open</h3>
+<pre><code class="language-bash">lsof -p &lt;pid&gt;
+</code></pre>
+<p>Helpful for debugging leaks, unclosed descriptors, or resource locks.</p>
+<h2>🛠 Combine Tools for Power Debugging</h2>
+<table>
+<thead>
+<tr>
+<th>Problem</th>
+<th>Tool(s)</th>
+<th>Example Command</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>File not found / permission issue</td>
+<td><code>strace</code></td>
+<td><code>strace ./myapp</code></td>
+</tr>
+<tr>
+<td>Process hangs</td>
+<td><code>strace</code>, <code>gdb</code></td>
+<td><code>strace -p &lt;pid&gt;</code>, <code>gdb -p &lt;pid&gt;</code></td>
+</tr>
+<tr>
+<td>Port/file already in use</td>
+<td><code>lsof</code></td>
+<td><code>lsof -i :8080</code>, <code>lsof /tmp/some.lock</code></td>
+</tr>
+<tr>
+<td>Inspect call stack / variables</td>
+<td><code>gdb</code></td>
+<td><code>gdb ./app</code>, <code>(gdb) bt</code></td>
+</tr>
+<tr>
+<td>Memory access violation</td>
+<td><code>gdb</code></td>
+<td>Run with debug symbols, trigger crash</td>
+</tr>
+</tbody>
+</table>
+<h2>📚 Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Best For</th>
+<th>One-Liner Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>strace</code></td>
+<td>Tracing system calls and errors</td>
+<td><code>strace ./myapp</code></td>
+</tr>
+<tr>
+<td><code>lsof</code></td>
+<td>Listing open files/ports by process</td>
+<td><code>lsof -p &lt;pid&gt;</code></td>
+</tr>
+<tr>
+<td><code>gdb</code></td>
+<td>Full debugger: crashes, memory, stack</td>
+<td><code>gdb ./myapp</code></td>
+</tr>
+</tbody>
+</table>
+<p>These tools together help uncover system-level issues fast—whether it's a missing file, a permission error, a deadlock, or a segmentation fault.</p>
+    </body>
+    </html>
+    

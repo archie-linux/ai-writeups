@@ -1,0 +1,90 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h2>🔐 Zero Trust Architecture Explained — With Real-World Scenarios</h2>
+<h3>📌 What is Zero Trust?</h3>
+<p><strong>Zero Trust</strong> is a cybersecurity model that assumes <strong>no implicit trust</strong> — whether the user is inside or outside the network perimeter. Instead of trusting users, devices, or applications by default, <strong>every access request is continuously verified</strong> based on multiple factors such as identity, device health, location, and behavior.</p>
+<blockquote>
+<p><strong>Core principle:</strong> <em>"Never trust, always verify."</em></p>
+</blockquote>
+<h3>🧰 Core Components of Zero Trust Architecture</h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Identity and Access Management (IAM)</strong></td>
+<td>Verifies user identity via MFA, SSO, risk-based authentication</td>
+</tr>
+<tr>
+<td><strong>Device Security Posture</strong></td>
+<td>Device is checked for compliance (e.g., antivirus, OS patches)</td>
+</tr>
+<tr>
+<td><strong>Microsegmentation</strong></td>
+<td>Divides networks into smaller segments to limit lateral movement</td>
+</tr>
+<tr>
+<td><strong>Policy Enforcement Point (PEP)</strong></td>
+<td>Decides whether to allow access to a resource based on policy</td>
+</tr>
+<tr>
+<td><strong>Continuous Monitoring and Analytics</strong></td>
+<td>Logs, alerts, and behavior analytics to detect anomalies</td>
+</tr>
+</tbody>
+</table>
+<h4>🌐 Scenario 2: Remote Contractor Access</h4>
+<p><strong>Problem:</strong></p>
+<ul>
+<li>A remote third-party contractor needs to work on a specific Kubernetes cluster.</li>
+</ul>
+<p><strong>Zero Trust Solution:</strong></p>
+<ul>
+<li>Contractor logs in via <strong>SSO with time-limited access</strong>.</li>
+<li>Their identity and device posture are validated.</li>
+<li>Access is granted <strong>only to the relevant cluster</strong>, not the entire infrastructure.</li>
+<li>All actions are <strong>logged and monitored</strong> for unusual behavior.</li>
+</ul>
+<h4>🏥 Scenario 4: Hospital Protecting Patient Data (HIPAA Compliance)</h4>
+<p><strong>Challenge:</strong></p>
+<ul>
+<li>Doctors, nurses, and admin staff need access to patient records (EHR) from multiple locations.</li>
+</ul>
+<p><strong>ZTA Implementation:</strong></p>
+<ul>
+<li><strong>Role-based access control (RBAC):</strong> Only doctors can see diagnosis; nurses see vital stats.</li>
+<li><strong>Device verification:</strong> Hospital-issued devices only.</li>
+<li><strong>Location-aware policies:</strong> Off-site logins trigger stronger MFA or deny access.</li>
+<li>All activity is <strong>logged and monitored</strong> to detect data exfiltration or misuse.</li>
+</ul>
+<h3>✅ Benefits of Zero Trust</h3>
+<ul>
+<li>Reduces risk of data breaches.</li>
+<li>Enhances visibility and control over who accesses what.</li>
+<li>Enables secure remote work and BYOD.</li>
+<li>Helps achieve regulatory compliance (HIPAA, GDPR, etc.).</li>
+</ul>
+<h3>🔚 Conclusion</h3>
+<p>Zero Trust is not a product — it's a <strong>security philosophy and architecture</strong> that assumes every access request is potentially hostile. By continuously validating trust, enforcing least privilege, and segmenting access, organizations can drastically reduce the attack surface and improve their overall security posture.</p>
+    </body>
+    </html>
+    

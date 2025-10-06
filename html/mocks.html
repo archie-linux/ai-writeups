@@ -1,0 +1,130 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h1><strong>Mocking, Stubbing, and Dependency Isolation in Tests</strong></h1>
+<h2><strong>Introduction</strong></h2>
+<p>In software testing—especially unit testing—<strong>isolating the component under test</strong> is critical for ensuring reliable, fast, and deterministic results. This isolation is often achieved using <strong>mocking</strong>, <strong>stubbing</strong>, and other <strong>test double</strong> techniques to control and observe the behavior of dependencies.</p>
+<p>Understanding these strategies is crucial for building robust and maintainable test suites, particularly in <strong>test-driven development (TDD)</strong> and <strong>continuous integration pipelines</strong>.</p>
+<h2><strong>2. Terminology: Mocks vs Stubs vs Fakes vs Spies</strong></h2>
+<table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Stub</strong></td>
+<td>A controllable object that returns predefined responses. Used for indirect input.</td>
+</tr>
+<tr>
+<td><strong>Mock</strong></td>
+<td>A spy + stub with built-in assertions for behavior verification.</td>
+</tr>
+<tr>
+<td><strong>Spy</strong></td>
+<td>Records information about calls made, like arguments and number of invocations.</td>
+</tr>
+<tr>
+<td><strong>Fake</strong></td>
+<td>A working implementation with simplified behavior (e.g., in-memory DB).</td>
+</tr>
+<tr>
+<td><strong>Dummy</strong></td>
+<td>A placeholder object passed to meet parameter requirements, never used.</td>
+</tr>
+</tbody>
+</table>
+<h2><strong>4. Mocking: Verifying Interactions</strong></h2>
+<h3><strong>Purpose</strong>: Validate <strong>how</strong> a dependency is used, including call count and parameters.</h3>
+<pre><code class="language-python">from unittest.mock import Mock
+
+def notify_user(mailer, user_id):
+    mailer.send_email(user_id, &quot;Welcome!&quot;)
+
+def test_notify_user_sends_email():
+    mailer_mock = Mock()
+    notify_user(mailer_mock, &quot;user42&quot;)
+    mailer_mock.send_email.assert_called_once_with(&quot;user42&quot;, &quot;Welcome!&quot;)
+</code></pre>
+<p><strong>Key Point</strong>: Mocks assert on interactions; useful for behavior verification.</p>
+<h2><strong>6. Using Fakes for In-Memory Alternatives</strong></h2>
+<p>Sometimes you want more behavior than a stub, but without using real systems. A <strong>fake</strong> helps.</p>
+<pre><code class="language-python">class FakeDatabase:
+    def __init__(self):
+        self.storage = {}
+
+    def save(self, key, value):
+        self.storage[key] = value
+
+    def get(self, key):
+        return self.storage.get(key)
+
+def test_save_and_get():
+    db = FakeDatabase()
+    db.save(&quot;user&quot;, {&quot;name&quot;: &quot;Anish&quot;})
+    assert db.get(&quot;user&quot;) == {&quot;name&quot;: &quot;Anish&quot;}
+</code></pre>
+<h2><strong>8. Real-World Examples:</strong></h2>
+<table>
+<thead>
+<tr>
+<th>Context</th>
+<th>Technique</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HTTP API</td>
+<td>Stub</td>
+<td>Return mock API response instead of calling real server</td>
+</tr>
+<tr>
+<td>Email Sender</td>
+<td>Mock</td>
+<td>Assert <code>send_email</code> was called with correct subject/body</td>
+</tr>
+<tr>
+<td>Payment Processor</td>
+<td>Fake</td>
+<td>Simulate card acceptance or decline scenarios</td>
+</tr>
+<tr>
+<td>Database</td>
+<td>Spy</td>
+<td>Ensure <code>update()</code> is called exactly once</td>
+</tr>
+</tbody>
+</table>
+<h2><strong>10. Caution: Over-Mocking Anti-Pattern</strong></h2>
+<p>Too much mocking can lead to:</p>
+<ul>
+<li>Fragile tests that break on implementation changes.</li>
+<li>Loss of trust in test results.</li>
+<li>Over-specification of internal behavior.</li>
+</ul>
+<blockquote>
+<p><strong>Guideline</strong>: Mock <strong>collaborators</strong>, not <strong>the system under test</strong>.</p>
+</blockquote>
+<hr />
+<h2><strong>Conclusion</strong></h2>
+<p>Mocking, stubbing, and fakes are indispensable tools for building <strong>fast, focused, and reliable tests</strong>. When used wisely, they lead to better-designed systems and smoother CI/CD pipelines. Understanding when and how to isolate dependencies is a core skill for effective software development.</p>
+    </body>
+    </html>
+    

@@ -1,0 +1,90 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', sans-serif; padding: 2em; line-height: 1.6; }
+            h1, h2, h3 { color: #222; }
+            code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            pre { background: #f0f0f0; padding: 10px; overflow-x: auto; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+            a { color: #0366d6; text-decoration: none; }
+        </style>
+        <title>Writeup</title>
+    </head>
+    <body>
+        <p><a href="http://localhost:8000/html/" style="text-decoration: none;">← Back</a></p>
+<h1>Logging with ELK Stack (Elasticsearch, Logstash, Kibana)</h1>
+<h2>Introduction</h2>
+<p>Modern applications generate massive amounts of log data. To effectively collect, parse, store, and visualize this data, the <strong>ELK stack</strong>—comprising <strong>Elasticsearch</strong>, <strong>Logstash</strong>, and <strong>Kibana</strong>—is one of the most popular open-source solutions used in production environments.</p>
+<h2>Overview of ELK Stack</h2>
+<ol>
+<li>
+<p><strong>Elasticsearch</strong>
+   A distributed, RESTful search and analytics engine capable of storing large volumes of data. It stores the logs and provides powerful full-text search capabilities.</p>
+</li>
+<li>
+<p><strong>Logstash</strong>
+   A data processing pipeline that ingests logs from multiple sources, transforms them, and sends them to a destination (usually Elasticsearch). It supports a wide range of input, filter, and output plugins.</p>
+</li>
+<li>
+<p><strong>Kibana</strong>
+   A web-based UI for visualizing data stored in Elasticsearch. It allows users to create dashboards, search logs, and monitor application behavior.</p>
+</li>
+</ol>
+<h2>Setup and Workflow</h2>
+<h3>1. <strong>Log Collection with Filebeat</strong></h3>
+<p>Install Filebeat on your servers to monitor log files (e.g., <code>/var/log/syslog</code>, <code>/var/log/nginx/access.log</code>). Filebeat forwards log entries to Logstash or Elasticsearch.</p>
+<pre><code class="language-yaml"># filebeat.yml
+filebeat.inputs:
+  - type: log
+    paths:
+      - /var/log/*.log
+output.logstash:
+  hosts: [&quot;localhost:5044&quot;]
+</code></pre>
+<h3>2. <strong>Log Processing with Logstash</strong></h3>
+<p>Logstash processes incoming logs with a configurable pipeline of inputs, filters, and outputs.</p>
+<pre><code class="language-bash"># Example Logstash config: logstash.conf
+input {
+  beats {
+    port =&gt; 5044
+  }
+}
+filter {
+  grok {
+    match =&gt; { &quot;message&quot; =&gt; &quot;%{COMMONAPACHELOG}&quot; }
+  }
+  date {
+    match =&gt; [&quot;timestamp&quot;, &quot;dd/MMM/yyyy:HH:mm:ss Z&quot;]
+  }
+}
+output {
+  elasticsearch {
+    hosts =&gt; [&quot;http://localhost:9200&quot;]
+    index =&gt; &quot;weblogs-%{+YYYY.MM.dd}&quot;
+  }
+}
+</code></pre>
+<h3>3. <strong>Log Storage with Elasticsearch</strong></h3>
+<p>Once Logstash sends structured logs to Elasticsearch, they are indexed and stored. Elasticsearch allows fast querying using a powerful DSL (Domain-Specific Language).</p>
+<h3>4. <strong>Log Visualization with Kibana</strong></h3>
+<p>Connect Kibana to Elasticsearch, and you can:</p>
+<ul>
+<li>Search logs by keyword, fields, timestamps</li>
+<li>Create dashboards for real-time monitoring</li>
+<li>Set up alerts and anomaly detection</li>
+</ul>
+<h2>Key Benefits</h2>
+<ul>
+<li>Scalable and distributed architecture</li>
+<li>Rich querying and full-text search</li>
+<li>Real-time visualization</li>
+<li>Ecosystem integrations (e.g., Beats, APM agents)</li>
+</ul>
+<h2>Conclusion</h2>
+<p>The ELK stack is a powerful solution for managing and analyzing logs from various sources in real time. With its modular components and strong community support, it's widely adopted for observability, troubleshooting, and monitoring needs across industries.</p>
+    </body>
+    </html>
+    
